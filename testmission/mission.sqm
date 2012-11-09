@@ -1,0 +1,195 @@
+version=11;
+class Mission
+{
+	addOns[]=
+	{
+		"cacharacters_e",
+		"BWMod",
+		"ace_sys_sandbag",
+		"chernarus"
+	};
+	addOnsAuto[]=
+	{
+		"cacharacters_e",
+		"BWMod",
+		"ace_sys_sandbag",
+		"chernarus"
+	};
+	randomSeed=15737879;
+	class Intel
+	{
+		startWeather=0.25;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=9;
+		minute=20;
+	};
+	class Groups
+	{
+		items=3;
+		class Item0
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=2;
+				class Item0
+				{
+					position[]={7429.1431,322.97452,7789.8613};
+					id=0;
+					side="WEST";
+					vehicle="GER_Soldier_EP1";
+					player="PLAYER COMMANDER";
+					leader=1;
+					skill=0.60000002;
+					init="_nul = [this, 1800] spawn AVD_Respawn;";
+				};
+				class Item1
+				{
+					position[]={7369.2993,311.64551,7714.1255};
+					id=1;
+					side="WEST";
+					vehicle="BWMod_Leopard_2A6_Desert";
+					skill=0.60000002;
+				};
+			};
+		};
+		class Item1
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={7489.2148,322.96014,7686.6523};
+					id=2;
+					side="WEST";
+					vehicle="BWMod_Leopard_2A6_Desert";
+					leader=1;
+					skill=0.60000002;
+				};
+			};
+		};
+		class Item2
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={7469.7798,317.04138,7642.5156};
+					id=4;
+					side="WEST";
+					vehicle="GER_Soldier_EP1";
+					leader=1;
+					skill=0.60000002;
+				};
+			};
+		};
+	};
+	class Vehicles
+	{
+		items=2;
+		class Item0
+		{
+			position[]={7413.2593,312.82553,7663.8828};
+			id=3;
+			side="EMPTY";
+			vehicle="BWMod_Leopard_2A6_Desert";
+			leader=1;
+			skill=0.60000002;
+		};
+		class Item1
+		{
+			position[]={7466.7246,323.94354,7733.3276};
+			id=5;
+			side="EMPTY";
+			vehicle="ACE_Sandbag_Build";
+			leader=1;
+			skill=0.60000002;
+		};
+	};
+	class Markers
+	{
+		items=1;
+		class Item0
+		{
+			position[]={7378.3198,318.69287,7833.0522};
+			name="myMarker";
+			markerType="RECTANGLE";
+			type="Empty";
+			a=20;
+			b=20;
+		};
+	};
+};
+class Intro
+{
+	addOns[]=
+	{
+		"chernarus"
+	};
+	addOnsAuto[]=
+	{
+		"chernarus"
+	};
+	randomSeed=479472;
+	class Intel
+	{
+		startWeather=0.25;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=9;
+		minute=20;
+	};
+};
+class OutroWin
+{
+	addOns[]=
+	{
+		"chernarus"
+	};
+	addOnsAuto[]=
+	{
+		"chernarus"
+	};
+	randomSeed=12454069;
+	class Intel
+	{
+		startWeather=0.25;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=9;
+		minute=20;
+	};
+};
+class OutroLoose
+{
+	addOns[]=
+	{
+		"chernarus"
+	};
+	addOnsAuto[]=
+	{
+		"chernarus"
+	};
+	randomSeed=5076301;
+	class Intel
+	{
+		startWeather=0.25;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=9;
+		minute=20;
+	};
+};
