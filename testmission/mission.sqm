@@ -53,12 +53,41 @@ class Mission
 			position[]={3896.0476,19,3637.3328};
 			name="myMarker";
 			text="fsdfa sdf sdfsdfsfd";
+			markerType="RECTANGLE";
 			type="Faction_INS";
 			colorName="ColorGreen";
 			fillName="Grid";
-			a=101.05;
-			b=10.1;
+			a=2021;
+			b=202;
 			angle=32;
+		};
+	};
+	class Sensors
+	{
+		items=1;
+		class Item0
+		{
+			position[]={3893.3335,18.821169,3681.3625};
+			a=505;
+			b=505;
+			angle=1;
+			rectangular=1;
+			activationBy="EAST";
+			activationType="NOT PRESENT";
+			repeating=1;
+			timeoutMin=2;
+			timeoutMid=5;
+			timeoutMax=7;
+			interruptable=1;
+			age="UNKNOWN";
+			text="my trigger text";
+			name="myTrigger";
+			expCond="thisCondition";
+			expActiv="thisOnAct";
+			expDesactiv="thisOnDeact";
+			class Effects
+			{
+			};
 		};
 	};
 };
