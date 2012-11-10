@@ -163,7 +163,8 @@ public class SQM {
 				" */\n\n";
 		code +=	"_westHQ = createCenter west;\n" +
 				"_eastHQ = createCenter east;\n" +
-				"_guerHQ = createCenter resistance;\n";
+				"_guerHQ = createCenter resistance;\n" +
+				"_civHQ  = createCenter civilian;\n";
 		
 		code += generateSQF(rootType);
 		sqf.setCode(code);
