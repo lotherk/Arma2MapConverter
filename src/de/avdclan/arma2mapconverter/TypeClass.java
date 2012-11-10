@@ -12,9 +12,11 @@ public class TypeClass {
 	private TypeClass parent;
 	public TypeClass(String string, TypeClass parent) {
 		this.type = string;
+		this.parent = parent;
 	}
 	
-	public TypeClass() {
+	
+	public TypeClass(TypeClass parent) {
 		// TODO Auto-generated constructor stub
 	}
 	public String getType() {
@@ -59,6 +61,18 @@ public class TypeClass {
 			tc.span(i+1);
 		}
 	}
+
+
+	public TypeClass getParent() {
+		return parent;
+	}
+
+
+	public void setParent(TypeClass parent) {
+		this.parent = parent;
+	}
+	
+	
 	
 }
 

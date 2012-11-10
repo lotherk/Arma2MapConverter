@@ -14,6 +14,7 @@ public class Item {
 	private String type;
 	private String markerType;
 	private String name;
+	private String presenceCondition = "true";
 	
 	
 	public Item(String typeClass) {
@@ -149,6 +150,17 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	public String getPresenceCondition() {
+		return presenceCondition;
+	}
+
+
+	public void setPresenceCondition(String presenceCondition) {
+		this.presenceCondition = presenceCondition;
+	}
+	
 	
 	
 
