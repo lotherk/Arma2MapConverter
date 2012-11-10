@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileFilter;
+
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
@@ -29,11 +34,52 @@ public class Arma2MapConverter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		File missionFile = null;
+		try {
+			 UIManager.setLookAndFeel(
+			            UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		JFileChooser fc = new JFileChooser();
+		
+	    fc.setFileFilter( new FileFilter()
+	    {
+	      @Override public boolean accept( File f )
+	      {
+	        return f.isDirectory() ||
+	          f.getName().toLowerCase().endsWith( ".sqm" );
+	      }
+	      @Override public String getDescription()
+	      {
+	        return "SQM Mission";
+	      }
+	    } );
+	    int state = fc.showOpenDialog( null );
+	    if ( state == JFileChooser.APPROVE_OPTION )
+	    {
+	    	missionFile = fc.getSelectedFile();
+	      	logger.debug("Selected mission: " + missionFile.getAbsolutePath());
+	    }
+	    else {
+	    	logger.debug("Cancled selection, exiting.");
+	    	System.exit( 0 );
+		}
+		
 		Arma2MapConverter a2mc = new Arma2MapConverter();
 		
 		//
-		SQM sqm = a2mc.openSQM(new File("testmission" + System.getProperty("file.separator") + "mission.sqm"));
+		SQM sqm = a2mc.openSQM(missionFile);
 		SQF sqf = sqm.toSQF();
 		
 		try {

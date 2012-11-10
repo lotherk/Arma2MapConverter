@@ -219,13 +219,13 @@ public class SQM {
 						code += "\t" + item.getName() + " setDir " + item.getAzimut() + ";\n";
 					}
 					
-					if(item.getSkill() != null) {
+					if(item.getSkill() != null && !item.getSide().equals("EMPTY")) {
 						code += "\t" + item.getName() + " setUnitAbility " + item.getSkill() +";\n";
 					}
-					if(item.getRank() != null) {
+					if(item.getRank() != null && !item.getSide().equals("EMPTY")) {
 						code += "\t" + item.getName() + " setRank " + item.getRank() + ";\n";
 					}
-					if(item.getLeader() != null) {
+					if(item.getLeader() != null && !item.getSide().equals("EMPTY")) {
 						code += "\tif(true) then { " + group + " selectLeader " + item.getName() + "; };\n";
 					}
 					
