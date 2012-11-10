@@ -72,7 +72,12 @@ public class Item {
 	}
 
 	public String getInterruptable() {
-		return interruptable;
+		if(interruptable.equals("0"))
+			return "false";
+		else if(interruptable.equals("1"))
+			return "true";
+		else
+			return interruptable;
 	}
 
 	public void setInterruptable(String interruptable) {
@@ -84,7 +89,13 @@ public class Item {
 	}
 
 	public String getRectangular() {
-		return rectangular;
+		if(rectangular.equals("0"))
+			return "false";
+		else if(rectangular.equals("1"))
+			return "true";
+		else
+			return rectangular;
+
 	}
 
 	public void setRectangular(String rectangular) {
@@ -100,7 +111,12 @@ public class Item {
 	}
 
 	public String getRepeating() {
-		return repeating;
+		if(repeating.equals("0"))
+			return "false";
+		else if(repeating.equals("1"))
+			return "true";
+		else
+			return repeating;
 	}
 
 	public void setRepeating(String repeating) {
