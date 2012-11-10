@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -189,13 +190,7 @@ public class SQM {
 					
 					if(item.getName() == null) {
 						// generate unique unit name
-						item.setName("autogen_" + System.currentTimeMillis());
-						try {
-							Thread.sleep(105);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							logger.error(e);
-						}
+						item.setName("autogen_" + UUID.randomUUID().toString().replaceAll("-", ""));
 					}
 					code += "\n// begin " + item.getName() +", part of group " + group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";
