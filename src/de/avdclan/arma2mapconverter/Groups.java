@@ -3,7 +3,7 @@ package de.avdclan.arma2mapconverter;
 import java.util.ArrayList;
 
 public class Groups {
-	private Side side;
+	private String side;
 	private ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
 	private ArrayList<Item> itemList = new ArrayList<Item>();
 }
