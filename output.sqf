@@ -1,7 +1,7 @@
 /* converted with Arma2MapConverter v0.3-alpha
  *
  * Source: C:\Users\kl\workspace\Arma2MapConverter\testmission\mission.sqm
- * Date: 11.11.12 00:18
+ * Date: 11.11.12 00:21
  */
 
 _westHQ = createCenter west;
@@ -15,26 +15,26 @@ _civHQ  = createCenter civilian;
 // group _group_civ_1
 _group_civ_1 = createGroup _civHQ;
 
-// begin autogen_1dc919eb7c154c1f98fdcbdf44a1d27d, part of group _group_civ_1
+// begin autogen_124b0a98ced44954a633b9e04a8315e8, part of group _group_civ_1
 if (true) then
 {
-	autogen_1dc919eb7c154c1f98fdcbdf44a1d27d = _group_civ_1 createUnit ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
+	autogen_124b0a98ced44954a633b9e04a8315e8 = _group_civ_1 createUnit ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
 	// this is VERY dirty and only used because I don't want to create
 	// arrays for vehicles, units and stuff to check if the classname
 	// is a vehicle, an unit, and so on. this just works.
 	// what it does is if the unit is not alive after creation (because it should be a manned vehicle)
 	// it will be created with createVehicle and manned with the BIS_fnc_spawnCrew function.
-	if(!alive autogen_1dc919eb7c154c1f98fdcbdf44a1d27d) then {
-		autogen_1dc919eb7c154c1f98fdcbdf44a1d27d = createVehicle ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
+	if(!alive autogen_124b0a98ced44954a633b9e04a8315e8) then {
+		autogen_124b0a98ced44954a633b9e04a8315e8 = createVehicle ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
 		_group = createGroup _civHQ;
-		[autogen_1dc919eb7c154c1f98fdcbdf44a1d27d, _group] call BIS_fnc_spawnCrew;
+		[autogen_124b0a98ced44954a633b9e04a8315e8, _group] call BIS_fnc_spawnCrew;
 	};
-	autogen_1dc919eb7c154c1f98fdcbdf44a1d27d setDir 185;
-	autogen_1dc919eb7c154c1f98fdcbdf44a1d27d setUnitAbility 0.60000002;
-	autogen_1dc919eb7c154c1f98fdcbdf44a1d27d setRank "PRIVATE";
-	if(true) then { _group_civ_1 selectLeader autogen_1dc919eb7c154c1f98fdcbdf44a1d27d; };
+	autogen_124b0a98ced44954a633b9e04a8315e8 setDir 185;
+	autogen_124b0a98ced44954a633b9e04a8315e8 setUnitAbility 0.60000002;
+	autogen_124b0a98ced44954a633b9e04a8315e8 setRank "PRIVATE";
+	if(true) then { _group_civ_1 selectLeader autogen_124b0a98ced44954a633b9e04a8315e8; };
 };
-// end of autogen_1dc919eb7c154c1f98fdcbdf44a1d27d
+// end of autogen_124b0a98ced44954a633b9e04a8315e8
 
 
 // MARKER CREATION

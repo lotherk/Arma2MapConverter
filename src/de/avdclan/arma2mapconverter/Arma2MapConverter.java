@@ -51,7 +51,7 @@ public class Arma2MapConverter {
 			e1.printStackTrace();
 		}
 		File inputFile = null;
-	    if(args[0] != null) {
+	    if(args.length > 0) {
 	    	inputFile = new File(args[0]);
 	    	if(! inputFile.exists()) {
 	    		inputFile = openDialog();
@@ -66,7 +66,7 @@ public class Arma2MapConverter {
 	    
 
 		File outputFile = null;
-	    if(args[1] != null) {
+	    if(args.length > 1) {
 	    	outputFile = new File(args[1]);
 	    	if(! outputFile.exists()) {
 	    		outputFile = saveDialog();
