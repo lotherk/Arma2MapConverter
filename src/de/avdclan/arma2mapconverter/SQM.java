@@ -320,12 +320,6 @@ public class SQM {
 							+ "_marker setMarkerSize [" + item.getA() + ", "
 							+ item.getB() + "];\n";
 
-					/*
-					 * _this setMarkerText "This is a Text"; _this setMarkerType
-					 * "Faction_BLUFOR_EP1"; _this setMarkerColor "ColorYellow";
-					 * _this setMarkerBrush "Horizontal"; _this setMarkerSize
-					 * [12, 144];
-					 */
 
 					if (item.getText() != null) {
 						code += "_marker setMarkerText " + item.getText()
