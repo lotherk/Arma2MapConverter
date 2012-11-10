@@ -1,7 +1,7 @@
 /* converted with Arma2MapConverter v0.3-alpha
  *
  * Source: C:\Users\kl\workspace\Arma2MapConverter\testmission\mission.sqm
- * Date: 11.11.12 00:44
+ * Date: 11.11.12 00:52
  */
 
 _westHQ = createCenter west;
@@ -15,26 +15,26 @@ _civHQ  = createCenter civilian;
 // group _group_civ_1
 _group_civ_1 = createGroup _civHQ;
 
-// begin autogen_b1e2786a85db410dbfe43ee02a9cfb08, part of group _group_civ_1
+// begin autogen_23b3d428b9be464f9beb5368960c38be, part of group _group_civ_1
 if (true) then
 {
-	autogen_b1e2786a85db410dbfe43ee02a9cfb08 = _group_civ_1 createUnit ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
+	autogen_23b3d428b9be464f9beb5368960c38be = _group_civ_1 createUnit ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
 	// this is VERY dirty and only used because I don't want to create
 	// arrays for vehicles, units and stuff to check if the classname
 	// is a vehicle, an unit, and so on. this just works.
 	// what it does is if the unit is not alive after creation (because it should be a manned vehicle)
 	// it will be created with createVehicle and manned with the BIS_fnc_spawnCrew function.
-	if(!alive autogen_b1e2786a85db410dbfe43ee02a9cfb08) then {
-		autogen_b1e2786a85db410dbfe43ee02a9cfb08 = createVehicle ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
+	if(!alive autogen_23b3d428b9be464f9beb5368960c38be) then {
+		autogen_23b3d428b9be464f9beb5368960c38be = createVehicle ["Citizen1", [3778.2998, 3640.1724, 0], [], 0, "CAN_COLLIDE"];
 		_group = createGroup _civHQ;
-		[autogen_b1e2786a85db410dbfe43ee02a9cfb08, _group] call BIS_fnc_spawnCrew;
+		[autogen_23b3d428b9be464f9beb5368960c38be, _group] call BIS_fnc_spawnCrew;
 	};
-	autogen_b1e2786a85db410dbfe43ee02a9cfb08 setDir 185;
-	autogen_b1e2786a85db410dbfe43ee02a9cfb08 setUnitAbility 0.60000002;
-	autogen_b1e2786a85db410dbfe43ee02a9cfb08 setRank "PRIVATE";
-	if(true) then { _group_civ_1 selectLeader autogen_b1e2786a85db410dbfe43ee02a9cfb08; };
+	autogen_23b3d428b9be464f9beb5368960c38be setDir 185;
+	autogen_23b3d428b9be464f9beb5368960c38be setUnitAbility 0.60000002;
+	autogen_23b3d428b9be464f9beb5368960c38be setRank "PRIVATE";
+	if(true) then { _group_civ_1 selectLeader autogen_23b3d428b9be464f9beb5368960c38be; };
 };
-// end of autogen_b1e2786a85db410dbfe43ee02a9cfb08
+// end of autogen_23b3d428b9be464f9beb5368960c38be
 
 
 // MARKER CREATION

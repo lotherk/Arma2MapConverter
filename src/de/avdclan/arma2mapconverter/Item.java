@@ -176,6 +176,9 @@ public class Item {
 	}
 
 	public String getA() {
+		if(a == null) { 
+			return "0";
+		}
 		return a;
 	}
 
@@ -184,6 +187,9 @@ public class Item {
 	}
 
 	public String getB() {
+		if(b == null) { 
+			return "0";
+		}
 		return b;
 	}
 
