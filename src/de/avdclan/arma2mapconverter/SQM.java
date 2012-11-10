@@ -85,8 +85,7 @@ public class SQM {
 			}
 			
 			
-		}
-		if(parent.toString().startsWith("Item")) {
+		} else if(parent.toString().startsWith("Item")) {
 			if(parent.getObject() == null) {
 				parent.setObject(new Item(parent.toString()));
 			}
@@ -147,6 +146,8 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item)parent.getObject()).setAzimut(tmp[1].replaceAll("\\;", ""));
 			}
+		} else {
+			logger.debug("Unsupported class: " + parent.getType());
 		}
 		
 	}

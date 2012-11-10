@@ -50,18 +50,31 @@ public class Arma2MapConverter {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-	    
-		File inputFile = openDialog();
+		File inputFile = null;
+	    if(args[0] != null) {
+	    	inputFile = new File(args[0]);
+	    	if(! inputFile.exists()) {
+	    		inputFile = openDialog();
+	    	}
+	    } else {
+	    	inputFile = openDialog();
+	    }
+	    logger.debug("Selected SQM Mission: " + inputFile.getAbsolutePath());
 		Arma2MapConverter a2mc = new Arma2MapConverter();
 		SQM sqm = a2mc.openSQM(inputFile);
 		SQF sqf = sqm.toSQF();
 	    
 
-		File outputFile = saveDialog();
-		if(outputFile.exists()) {
-			// add code to prevent overwriting without asking...
-		}
+		File outputFile = null;
+	    if(args[1] != null) {
+	    	outputFile = new File(args[1]);
+	    	if(! outputFile.exists()) {
+	    		outputFile = saveDialog();
+	    	}
+	    } else {
+	    	outputFile = saveDialog();
+	    }
+	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
 		try {
 			sqf.save(outputFile);
 		} catch (IOException e) {
