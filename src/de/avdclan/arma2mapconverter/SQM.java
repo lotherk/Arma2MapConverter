@@ -202,7 +202,11 @@ public class SQM {
 						code += "\n" +
 								"\t" + item.getName() + " = " + group + " createUnit [" + item.getVehicle() + ", " + item.getPosition() + ", [], 0, \"CAN_COLLIDE\"];\n" +
 								// this is VERY dirty....
-								"\t// this is VERY dirty\n" + 
+								"\t// this is VERY dirty and only used because I don't want to create\n" +
+								"\t// arrays for vehicles, units and stuff to check if the classname\n" +
+								"\t// is a vehicle, an unit, and so on. this just works.\n" +
+								"\t// what is does is if the unit is not alive after creation (because it should be a manned vehicle)\n" +
+								"\t// it will be created with createVehicle and manned with the BIS_fnc_spawnCrew function.\n" +
 								"\tif(!alive " + item.getName() + ") then {\n" +
 								"\t\t" + item.getName() + " = createVehicle [" + item.getVehicle() + ", " + item.getPosition() + ", [], 0, \"CAN_COLLIDE\"];\n" + 
 								"\t\t_group = createGroup _" + item.getSide().toLowerCase() + "HQ;\n" +
