@@ -33,7 +33,6 @@ public class SQM {
 			logger.error(e);
 		}
 		
-		rootType.span();
 		
 		logger.debug("Loaded.");
 	}
@@ -124,10 +123,60 @@ public class SQM {
 	
 
 	public SQF toSQF() {
-		// TODO Auto-generated method stub
-		return new SQF();
+		SQF sqf = new SQF();
+		
+		sqf.setCode(generateSQF(rootType));
+		logger.debug(sqf.getCode());
+		return sqf;
 	}
 
+	private String generateSQF(TypeClass typeClass) {
+		String code = "";
+		
+		for(TypeClass tc : typeClass.getChilds()) {
+			if(tc.equals("Vehicles")) {
+				String leader = null;
+				for(TypeClass items : tc.getChilds()) {
+					Item item = (Item) items.getObject();
+					if(item.getName() == null) {
+						// generate unique unit name
+						item.setName("autogen_" + System.currentTimeMillis());
+						try {
+							Thread.sleep(105);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							logger.error(e);
+						}
+					}
+					logger.debug("Side: " + item.getSide());
+					if(item.getSide().equals("EMPTY")) {
+						code += "\n" +
+							item.getName() + " = createVehicle [" + item.getVehicle() + ", POS, DUNNO, DUNNO, DUNNO];\n";
+					} else {
+						code += "\n" +
+								item.getName() + " = createUnit [" + item.getVehicle() + ", POS, DUNNO, DUNNO, DUNNO];\n";
+					}
+							
+					
+					
+					if(leader != null && ! item.getSide().equals("EMPTY")) {
+						code += item.getName() + " join " + leader+"\n";
+					}
+					
+					if(item.getLeader() != null) {
+						leader = item.getName();
+					}
+					
+				}
+				
+				
+			} else {
+				code += generateSQF(tc); 
+			}
+		}
+		
+		return code;
+	}
 	
 
 }

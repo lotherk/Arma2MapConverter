@@ -82,7 +82,7 @@ public class Item {
 
 
 	public String getSide() {
-		return side;
+		return side.replaceAll("\"", "");
 	}
 
 
