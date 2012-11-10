@@ -225,7 +225,7 @@ public class SQM {
 						"\\;", ""));
 			} else if (line.startsWith("age=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setRectangular(tmp[1].replaceAll(
+				((Item) parent.getObject()).setAge(tmp[1].replaceAll(
 						"\\;", ""));
 			} else if (line.startsWith("expCond=")) {
 				String[] tmp = line.split("=", 2);
@@ -360,7 +360,7 @@ public class SQM {
 					item.setName(item.getName().replaceAll("\"",  ""));
 					code += item.getName() + " = createTrigger[\"EmptyDetector\", "
 							+ item.getPosition() + "];\n"
-							+ item.getName() + " setTriggerArea [" + item.getA() + ", "
+							+ item.getName() + " setTriggerArea[" + item.getA() + ", "
 							+ item.getB() + ", " + item.getAngle() + ", "
 							+ item.getRectangular() + "];\n"
 							+ item.getName() + " setTriggerAction[" + item.getActivationBy()
