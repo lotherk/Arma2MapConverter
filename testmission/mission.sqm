@@ -3,21 +3,15 @@ class Mission
 {
 	addOns[]=
 	{
-		"cacharacters_e",
-		"acex_ru_veh_su25",
 		"utes",
-		"cacharacters2",
-		"CAWheeled",
-		"CATracked"
+		"cacharacters2"
 	};
 	addOnsAuto[]=
 	{
-		"cacharacters_e",
 		"cacharacters2",
-		"acex_ru_veh_su25",
 		"utes"
 	};
-	randomSeed=11584967;
+	randomSeed=4613376;
 	class Intel
 	{
 		startWeather=0.40000001;
@@ -30,127 +24,41 @@ class Mission
 	};
 	class Groups
 	{
-		items=2;
+		items=1;
 		class Item0
 		{
-			side="WEST";
+			side="CIV";
 			class Vehicles
 			{
 				items=1;
 				class Item0
 				{
-					position[]={3705.4895,18.983503,3578.3506};
+					position[]={3778.2998,18.998276,3640.1724};
 					azimut=185;
 					id=0;
-					side="WEST";
-					vehicle="GER_Soldier_EP1";
+					side="CIV";
+					vehicle="Citizen1";
 					player="PLAYER COMMANDER";
 					leader=1;
 					skill=0.60000002;
 				};
 			};
 		};
-		class Item1
-		{
-			side="CIV";
-			class Vehicles
-			{
-				items=10;
-				class Item0
-				{
-					position[]={3724.1077,19,3621.8835};
-					id=2;
-					side="CIV";
-					vehicle="Profiteer4";
-					leader=1;
-					skill=0.2;
-				};
-				class Item1
-				{
-					position[]={3727.1077,19,3616.8835};
-					id=3;
-					side="CIV";
-					vehicle="Worker2";
-					skill=0.2;
-				};
-				class Item2
-				{
-					position[]={3729.1077,19,3616.8835};
-					id=4;
-					side="CIV";
-					vehicle="Functionary1";
-					skill=0.2;
-				};
-				class Item3
-				{
-					position[]={3731.1077,19,3616.8835};
-					id=5;
-					side="CIV";
-					vehicle="Woodlander4";
-					skill=0.2;
-				};
-				class Item4
-				{
-					position[]={3733.1077,19,3616.8835};
-					id=6;
-					side="CIV";
-					vehicle="Rocker1";
-					skill=0.2;
-				};
-				class Item5
-				{
-					position[]={3735.1077,19,3616.8835};
-					id=7;
-					side="CIV";
-					vehicle="Worker3";
-					skill=0.2;
-				};
-				class Item6
-				{
-					position[]={3737.1077,19,3616.8835};
-					id=8;
-					side="CIV";
-					vehicle="Profiteer3";
-					skill=0.2;
-				};
-				class Item7
-				{
-					position[]={3739.1077,19,3616.8835};
-					id=9;
-					side="CIV";
-					vehicle="Profiteer2";
-					skill=0.2;
-				};
-				class Item8
-				{
-					position[]={3739.1077,19,3616.8835};
-					id=10;
-					side="CIV";
-					vehicle="Worker4";
-					skill=0.2;
-				};
-				class Item9
-				{
-					position[]={3739.1077,19,3616.8835};
-					id=11;
-					side="CIV";
-					vehicle="Profiteer1";
-					skill=0.2;
-				};
-			};
-		};
 	};
-	class Vehicles
+	class Markers
 	{
 		items=1;
 		class Item0
 		{
-			position[]={3755.1802,18.973051,3577.3052};
-			azimut=185;
-			id=1;
-			side="EMPTY";
-			vehicle="ACE_Su25";
-			skill=0.60000002;
+			position[]={3896.0476,19,3637.3328};
+			name="myMarker";
+			text="fsdfa sdf sdfsdfsfd";
+			type="Faction_INS";
+			colorName="ColorGreen";
+			fillName="Grid";
+			a=101.05;
+			b=10.1;
+			angle=32;
 		};
 	};
 };
@@ -164,7 +72,7 @@ class Intro
 	{
 		"utes"
 	};
-	randomSeed=2178947;
+	randomSeed=10340016;
 	class Intel
 	{
 		startWeather=0.40000001;
@@ -186,7 +94,7 @@ class OutroWin
 	{
 		"utes"
 	};
-	randomSeed=7061047;
+	randomSeed=11214552;
 	class Intel
 	{
 		startWeather=0.40000001;
@@ -208,7 +116,7 @@ class OutroLoose
 	{
 		"utes"
 	};
-	randomSeed=6169715;
+	randomSeed=13892568;
 	class Intel
 	{
 		startWeather=0.40000001;

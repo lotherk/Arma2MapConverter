@@ -71,6 +71,18 @@ public class TypeClass {
 	public void setParent(TypeClass parent) {
 		this.parent = parent;
 	}
+
+
+	public int getFullCount() {
+		// TODO Auto-generated method stub
+		int res = 0;
+		res += this.getChilds().size();
+		
+		for(TypeClass tc : getChilds()) {
+			res += tc.getFullCount();
+		}
+		return res;
+	}
 	
 	
 	

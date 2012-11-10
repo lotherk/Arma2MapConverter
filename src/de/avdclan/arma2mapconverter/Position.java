@@ -15,4 +15,29 @@ public class Position {
 	public String toString() {
 		return "[" + this.x + ", " + this.y + ", " + this.z + "]";
 	}
+
+	public String getX() {
+		return x;
+	}
+
+	public void setX(String x) {
+		this.x = x;
+	}
+
+	public String getY() {
+		return y;
+	}
+
+	public void setY(String y) {
+		this.y = y;
+	}
+
+	public String getZ() {
+		return z;
+	}
+
+	public void setZ(String z) {
+		this.z = z;
+	}
+	
 }

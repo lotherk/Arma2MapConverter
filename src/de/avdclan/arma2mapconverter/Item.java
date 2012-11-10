@@ -12,10 +12,16 @@ public class Item {
 	private String skill;
 	private String init;
 	private String type;
-	private String markerType;
+	private String markerType = "\"DOT\"";
 	private String name;
 	private String presenceCondition = "true";
 	private String rank = "\"PRIVATE\"";
+	private String text;
+	private String colorName;
+	private String fillName;
+	private String a;
+	private String b;
+	private String angle;
 	
 	
 	public Item(String typeClass) {
@@ -24,6 +30,78 @@ public class Item {
 
 	
 	
+	public String getText() {
+		return text;
+	}
+
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+
+
+	public String getColorName() {
+		return colorName;
+	}
+
+
+
+	public void setColorName(String colorName) {
+		this.colorName = colorName;
+	}
+
+
+
+	public String getFillName() {
+		return fillName;
+	}
+
+
+
+	public void setFillName(String fillName) {
+		this.fillName = fillName;
+	}
+
+
+
+	public String getA() {
+		return a;
+	}
+
+
+
+	public void setA(String a) {
+		this.a = a;
+	}
+
+
+
+	public String getB() {
+		return b;
+	}
+
+
+
+	public void setB(String b) {
+		this.b = b;
+	}
+
+
+
+	public String getAngle() {
+		return angle;
+	}
+
+
+
+	public void setAngle(String angle) {
+		this.angle = angle;
+	}
+
+
+
 	public String getRank() {
 		return rank;
 	}
