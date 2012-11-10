@@ -215,7 +215,7 @@ public class SQM {
 					}
 					
 					if(item.getLeader() != null) {
-						code += "\tif((alive " + item.getName() + ") || (!isEmpty " + item.getName() + ")) then {Ê" + group + " selectLeader " + item.getName() + "; };\n";
+						code += "\tif((alive " + item.getName() + ") || (!isEmpty " + item.getName() + ")) then { " + group + " selectLeader " + item.getName() + "; };\n";
 					}
 					
 					code += "};\n// end of " + item.getName() + "\n";
