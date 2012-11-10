@@ -134,6 +134,10 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item)parent.getObject()).setType(tmp[1].replaceAll("\\;", ""));
 			}
+			if(line.startsWith("rank")) {
+				String[] tmp = line.split("=", 2);
+				((Item)parent.getObject()).setRank(tmp[1].replaceAll("\\;", ""));
+			}
 			if(line.startsWith("presenceCondition")) {
 				String[] tmp = line.split("=", 2);
 				((Item)parent.getObject()).setPresenceCondition(tmp[1].replaceAll("\\;", ""));
@@ -200,7 +204,16 @@ public class SQM {
 							"\t" + item.getName() + " = createVehicle [" + item.getVehicle() + ", " + item.getPosition() + ", [], 0, \"CAN_COLLIDE\"];\n";
 					} else {
 						code += "\n" +
-								"\t" + item.getName() + " = " + group + " createUnit [" + item.getVehicle() + ", " + item.getPosition() + ", [], 0, \"CAN_COLLIDE\"];\n";
+								"\t" + item.getName() + " = " + group + " createUnit [" + item.getVehicle() + ", " + item.getPosition() + ", [], 0, \"CAN_COLLIDE\"];\n" +
+								// this is VERY dirty....
+								"\t// this is VERY dirty\n" + 
+								"\tif(!alive " + item.getName() + ") then {\n" +
+								"\t\t" + item.getName() + " = createVehicle [" + item.getVehicle() + ", " + item.getPosition() + ", [], 0, \"CAN_COLLIDE\"];\n" + 
+								"\t\t_group = createGroup _" + item.getSide().toLowerCase() + "HQ;\n" +
+								"\t\t[" + item.getName() + ", _group] call BIS_fnc_spawnCrew;\n" +
+								"\t};\n";
+						
+						
 					}
 					if(item.getInit() != null) {
 						code += "\t" + item.getName() + " setVehicleInit " + item.getInit() + ";\n";
@@ -213,7 +226,9 @@ public class SQM {
 					if(item.getSkill() != null) {
 						code += "\t" + item.getName() + " setUnitAbility " + item.getSkill() +";\n";
 					}
-					
+					if(item.getRank() != null) {
+						code += "\t" + item.getName() + " setRank " + item.getRank() + ";\n";
+					}
 					if(item.getLeader() != null) {
 						code += "\tif(true) then { " + group + " selectLeader " + item.getName() + "; };\n";
 					}

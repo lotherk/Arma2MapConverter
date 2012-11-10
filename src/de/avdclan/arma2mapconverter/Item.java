@@ -15,11 +15,25 @@ public class Item {
 	private String markerType;
 	private String name;
 	private String presenceCondition = "true";
+	private String rank = "\"PRIVATE\"";
 	
 	
 	public Item(String typeClass) {
 		this.typeClass = typeClass;
 	}
+
+	
+	
+	public String getRank() {
+		return rank;
+	}
+
+
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
 
 
 	public Position getPosition() {
