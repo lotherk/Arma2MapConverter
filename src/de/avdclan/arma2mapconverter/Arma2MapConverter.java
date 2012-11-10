@@ -34,7 +34,6 @@ public class Arma2MapConverter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		File missionFile = null;
 		try {
 			 UIManager.setLookAndFeel(
 			            UIManager.getSystemLookAndFeelClassName());
@@ -51,8 +50,30 @@ public class Arma2MapConverter {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		JFileChooser fc = new JFileChooser();
+
+	    
+		File inputFile = openDialog();
+		Arma2MapConverter a2mc = new Arma2MapConverter();
+		SQM sqm = a2mc.openSQM(inputFile);
+		SQF sqf = sqm.toSQF();
+	    
+
+		File outputFile = saveDialog();
+		if(outputFile.exists()) {
+			// add code to prevent overwriting without asking...
+		}
+		try {
+			sqf.save(outputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			logger.error("Could not write to output file: " + e.getLocalizedMessage(), e);
+		}
 		
+	}
+	
+	private static File openDialog() {
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Choose mission.sqm file...");
 	    fc.setFileFilter( new FileFilter()
 	    {
 	      @Override public boolean accept( File f )
@@ -68,27 +89,44 @@ public class Arma2MapConverter {
 	    int state = fc.showOpenDialog( null );
 	    if ( state == JFileChooser.APPROVE_OPTION )
 	    {
-	    	missionFile = fc.getSelectedFile();
+	    	File missionFile = fc.getSelectedFile();
 	      	logger.debug("Selected mission: " + missionFile.getAbsolutePath());
+	      	return missionFile;
 	    }
 	    else {
 	    	logger.debug("Cancled selection, exiting.");
 	    	System.exit( 0 );
 		}
-		
-		Arma2MapConverter a2mc = new Arma2MapConverter();
-		
-		//
-		SQM sqm = a2mc.openSQM(missionFile);
-		SQF sqf = sqm.toSQF();
-		
-		try {
-			sqf.save(new File("output.sqf"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.error("Could not write to output file: " + e.getLocalizedMessage(), e);
+	    return null;
+	}
+	private static File saveDialog() {
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Select file to save...");
+	    fc.setFileFilter( new FileFilter()
+	    {
+	      @Override public boolean accept( File f )
+	      {
+	        return f.isDirectory() ||
+	          f.getName().toLowerCase().endsWith( ".sqf" );
+	      }
+	      @Override public String getDescription()
+	      {
+	        return "SQF File";
+	      }
+	    } );
+	    int state = fc.showSaveDialog( null );
+	    if ( state == JFileChooser.APPROVE_OPTION )
+	    {
+	    	File missionFile = fc.getSelectedFile();
+	      	logger.debug("Selected mission: " + missionFile.getAbsolutePath());
+	      	return missionFile;
+	    }
+	    else {
+	    	logger.debug("Cancled selection, exiting.");
+	    	System.exit( 0 );
 		}
-		
+	    return null;
+
 	}
 
 }
