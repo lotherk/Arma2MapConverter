@@ -32,8 +32,8 @@ public class Arma2MapConverter {
 		// TODO Auto-generated method stub
 		Arma2MapConverter a2mc = new Arma2MapConverter();
 		
-		//new File("testmission" + System.getProperty("file.separator") + "mission.sqm")
-		SQM sqm = a2mc.openSQM(new File("/Users/kl/Dropbox/avd/Grundmap/Wachen-Patroulien_AKTUELL.sqm"));
+		//
+		SQM sqm = a2mc.openSQM(new File("testmission" + System.getProperty("file.separator") + "mission.sqm"));
 		SQF sqf = sqm.toSQF();
 		
 		try {
