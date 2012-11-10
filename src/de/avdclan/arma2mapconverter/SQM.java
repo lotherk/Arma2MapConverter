@@ -194,6 +194,11 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item)parent.getObject()).setAngle(tmp[1].replaceAll("\\;", ""));
 			}
+			else
+				if(line.startsWith("text=")) {
+					String[] tmp = line.split("=", 2);
+					((Item)parent.getObject()).setText(tmp[1].replaceAll("\\;", ""));
+				}
 		} else {
 			// unsupported class
 		}
