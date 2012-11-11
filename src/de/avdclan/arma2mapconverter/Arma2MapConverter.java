@@ -86,7 +86,7 @@ public class Arma2MapConverter {
 	
 	private static File openDialog() {
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Arma2MapConverter v" + VERSION + ": load mission.sqm");
+		fc.setDialogTitle("Choose mission.sqm file...");
 	    fc.setFileFilter( new FileFilter()
 	    {
 	      @Override public boolean accept( File f )
@@ -114,7 +114,7 @@ public class Arma2MapConverter {
 	}
 	private static File saveDialog() {
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Arma2MapConverter v" + VERSION + ": save to sqf script");
+		fc.setDialogTitle("Select file to save...");
 	    fc.setFileFilter( new FileFilter()
 	    {
 	      @Override public boolean accept( File f )

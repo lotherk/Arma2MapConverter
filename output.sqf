@@ -1,7 +1,7 @@
 /* converted with Arma2MapConverter v0.4-alpha
  *
- * Source: /Users/kl/git/Arma2MapConverter/testmission/mission.sqm
- * Date: 11.11.12 05:33
+ * Source: C:\Users\kl\workspace\Arma2MapConverter\testmission\mission.sqm
+ * Date: 11.11.12 12:37
  */
 
 _westHQ = createCenter west;
@@ -13,27 +13,27 @@ _civHQ  = createCenter civilian;
 // group _group_west_1
 _group_west_1 = createGroup _westHQ;
 
-// begin autogen_ab547b4424f644c99165730a0caf0d30, part of group _group_west_1
+// begin autogen_91c9395b32bc496189e574497023ebc3, part of group _group_west_1
 if (true) then
 {
-	autogen_ab547b4424f644c99165730a0caf0d30 = _group_west_1 createUnit ["USMC_Soldier", [941.30463, 1113.0505, 0], [], 0, "CAN_COLLIDE"];
+	autogen_91c9395b32bc496189e574497023ebc3 = _group_west_1 createUnit ["USMC_Soldier", [941.30463, 1113.0505, 0], [], 0, "CAN_COLLIDE"];
 
 	// this is VERY dirty and only used because I don't want to create
 	// arrays for vehicles, units and stuff to check if the classname
 	// is a vehicle, an unit, and so on. this just works.
 	// what it does is if the unit is not alive after creation (because it should be a manned vehicle)
 	// it will be created with createVehicle and manned with the BIS_fnc_spawnCrew function.
-	if(!alive autogen_ab547b4424f644c99165730a0caf0d30) then {
-		autogen_ab547b4424f644c99165730a0caf0d30 = createVehicle ["USMC_Soldier", [941.30463, 1113.0505, 0], [], 0, "CAN_COLLIDE"];
+	if(!alive autogen_91c9395b32bc496189e574497023ebc3) then {
+		autogen_91c9395b32bc496189e574497023ebc3 = createVehicle ["USMC_Soldier", [941.30463, 1113.0505, 0], [], 0, "CAN_COLLIDE"];
 		_group = createGroup _westHQ;
-		[autogen_ab547b4424f644c99165730a0caf0d30, _group] call BIS_fnc_spawnCrew;
+		[autogen_91c9395b32bc496189e574497023ebc3, _group] call BIS_fnc_spawnCrew;
 	};
 
-	autogen_ab547b4424f644c99165730a0caf0d30 setUnitAbility 0.60000002;
-	autogen_ab547b4424f644c99165730a0caf0d30 setRank "PRIVATE";
-	if(true) then { _group_west_1 selectLeader autogen_ab547b4424f644c99165730a0caf0d30; };
+	autogen_91c9395b32bc496189e574497023ebc3 setUnitAbility 0.60000002;
+	autogen_91c9395b32bc496189e574497023ebc3 setRank "PRIVATE";
+	if(true) then { _group_west_1 selectLeader autogen_91c9395b32bc496189e574497023ebc3; };
 };
-// end of autogen_ab547b4424f644c99165730a0caf0d30
+// end of autogen_91c9395b32bc496189e574497023ebc3
 
 // Waypoints for group _group_west_1
 // waypoint #1 for group _group_west_1
@@ -69,27 +69,27 @@ _wp = _group_west_1 addWaypoint[[960.41284, 1132.7635, 0], 0, 3];
 // group _group_west_2
 _group_west_2 = createGroup _westHQ;
 
-// begin autogen_bd10cdd93fb94cb18ec548c84bb42a13, part of group _group_west_2
+// begin autogen_f8672513871445cbbb6dabc92c4d159e, part of group _group_west_2
 if (true) then
 {
-	autogen_bd10cdd93fb94cb18ec548c84bb42a13 = _group_west_2 createUnit ["USMC_Soldier", [995.8418, 1112.7095, 0], [], 0, "CAN_COLLIDE"];
+	autogen_f8672513871445cbbb6dabc92c4d159e = _group_west_2 createUnit ["USMC_Soldier", [995.8418, 1112.7095, 0], [], 0, "CAN_COLLIDE"];
 
 	// this is VERY dirty and only used because I don't want to create
 	// arrays for vehicles, units and stuff to check if the classname
 	// is a vehicle, an unit, and so on. this just works.
 	// what it does is if the unit is not alive after creation (because it should be a manned vehicle)
 	// it will be created with createVehicle and manned with the BIS_fnc_spawnCrew function.
-	if(!alive autogen_bd10cdd93fb94cb18ec548c84bb42a13) then {
-		autogen_bd10cdd93fb94cb18ec548c84bb42a13 = createVehicle ["USMC_Soldier", [995.8418, 1112.7095, 0], [], 0, "CAN_COLLIDE"];
+	if(!alive autogen_f8672513871445cbbb6dabc92c4d159e) then {
+		autogen_f8672513871445cbbb6dabc92c4d159e = createVehicle ["USMC_Soldier", [995.8418, 1112.7095, 0], [], 0, "CAN_COLLIDE"];
 		_group = createGroup _westHQ;
-		[autogen_bd10cdd93fb94cb18ec548c84bb42a13, _group] call BIS_fnc_spawnCrew;
+		[autogen_f8672513871445cbbb6dabc92c4d159e, _group] call BIS_fnc_spawnCrew;
 	};
 
-	autogen_bd10cdd93fb94cb18ec548c84bb42a13 setUnitAbility 0.60000002;
-	autogen_bd10cdd93fb94cb18ec548c84bb42a13 setRank "PRIVATE";
-	if(true) then { _group_west_2 selectLeader autogen_bd10cdd93fb94cb18ec548c84bb42a13; };
+	autogen_f8672513871445cbbb6dabc92c4d159e setUnitAbility 0.60000002;
+	autogen_f8672513871445cbbb6dabc92c4d159e setRank "PRIVATE";
+	if(true) then { _group_west_2 selectLeader autogen_f8672513871445cbbb6dabc92c4d159e; };
 };
-// end of autogen_bd10cdd93fb94cb18ec548c84bb42a13
+// end of autogen_f8672513871445cbbb6dabc92c4d159e
 
 // Waypoints for group _group_west_2
 // waypoint #1 for group _group_west_2
