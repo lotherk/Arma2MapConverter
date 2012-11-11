@@ -38,8 +38,8 @@ public class Item {
 	private String completionRadius = "0";
 	private String combatMode = "\"NO CHANGE\"";
 	private String formation = "\"NO CHANGE\"";
-	private String speed = "\"NO CHANGE\"";
-	private String combat = "\"NO CHANGE\"";
+	private String speed = "\"UNCHANGED\"";
+	private String combat = "\"UNCHANGED\"";
 	private String description;
 	private String showWP="\"NEVER\"";
 
