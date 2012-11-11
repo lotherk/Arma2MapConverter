@@ -171,8 +171,7 @@ public class SQM {
 						""));
 			} else if (line.startsWith("init=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setInit(tmp[1]
-						.replaceAll("\\;", ""));
+				((Item) parent.getObject()).setInit(tmp[1]);
 			} else if (line.startsWith("name=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setName(tmp[1]
@@ -229,16 +228,16 @@ public class SQM {
 						"\\;", ""));
 			} else if (line.startsWith("expCond=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll("\\;",
+				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll("\\;$",
 						""));
 			} else if (line.startsWith("expActiv=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setExpActiv(tmp[1].replaceAll(
-						"\\;", ""));
+						"\\;$", ""));
 			} else if (line.startsWith("expDesactiv=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setExpDesactiv(tmp[1].replaceAll(
-						"\\;", ""));
+						"\\;$", ""));
 			} else if (line.startsWith("interruptable=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setInterruptable(tmp[1].replaceAll(

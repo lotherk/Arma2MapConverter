@@ -27,8 +27,8 @@ public class Item {
 	private String repeating = "false";
 	private String age = "UNKNOWN";
 	private String expCond = "true";
-	private String expActiv = "";
-	private String expDesactiv = "";
+	private String expActiv = "\"\"";
+	private String expDesactiv = "\"\"";
 	private String interruptable = "true";
 	private String activationType = "NOT PRESENT";
 	private String timeoutMin = "0";
