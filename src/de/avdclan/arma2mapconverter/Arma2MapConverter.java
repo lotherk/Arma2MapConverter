@@ -12,7 +12,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.3-alpha";
+	final static String VERSION = "0.4-alpha";
 	
 	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
@@ -131,7 +131,6 @@ public class Arma2MapConverter {
 	    if ( state == JFileChooser.APPROVE_OPTION )
 	    {
 	    	File missionFile = fc.getSelectedFile();
-	      	logger.debug("Selected mission: " + missionFile.getAbsolutePath());
 	      	return missionFile;
 	    }
 	    else {

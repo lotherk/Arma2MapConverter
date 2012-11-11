@@ -99,7 +99,9 @@ public class SQM {
 			}
 
 		}
-
+		if(parent.getType().equals("Groups")) {
+		
+		}
 		if (parent.toString().startsWith("Vehicles")) {
 			if (parent.getObject() == null) {
 				parent.setObject(new Vehicle());
@@ -112,6 +114,19 @@ public class SQM {
 
 			}
 
+		} else if(parent.toString().startsWith("Waypoints")) {
+			Waypoints waypoints = new Waypoints();
+			if (parent.getObject() == null) {
+				parent.setObject(waypoints);
+			}
+			TypeClass p = parent.getParent();
+			if (p.toString().startsWith("Item")) {
+
+				((Waypoints) parent.getObject()).setSide(((Item) p.getObject())
+						.getSide());
+
+			}
+			
 		} else if (parent.toString().startsWith("Markers")) {
 			if (parent.getObject() == null) {
 				parent.setObject(new Markers());
@@ -171,8 +186,7 @@ public class SQM {
 						""));
 			} else if (line.startsWith("init=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setInit(tmp[1]
-						.replaceAll("\\;", ""));
+				((Item) parent.getObject()).setInit(tmp[1]);
 			} else if (line.startsWith("name=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setName(tmp[1]
@@ -229,16 +243,16 @@ public class SQM {
 						"\\;", ""));
 			} else if (line.startsWith("expCond=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll("\\;",
+				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll("\\;$",
 						""));
 			} else if (line.startsWith("expActiv=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setExpActiv(tmp[1].replaceAll(
-						"\\;", ""));
+						"\\;$", ""));
 			} else if (line.startsWith("expDesactiv=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setExpDesactiv(tmp[1].replaceAll(
-						"\\;", ""));
+						"\\;$", ""));
 			} else if (line.startsWith("interruptable=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setInterruptable(tmp[1].replaceAll(
@@ -258,6 +272,38 @@ public class SQM {
 			} else if (line.startsWith("timeoutMax=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setTimeoutMax(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("placement=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setPlacement(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("completionRadius=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setCompletionRadius(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("combatMode=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setCombatMode(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("formation=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setFormation(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("speed=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setSpeed(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("combat=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setCombat(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("description=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setDescription(tmp[1].replaceAll(
+						"\\;", ""));
+			} else if (line.startsWith("showWP=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll(
 						"\\;", ""));
 			}
 		} else {
@@ -284,11 +330,11 @@ public class SQM {
 				+ "_guerHQ = createCenter resistance;\n"
 				+ "_civHQ  = createCenter civilian;\n";
 
-		code += "\n\n// UNIT CREATION\n";
+		code += "// UNIT CREATION\n";
 		code += generateSQF(rootType);
-		code += "\n\n// MARKER CREATION\n";
+		code += "// MARKER CREATION\n";
 		code += generateSQF(markers);
-		code += "\n\n// TRIGGER CREATION\n";
+		code += "// TRIGGER CREATION\n";
 		code += generateSQF(triggers);
 		sqf.setCode(code);
 		return sqf;
@@ -361,12 +407,53 @@ public class SQM {
 
 				}
 			}
+			if (tc.equals("Waypoints")) {
+				int index = 0;
+				String groupName = null;
+				for(TypeClass tClass : tc.getParent().getChilds()) {
+					if(tClass.getType().equals("Vehicles")) {
+						groupName = ((Vehicle)tClass.getObject()).getGroupName();
+					}
+				}
+				logger.debug("Adding waypoints for group " + groupName);
+				code += "\n// Waypoints for group " + groupName + "\n";
+				for(TypeClass items : tc.getChilds()) {
+					++index;
+					Item item = (Item) items.getObject();
+					code += "// waypoint #" + index + " for group " + groupName + "\n";
+					code += "_wp = " + groupName + " addWaypoint[[" + item.getPosition().getX() + ", " + item.getPosition().getY() + ", 0], " + item.getPlacement() + ", " + index + "];\n";
+					String wp = "[_wp, " + index + "]";
+					if(item.getCombat() != null) {
+						code +=  wp + " setWaypointBehaviour " + item.getCombat() + ";\n";
+					}
+					if(item.getCombatMode() != null) {
+						code += wp + " setWaypointCombatMode " + item.getCombatMode() + ";\n";
+					}
+					if(item.getCompletionRadius() != null) {
+						code += wp + " setWaypointCompletionRadius " + item.getCompletionRadius() + ";\n";
+					}
+					if(item.getFormation() != null) {
+						code += wp + " setWaypointFormation " + item.getFormation() + ";\n";
+					}
+					if(item.getSpeed() != null) {
+						code += wp + " setWaypointSpeed " + item.getSpeed() + ";\n";
+					}
+					if(item.getExpCond() != null) {
+						code += wp + " setWaypointStatements[" + item.getExpCond() + ", " + item.getExpActiv() + "];\n";
+					}
+					if(item.getType() != null) {
+						code += wp + " setWaypointType " + item.getType() + ";\n";
+					}
+					code += "\n";
+				}
+				code += "\n\n";
+			}
 			if (tc.equals("Vehicles")) {
 
 				String side = ((Vehicle) tc.getObject()).getSide()
 						.toLowerCase();
 				String group = "_group_" + side + "_" + getGroupCound(side);
-
+				((Vehicle)tc.getObject()).setGroupName(group);
 				code += "\n// group " + group + "\n" + group
 						+ " = createGroup _" + side + "HQ;\n";
 

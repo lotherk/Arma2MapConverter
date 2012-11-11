@@ -10,6 +10,7 @@ public class TypeClass {
 	private Object object;
 	private ArrayList<TypeClass> childs = new ArrayList<TypeClass>();
 	private TypeClass parent;
+	private Waypoints waypoints;
 	public TypeClass(String string, TypeClass parent) {
 		this.type = string;
 		this.parent = parent;
@@ -82,6 +83,22 @@ public class TypeClass {
 			res += tc.getFullCount();
 		}
 		return res;
+	}
+
+
+	public void addWaypoints(Waypoints waypoints) {
+		// TODO Auto-generated method stub
+		setWaypoints(waypoints);
+	}
+
+
+	public Waypoints getWaypoints() {
+		return waypoints;
+	}
+
+
+	public void setWaypoints(Waypoints waypoints) {
+		this.waypoints = waypoints;
 	}
 	
 	
