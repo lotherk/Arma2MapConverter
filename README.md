@@ -9,8 +9,9 @@ that can be called like every .sqf script and will place the converted units on 
 Currently working:
 
 	- Converting units, groups and vehicles (also empty vehicles).
+	- Converting markers and triggers
 	
-Will be working soon:
+Not working yet
 
-	- Converting markers/triggers and waypoints.
+	- Converting waypoints.
 	
