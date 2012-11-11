@@ -34,9 +34,81 @@ public class Item {
 	private String timeoutMin = "0";
 	private String timeoutMid = "0";
 	private String timeoutMax = "0";
+	private String placement = "0";
+	private String completionRadius = "0";
+	private String combatMode = "\"NO CHANGE\"";
+	private String formation = "\"NO CHANGE\"";
+	private String speed = "\"NO CHANGE\"";
+	private String combat = "\"NO CHANGE\"";
+	private String description;
+	private String showWP="\"NEVER\"";
 
 	public Item(String typeClass) {
 		this.typeClass = typeClass;
+	}
+
+	public String getPlacement() {
+		return placement;
+	}
+
+	public void setPlacement(String placement) {
+		this.placement = placement;
+	}
+
+	public String getCompletionRadius() {
+		return completionRadius;
+	}
+
+	public void setCompletionRadius(String completionRadius) {
+		this.completionRadius = completionRadius;
+	}
+
+	public String getCombatMode() {
+		return combatMode;
+	}
+
+	public void setCombatMode(String combatMode) {
+		this.combatMode = combatMode;
+	}
+
+	public String getFormation() {
+		return formation;
+	}
+
+	public void setFormation(String formation) {
+		this.formation = formation;
+	}
+
+	public String getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(String speed) {
+		this.speed = speed;
+	}
+
+	public String getCombat() {
+		return combat;
+	}
+
+	public void setCombat(String combat) {
+		this.combat = combat;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getShowWP() {
+		return showWP;
+	}
+
+	public void setShowWP(String showWP) {
+		this.showWP = showWP;
 	}
 
 	public String getTimeoutMin() {
@@ -198,6 +270,8 @@ public class Item {
 	}
 
 	public String getAngle() {
+		if(angle == null)
+			return "0";
 		return angle;
 	}
 

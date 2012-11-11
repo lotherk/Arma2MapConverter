@@ -3,90 +3,123 @@ class Mission
 {
 	addOns[]=
 	{
-		"utes",
-		"cacharacters2"
+		"cacharacters2",
+		"desert_e"
 	};
 	addOnsAuto[]=
 	{
 		"cacharacters2",
-		"utes"
+		"desert_e"
 	};
-	randomSeed=4613376;
+	randomSeed=15171773;
 	class Intel
 	{
-		startWeather=0.40000001;
-		forecastWeather=0.25;
-		year=2008;
-		month=10;
-		day=11;
-		hour=14;
-		minute=20;
+		startWeather=0.30000001;
+		forecastWeather=0.30000001;
+		year=2012;
+		month=6;
+		day=24;
 	};
 	class Groups
 	{
-		items=1;
+		items=2;
 		class Item0
 		{
-			side="CIV";
+			side="WEST";
 			class Vehicles
 			{
 				items=1;
 				class Item0
 				{
-					position[]={3778.2998,18.998276,3640.1724};
-					azimut=185;
+					position[]={941.30463,68.790733,1113.0505};
 					id=0;
-					side="CIV";
-					vehicle="Citizen1";
+					side="WEST";
+					vehicle="USMC_Soldier";
 					player="PLAYER COMMANDER";
 					leader=1;
 					skill=0.60000002;
 				};
 			};
-		};
-	};
-	class Markers
-	{
-		items=1;
-		class Item0
-		{
-			position[]={3896.0476,19,3637.3328};
-			name="myMarker";
-			text="fsdfa sdf sdfsdfsfd";
-			markerType="RECTANGLE";
-			type="Faction_INS";
-			colorName="ColorGreen";
-			fillName="Grid";
-			a=2021;
-			b=202;
-			angle=32;
-		};
-	};
-	class Sensors
-	{
-		items=1;
-		class Item0
-		{
-			position[]={3893.3335,18.821169,3681.3625};
-			a=505;
-			b=505;
-			angle=1;
-			rectangular=1;
-			activationBy="EAST";
-			activationType="NOT PRESENT";
-			repeating=1;
-			timeoutMin=2;
-			timeoutMid=5;
-			timeoutMax=7;
-			interruptable=1;
-			age="UNKNOWN";
-			text="my trigger text";
-			name="myTrigger";
-			expCond="thisCondition";
-			expActiv="thisOnAct";
-			expDesactiv="thisOnDeact";
-			class Effects
+			class Waypoints
 			{
+				items=3;
+				class Item0
+				{
+					position[]={921.33447,70.606522,1141.0938};
+					placement=10;
+					completitionRadius=60;
+					combatMode="GREEN";
+					formation="FILE";
+					speed="LIMITED";
+					combat="AWARE";
+					description="Testwaypoint";
+					expCond="truecon";
+					expActiv="nactcode";
+					class Effects
+					{
+					};
+					timeoutMin=10;
+					timeoutMid=15;
+					timeoutMax=20;
+					showWP="NEVER";
+				};
+				class Item1
+				{
+					position[]={949.38306,66.250046,1148.8069};
+					description="test 2";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
+				class Item2
+				{
+					position[]={960.41284,66.460823,1132.7635};
+					description="test3";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
+			};
+		};
+		class Item1
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={995.8418,72.229271,1112.7095};
+					id=1;
+					side="WEST";
+					vehicle="USMC_Soldier";
+					leader=1;
+					skill=0.60000002;
+				};
+			};
+			class Waypoints
+			{
+				items=2;
+				class Item0
+				{
+					position[]={977.29175,74.74514,1096.6661};
+					description="test1_1";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
+				class Item1
+				{
+					position[]={969.10297,68.791138,1116.5531};
+					description="test2_2";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
 			};
 		};
 	};
@@ -95,65 +128,59 @@ class Intro
 {
 	addOns[]=
 	{
-		"utes"
+		"desert_e"
 	};
 	addOnsAuto[]=
 	{
-		"utes"
+		"desert_e"
 	};
-	randomSeed=10340016;
+	randomSeed=11841033;
 	class Intel
 	{
-		startWeather=0.40000001;
-		forecastWeather=0.25;
-		year=2008;
-		month=10;
-		day=11;
-		hour=14;
-		minute=20;
+		startWeather=0.30000001;
+		forecastWeather=0.30000001;
+		year=2012;
+		month=6;
+		day=24;
 	};
 };
 class OutroWin
 {
 	addOns[]=
 	{
-		"utes"
+		"desert_e"
 	};
 	addOnsAuto[]=
 	{
-		"utes"
+		"desert_e"
 	};
-	randomSeed=11214552;
+	randomSeed=13925709;
 	class Intel
 	{
-		startWeather=0.40000001;
-		forecastWeather=0.25;
-		year=2008;
-		month=10;
-		day=11;
-		hour=14;
-		minute=20;
+		startWeather=0.30000001;
+		forecastWeather=0.30000001;
+		year=2012;
+		month=6;
+		day=24;
 	};
 };
 class OutroLoose
 {
 	addOns[]=
 	{
-		"utes"
+		"desert_e"
 	};
 	addOnsAuto[]=
 	{
-		"utes"
+		"desert_e"
 	};
-	randomSeed=13892568;
+	randomSeed=5935547;
 	class Intel
 	{
-		startWeather=0.40000001;
-		forecastWeather=0.25;
-		year=2008;
-		month=10;
-		day=11;
-		hour=14;
-		minute=20;
+		startWeather=0.30000001;
+		forecastWeather=0.30000001;
+		year=2012;
+		month=6;
+		day=24;
 	};
 };
