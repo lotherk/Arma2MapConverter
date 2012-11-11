@@ -379,7 +379,7 @@ public class SQM {
 						code += "_marker setMarkerBrush " + item.getFillName()
 								+ ";\n";
 					}
-					
+					code += "\n";
 
 				}
 			}
