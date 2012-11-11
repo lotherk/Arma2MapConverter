@@ -330,11 +330,11 @@ public class SQM {
 				+ "_guerHQ = createCenter resistance;\n"
 				+ "_civHQ  = createCenter civilian;\n";
 
-		code += "\n\n// UNIT CREATION\n";
+		code += "// UNIT CREATION\n";
 		code += generateSQF(rootType);
-		code += "\n\n// MARKER CREATION\n";
+		code += "// MARKER CREATION\n";
 		code += generateSQF(markers);
-		code += "\n\n// TRIGGER CREATION\n";
+		code += "// TRIGGER CREATION\n";
 		code += generateSQF(triggers);
 		sqf.setCode(code);
 		return sqf;
@@ -420,7 +420,7 @@ public class SQM {
 				for(TypeClass items : tc.getChilds()) {
 					++index;
 					Item item = (Item) items.getObject();
-					code += "// waypoint #" + index + "\n";
+					code += "// waypoint #" + index + " for group " + groupName + "\n";
 					code += "_wp = " + groupName + " addWaypoint[[" + item.getPosition().getX() + ", " + item.getPosition().getY() + ", 0], " + item.getPlacement() + ", " + index + "];\n";
 					String wp = "[_wp, " + index + "]";
 					if(item.getCombat() != null) {

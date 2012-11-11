@@ -10,10 +10,11 @@ Currently working:
 
 	- Converting units, groups and vehicles (also empty vehicles).
 	- Converting markers and triggers
+	- Converting waypoints
 	
-Not working yet
+What's not working:
 
-	- Converting waypoints.
+	- Converting modules.
 	
 
 	
