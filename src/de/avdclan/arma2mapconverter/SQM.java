@@ -341,15 +341,6 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
-
-					/*
-					 * _trg=createTrigger["EmptyDetector",getPos player]; _trg
-					 * setTriggerArea[5,5,0,false]; _trg
-					 * setTriggerActivation["CIV","PRESENT",true]; _trg
-					 * setTriggerStatements["this",
-					 * "hint 'Civilian near player'",
-					 * "hint 'no civilian near'"];
-					 */
 					if(item.getName() == null) { item.setName("_trg"); }
 					item.setName(item.getName().replaceAll("\"",  ""));
 					code += item.getName() + " = createTrigger[\"EmptyDetector\", "
@@ -409,7 +400,7 @@ public class SQM {
 								+ ", [], 0, \"CAN_COLLIDE\"];\n"
 								+
 								// this is VERY dirty....
-								"\t// this is VERY dirty and only used because I don't want to create\n"
+								"\n\t// this is VERY dirty and only used because I don't want to create\n"
 								+ "\t// arrays for vehicles, units and stuff to check if the classname\n"
 								+ "\t// is a vehicle, an unit, and so on. this just works.\n"
 								+ "\t// what it does is if the unit is not alive after creation (because it should be a manned vehicle)\n"
@@ -423,7 +414,7 @@ public class SQM {
 								+ item.getSide().toLowerCase() + "HQ;\n"
 								+ "\t\t[" + item.getName()
 								+ ", _group] call BIS_fnc_spawnCrew;\n"
-								+ "\t};\n";
+								+ "\t};\n\n";
 
 					}
 					if (item.getInit() != null) {
