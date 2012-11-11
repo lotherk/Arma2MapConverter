@@ -329,11 +329,10 @@ public class SQM {
 				+ "_eastHQ = createCenter east;\n"
 				+ "_guerHQ = createCenter resistance;\n"
 				+ "_civHQ  = createCenter civilian;\n";
-
-		code += "// UNIT CREATION\n";
-		code += generateSQF(rootType);
 		code += "// MARKER CREATION\n";
 		code += generateSQF(markers);
+		code += "// UNIT CREATION\n";
+		code += generateSQF(rootType);
 		code += "// TRIGGER CREATION\n";
 		code += generateSQF(triggers);
 		sqf.setCode(code);
