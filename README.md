@@ -15,3 +15,7 @@ Not working yet
 
 	- Converting waypoints.
 	
+
+	
+Discussion on ArmAholic forum:
+http://www.armaholic.com/forums.php?m=posts&q=19530
