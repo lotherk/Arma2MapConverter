@@ -30,7 +30,7 @@ public class Item {
 	private String expActiv = "\"\"";
 	private String expDesactiv = "\"\"";
 	private String interruptable = "true";
-	private String activationType = "NOT PRESENT";
+	private String activationType = "\"NOT PRESENT\"";
 	private String timeoutMin = "0";
 	private String timeoutMid = "0";
 	private String timeoutMax = "0";

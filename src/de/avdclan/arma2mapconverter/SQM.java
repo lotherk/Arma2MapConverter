@@ -99,8 +99,8 @@ public class SQM {
 			}
 
 		}
-		if(parent.getType().equals("Groups")) {
-		
+		if (parent.getType().equals("Groups")) {
+
 		}
 		if (parent.toString().startsWith("Vehicles")) {
 			if (parent.getObject() == null) {
@@ -114,7 +114,7 @@ public class SQM {
 
 			}
 
-		} else if(parent.toString().startsWith("Waypoints")) {
+		} else if (parent.toString().startsWith("Waypoints")) {
 			Waypoints waypoints = new Waypoints();
 			if (parent.getObject() == null) {
 				parent.setObject(waypoints);
@@ -126,7 +126,7 @@ public class SQM {
 						.getSide());
 
 			}
-			
+
 		} else if (parent.toString().startsWith("Markers")) {
 			if (parent.getObject() == null) {
 				parent.setObject(new Markers());
@@ -239,12 +239,12 @@ public class SQM {
 						"\\;", ""));
 			} else if (line.startsWith("age=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setAge(tmp[1].replaceAll(
-						"\\;", ""));
+				((Item) parent.getObject())
+						.setAge(tmp[1].replaceAll("\\;", ""));
 			} else if (line.startsWith("expCond=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll("\\;$",
-						""));
+				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll(
+						"\\;$", ""));
 			} else if (line.startsWith("expActiv=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setExpActiv(tmp[1].replaceAll(
@@ -279,8 +279,8 @@ public class SQM {
 						"\\;", ""));
 			} else if (line.startsWith("completionRadius=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setCompletionRadius(tmp[1].replaceAll(
-						"\\;", ""));
+				((Item) parent.getObject()).setCompletionRadius(tmp[1]
+						.replaceAll("\\;", ""));
 			} else if (line.startsWith("combatMode=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setCombatMode(tmp[1].replaceAll(
@@ -291,20 +291,20 @@ public class SQM {
 						"\\;", ""));
 			} else if (line.startsWith("speed=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setSpeed(tmp[1].replaceAll(
-						"\\;", ""));
+				((Item) parent.getObject()).setSpeed(tmp[1].replaceAll("\\;",
+						""));
 			} else if (line.startsWith("combat=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setCombat(tmp[1].replaceAll(
-						"\\;", ""));
+				((Item) parent.getObject()).setCombat(tmp[1].replaceAll("\\;",
+						""));
 			} else if (line.startsWith("description=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setDescription(tmp[1].replaceAll(
 						"\\;", ""));
 			} else if (line.startsWith("showWP=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll(
-						"\\;", ""));
+				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll("\\;",
+						""));
 			}
 		} else {
 			// unsupported class
@@ -315,7 +315,8 @@ public class SQM {
 	public SQF toSQF() {
 		SQF sqf = new SQF();
 		String code = ""
-				+ "/* converted with Arma2MapConverter v"
+				+ "/**\n"
+				+ " * Converted with Arma2MapConverter v"
 				+ Arma2MapConverter.VERSION
 				+ "\n"
 				+ " *\n"
@@ -328,13 +329,23 @@ public class SQM {
 		code += "_westHQ = createCenter west;\n"
 				+ "_eastHQ = createCenter east;\n"
 				+ "_guerHQ = createCenter resistance;\n"
-				+ "_civHQ  = createCenter civilian;\n";
-		code += "// MARKER CREATION\n";
+				+ "_civHQ  = createCenter civilian;\n\n";
+
+		code += "\n_createdUnits = [];\n" + "_createdMarkers = [];\n"
+				+ "_createdTriggers = [];\n";
+
+		code += "\n/*******************\n" + " * MARKER CREATION *\n"
+				+ " *******************/\n";
 		code += generateSQF(markers);
-		code += "// UNIT CREATION\n";
+		code += "\n/*****************\n" + " * UNIT CREATION *\n"
+				+ " *****************/\n";
 		code += generateSQF(rootType);
-		code += "// TRIGGER CREATION\n";
+		code += "\n/********************\n" + " * TRIGGER CREATION *\n"
+				+ " ********************/\n";
+		;
 		code += generateSQF(triggers);
+		code += "\n// return all created units in an array\n"
+				+ "return [_createdUnits, _createdMarkers, _createdTriggers];\n";
 		sqf.setCode(code);
 		return sqf;
 	}
@@ -365,7 +376,6 @@ public class SQM {
 							+ "_marker setMarkerSize [" + item.getA() + ", "
 							+ item.getB() + "];\n";
 
-
 					if (item.getText() != null) {
 						code += "_marker setMarkerText " + item.getText()
 								+ ";\n";
@@ -378,6 +388,7 @@ public class SQM {
 						code += "_marker setMarkerBrush " + item.getFillName()
 								+ ";\n";
 					}
+					code += "_createdMarkers = _createdMarkers + [_marker]\n";
 					code += "\n";
 
 				}
@@ -386,74 +397,96 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
-					if(item.getName() == null) { item.setName("_trg"); }
-					item.setName(item.getName().replaceAll("\"",  ""));
-					code += item.getName() + " = createTrigger[\"EmptyDetector\", "
-							+ item.getPosition() + "];\n"
-							+ item.getName() + " setTriggerArea[" + item.getA() + ", "
-							+ item.getB() + ", " + item.getAngle() + ", "
-							+ item.getRectangular() + "];\n"
-							+ item.getName() + " setTriggerAction[" + item.getActivationBy()
-							+ ", " + item.getActivationType() + ", "
-							+ item.getRepeating() + "];\n"
-							+ item.getName() + " setTriggerStatements[" + item.getExpCond()
-							+ ", " + item.getExpActiv() + ", "
-							+ item.getExpDesactiv() + "];\n"
-							+ item.getName() + " setTriggerTimeout[" + item.getTimeoutMin() + ", " + item.getTimeoutMid() + ", " + item.getTimeoutMax() + ", " + item.getInterruptable() + "];\n";
-					if (item.getText() != null) {
-						code += item.getName() + " setTriggerText " + item.getText() + ";\n";
+					if (item.getName() == null) {
+						item.setName("_trg");
 					}
+					item.setName(item.getName().replaceAll("\"", ""));
+					code += item.getName()
+							+ " = createTrigger[\"EmptyDetector\", "
+							+ item.getPosition() + "];\n" + item.getName()
+							+ " setTriggerArea[" + item.getA() + ", "
+							+ item.getB() + ", " + item.getAngle() + ", "
+							+ item.getRectangular() + "];\n" + item.getName()
+							+ " setTriggerAction[" + item.getActivationBy()
+							+ ", " + item.getActivationType() + ", "
+							+ item.getRepeating() + "];\n" + item.getName()
+							+ " setTriggerStatements[" + item.getExpCond()
+							+ ", " + item.getExpActiv() + ", "
+							+ item.getExpDesactiv() + "];\n" + item.getName()
+							+ " setTriggerTimeout[" + item.getTimeoutMin()
+							+ ", " + item.getTimeoutMid() + ", "
+							+ item.getTimeoutMax() + ", "
+							+ item.getInterruptable() + "];\n";
+					if (item.getText() != null) {
+						code += item.getName() + " setTriggerText "
+								+ item.getText() + ";\n";
+					}
+					code += "_createdTriggers = _createdTriggers + "
+							+ item.getName() + ";\n";
 
 				}
 			}
 			if (tc.equals("Waypoints")) {
 				int index = 0;
 				String groupName = null;
-				for(TypeClass tClass : tc.getParent().getChilds()) {
-					if(tClass.getType().equals("Vehicles")) {
-						groupName = ((Vehicle)tClass.getObject()).getGroupName();
+				for (TypeClass tClass : tc.getParent().getChilds()) {
+					if (tClass.getType().equals("Vehicles")) {
+						groupName = ((Vehicle) tClass.getObject())
+								.getGroupName();
 					}
 				}
 				logger.debug("Adding waypoints for group " + groupName);
-				code += "\n// Waypoints for group " + groupName + "\n";
-				for(TypeClass items : tc.getChilds()) {
+				code += "\n/**\n" + " * Waypoints for group " + groupName
+						+ "\n" + " */\n";
+				for (TypeClass items : tc.getChilds()) {
 					++index;
 					Item item = (Item) items.getObject();
-					code += "// waypoint #" + index + " for group " + groupName + "\n";
-					code += "_wp = " + groupName + " addWaypoint[[" + item.getPosition().getX() + ", " + item.getPosition().getY() + ", 0], " + item.getPlacement() + ", " + index + "];\n";
+					code += "// waypoint #" + index + "\n";
+					code += "_wp = " + groupName + " addWaypoint[["
+							+ item.getPosition().getX() + ", "
+							+ item.getPosition().getY() + ", 0], "
+							+ item.getPlacement() + ", " + index + "];\n";
 					String wp = "[_wp, " + index + "]";
-					if(item.getCombat() != null) {
-						code +=  wp + " setWaypointBehaviour " + item.getCombat() + ";\n";
+					if (item.getCombat() != null) {
+						code += wp + " setWaypointBehaviour "
+								+ item.getCombat() + ";\n";
 					}
-					if(item.getCombatMode() != null) {
-						code += wp + " setWaypointCombatMode " + item.getCombatMode() + ";\n";
+					if (item.getCombatMode() != null) {
+						code += wp + " setWaypointCombatMode "
+								+ item.getCombatMode() + ";\n";
 					}
-					if(item.getCompletionRadius() != null) {
-						code += wp + " setWaypointCompletionRadius " + item.getCompletionRadius() + ";\n";
+					if (item.getCompletionRadius() != null) {
+						code += wp + " setWaypointCompletionRadius "
+								+ item.getCompletionRadius() + ";\n";
 					}
-					if(item.getFormation() != null) {
-						code += wp + " setWaypointFormation " + item.getFormation() + ";\n";
+					if (item.getFormation() != null) {
+						code += wp + " setWaypointFormation "
+								+ item.getFormation() + ";\n";
 					}
-					if(item.getSpeed() != null) {
-						code += wp + " setWaypointSpeed " + item.getSpeed() + ";\n";
+					if (item.getSpeed() != null) {
+						code += wp + " setWaypointSpeed " + item.getSpeed()
+								+ ";\n";
 					}
-					if(item.getExpCond() != null) {
-						code += wp + " setWaypointStatements[" + item.getExpCond() + ", " + item.getExpActiv() + "];\n";
+					if (item.getExpCond() != null) {
+						code += wp + " setWaypointStatements["
+								+ item.getExpCond() + ", " + item.getExpActiv()
+								+ "];\n";
 					}
-					if(item.getType() != null) {
-						code += wp + " setWaypointType " + item.getType() + ";\n";
+					if (item.getType() != null) {
+						code += wp + " setWaypointType " + item.getType()
+								+ ";\n";
 					}
-					code += "\n";
+
 				}
-				code += "\n\n";
+
 			}
 			if (tc.equals("Vehicles")) {
 
 				String side = ((Vehicle) tc.getObject()).getSide()
 						.toLowerCase();
 				String group = "_group_" + side + "_" + getGroupCound(side);
-				((Vehicle)tc.getObject()).setGroupName(group);
-				code += "\n// group " + group + "\n" + group
+				((Vehicle) tc.getObject()).setGroupName(group);
+				code += "// group " + group + "\n" + group
 						+ " = createGroup _" + side + "HQ;\n";
 
 				for (TypeClass items : tc.getChilds()) {
@@ -466,7 +499,7 @@ public class SQM {
 								+ UUID.randomUUID().toString()
 										.replaceAll("-", ""));
 					}
-					code += "\n// begin " + item.getName() + ", part of group "
+					code += "// begin " + item.getName() + ", part of group "
 							+ group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";
 					if (item.getSide().equals("EMPTY")) {
@@ -494,12 +527,14 @@ public class SQM {
 								+ "\tif(!alive " + item.getName()
 								+ ") then {\n" + "\t\t" + item.getName()
 								+ " = createVehicle [" + item.getVehicle()
-								+ ", " + item.getPosition()
+								+ ", "
+								+ item.getPosition()
 								+ ", [], 0, \"CAN_COLLIDE\"];\n"
-								+ "\t\t_group = createGroup _"
-								+ item.getSide().toLowerCase() + "HQ;\n"
+								// + "\t\t_group = createGroup _"
+								// + item.getSide().toLowerCase() + "HQ;\n"
 								+ "\t\t[" + item.getName()
-								+ ", _group] call BIS_fnc_spawnCrew;\n"
+								// + ", _group] call BIS_fnc_spawnCrew;\n"
+								+ ", " + group + "] call BIS_fnc_spawnCrew;\n"
 								+ "\t};\n\n";
 
 					}
@@ -528,7 +563,8 @@ public class SQM {
 						code += "\tif(true) then { " + group + " selectLeader "
 								+ item.getName() + "; };\n";
 					}
-
+					code += "\t_createdUnits = _createdUnits + ["
+							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";
 
 				}
