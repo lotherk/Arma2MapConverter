@@ -2,7 +2,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>C:\Users\kl\workspace\Arma2MapConverter\Arma2MapConverter_fat.jar</jar>
-  <outfile>C:\Users\kl\workspace\Arma2MapConverter\release\a2mc.exe</outfile>
+  <outfile>C:\Users\kl\workspace\Arma2MapConverter\a2mc.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>

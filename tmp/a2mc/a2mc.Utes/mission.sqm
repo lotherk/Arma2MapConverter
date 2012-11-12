@@ -1,0 +1,319 @@
+version=11;
+class Mission
+{
+	addOns[]=
+	{
+		"cacharacters2",
+		"cacharacters_e",
+		"BWMod",
+		"CATracked",
+		"catracked_e_t55",
+		"utes",
+		"acex_c_vehicle",
+		"acex_ru_c_vehicle"
+	};
+	addOnsAuto[]=
+	{
+		"cacharacters2",
+		"cacharacters_e",
+		"BWMod",
+		"acex_c_vehicle",
+		"acex_ru_c_vehicle",
+		"CATracked",
+		"catracked_e_t55",
+		"utes"
+	};
+	randomSeed=8433220;
+	class Intel
+	{
+		startWeather=0.40000001;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=14;
+		minute=20;
+	};
+	class Groups
+	{
+		items=6;
+		class Item0
+		{
+			side="CIV";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={3726.8025,18.913914,3571.3921};
+					id=0;
+					side="CIV";
+					vehicle="Citizen1";
+					player="PLAYER COMMANDER";
+					leader=1;
+					skill=0.60000002;
+					init="this setPos (getPos marker1)";
+				};
+			};
+		};
+		class Item1
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={3691.0398,19,3626.4482};
+					azimut=182.82561;
+					id=1;
+					side="WEST";
+					vehicle="GER_Soldier_EP1";
+					leader=1;
+					skill=0.60000002;
+					text="singleUnit";
+				};
+			};
+		};
+		class Item2
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=2;
+				class Item0
+				{
+					position[]={3723.1531,19,3628.2712};
+					azimut=190;
+					id=2;
+					side="WEST";
+					vehicle="BWMod_Fuchs";
+					leader=1;
+					skill=0.60000002;
+				};
+				class Item1
+				{
+					position[]={3746.5085,19,3625.3545};
+					azimut=190;
+					id=3;
+					side="WEST";
+					vehicle="BWMod_Fuchs";
+					skill=0.60000002;
+				};
+			};
+		};
+		class Item3
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={3630.8276,19,3598.0083};
+					azimut=88.026611;
+					id=4;
+					side="WEST";
+					vehicle="BWMod_Fuchs";
+					leader=1;
+					skill=0.60000002;
+				};
+			};
+			class Waypoints
+			{
+				items=2;
+				class Item0
+				{
+					position[]={3820.5879,19,3599.1025};
+					speed="LIMITED";
+					expActiv="hint ""waypoint 1"";";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
+				class Item1
+				{
+					position[]={3633.3818,19,3606.7588};
+					expActiv="hint ""waypoint 2"";";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
+			};
+		};
+		class Item4
+		{
+			side="CIV";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={3707.8262,19,3632.6465};
+					azimut=190;
+					id=7;
+					side="CIV";
+					vehicle="Citizen1";
+					leader=1;
+					skill=0.60000002;
+					text="ff";
+					init="this setPos (getMarkerPos ""marker1"")";
+				};
+			};
+		};
+		class Item5
+		{
+			side="EAST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={3744.2527,19,3602.4783};
+					azimut=190;
+					id=8;
+					side="EAST";
+					vehicle="ACE_UralOpen_RU";
+					leader=1;
+					skill=0.60000002;
+					text="enem";
+					init="this setCaptive true; this setFuel 0;";
+				};
+			};
+			class Waypoints
+			{
+				items=1;
+				class Item0
+				{
+					position[]={3742.9873,19,3597.2935};
+					combatMode="BLUE";
+					speed="LIMITED";
+					combat="CARELESS";
+					class Effects
+					{
+					};
+					showWP="NEVER";
+				};
+			};
+		};
+	};
+	class Vehicles
+	{
+		items=2;
+		class Item0
+		{
+			position[]={3774.9722,19,3627.9065};
+			azimut=190;
+			id=5;
+			side="EMPTY";
+			vehicle="BMP2_INS";
+			skill=0.60000002;
+		};
+		class Item1
+		{
+			position[]={3796.5029,19,3624.6252};
+			azimut=190;
+			id=6;
+			side="EMPTY";
+			vehicle="T55_TK_EP1";
+			skill=0.60000002;
+		};
+	};
+	class Markers
+	{
+		items=1;
+		class Item0
+		{
+			position[]={3726.7202,18.984724,3578.4724};
+			name="marker1";
+			text="marker1";
+			type="Faction_Germany_EP1";
+		};
+	};
+	class Sensors
+	{
+		items=1;
+		class Item0
+		{
+			position[]={3688.8472,19,3598.7087};
+			a=10;
+			b=10;
+			activationBy="VEHICLE";
+			interruptable=1;
+			age="UNKNOWN";
+			idVehicle=4;
+			expActiv="player setPos (getMarkerPos ""marker1""); hint ""done""; enem setCaptive false;";
+			class Effects
+			{
+			};
+		};
+	};
+};
+class Intro
+{
+	addOns[]=
+	{
+		"utes"
+	};
+	addOnsAuto[]=
+	{
+		"utes"
+	};
+	randomSeed=7491325;
+	class Intel
+	{
+		startWeather=0.40000001;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=14;
+		minute=20;
+	};
+};
+class OutroWin
+{
+	addOns[]=
+	{
+		"utes"
+	};
+	addOnsAuto[]=
+	{
+		"utes"
+	};
+	randomSeed=1094556;
+	class Intel
+	{
+		startWeather=0.40000001;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=14;
+		minute=20;
+	};
+};
+class OutroLoose
+{
+	addOns[]=
+	{
+		"utes"
+	};
+	addOnsAuto[]=
+	{
+		"utes"
+	};
+	randomSeed=3536464;
+	class Intel
+	{
+		startWeather=0.40000001;
+		forecastWeather=0.25;
+		year=2008;
+		month=10;
+		day=11;
+		hour=14;
+		minute=20;
+	};
+};
