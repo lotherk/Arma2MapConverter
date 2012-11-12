@@ -166,6 +166,7 @@ public class Item {
 		else if(rectangular.equals("1"))
 			return "true";
 		else
+	
 			return rectangular;
 
 	}

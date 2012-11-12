@@ -345,7 +345,7 @@ public class SQM {
 		;
 		code += generateSQF(triggers);
 		code += "\n// return all created units in an array\n"
-				+ "return [_createdUnits, _createdMarkers, _createdTriggers];\n";
+				+ "[_createdUnits, _createdMarkers, _createdTriggers]\n";
 		sqf.setCode(code);
 		return sqf;
 	}
@@ -388,7 +388,7 @@ public class SQM {
 						code += "_marker setMarkerBrush " + item.getFillName()
 								+ ";\n";
 					}
-					code += "_createdMarkers = _createdMarkers + [_marker]\n";
+					code += "_createdMarkers = _createdMarkers + [_marker];\n";
 					code += "\n";
 
 				}
@@ -407,11 +407,11 @@ public class SQM {
 							+ " setTriggerArea[" + item.getA() + ", "
 							+ item.getB() + ", " + item.getAngle() + ", "
 							+ item.getRectangular() + "];\n" + item.getName()
-							+ " setTriggerAction[" + item.getActivationBy()
+							+ " setTriggerActivation[" + item.getActivationBy()
 							+ ", " + item.getActivationType() + ", "
 							+ item.getRepeating() + "];\n" + item.getName()
-							+ " setTriggerStatements[" + item.getExpCond()
-							+ ", " + item.getExpActiv() + ", "
+							+ " setTriggerStatements[\"" + item.getExpCond()
+							+ "\", " + item.getExpActiv() + ", "
 							+ item.getExpDesactiv() + "];\n" + item.getName()
 							+ " setTriggerTimeout[" + item.getTimeoutMin()
 							+ ", " + item.getTimeoutMid() + ", "
@@ -421,8 +421,8 @@ public class SQM {
 						code += item.getName() + " setTriggerText "
 								+ item.getText() + ";\n";
 					}
-					code += "_createdTriggers = _createdTriggers + "
-							+ item.getName() + ";\n";
+					code += "_createdTriggers = _createdTriggers + ["
+							+ item.getName() + "];\n";
 
 				}
 			}
@@ -446,7 +446,7 @@ public class SQM {
 							+ item.getPosition().getX() + ", "
 							+ item.getPosition().getY() + ", 0], "
 							+ item.getPlacement() + ", " + index + "];\n";
-					String wp = "[_wp, " + index + "]";
+					String wp = "[" + groupName + ", " + index + "]";
 					if (item.getCombat() != null) {
 						code += wp + " setWaypointBehaviour "
 								+ item.getCombat() + ";\n";
@@ -468,10 +468,10 @@ public class SQM {
 								+ ";\n";
 					}
 					if (item.getExpCond() != null) {
-						code += wp + " setWaypointStatements["
-								+ item.getExpCond() + ", " + item.getExpActiv()
+						code += wp + " setWaypointStatements[\""
+								+ item.getExpCond() + "\", " + item.getExpActiv()
 								+ "];\n";
-					}
+					}	
 					if (item.getType() != null) {
 						code += wp + " setWaypointType " + item.getType()
 								+ ";\n";
