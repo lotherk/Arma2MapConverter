@@ -11,6 +11,7 @@ mv a2mc-${VERSION}.zip ../releases/
 cd ..
 cd releases
 cp a2mc-${VERSION}.zip a2mc-latest.zip
+cd ..
 rm -rf tmp/
 echo 
 echo RELEASE READY
