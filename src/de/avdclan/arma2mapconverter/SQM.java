@@ -241,6 +241,10 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject())
 						.setAge(tmp[1].replaceAll("\\;", ""));
+			} else if (line.startsWith("activationBy=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setActivationBy(tmp[1].replaceAll(
+						"\\;$", ""));
 			} else if (line.startsWith("expCond=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setExpCond(tmp[1].replaceAll(
@@ -401,6 +405,13 @@ public class SQM {
 						item.setName("_trg");
 					}
 					item.setName(item.getName().replaceAll("\"", ""));
+					String cond;
+					if(item.getExpCond().equals("true")) {
+						cond = "this";
+					} else {
+						cond = item.getExpCond();
+					}
+						
 					code += item.getName()
 							+ " = createTrigger[\"EmptyDetector\", "
 							+ item.getPosition() + "];\n" + item.getName()
@@ -410,7 +421,7 @@ public class SQM {
 							+ " setTriggerActivation[" + item.getActivationBy()
 							+ ", " + item.getActivationType() + ", "
 							+ item.getRepeating() + "];\n" + item.getName()
-							+ " setTriggerStatements[\"" + item.getExpCond()
+							+ " setTriggerStatements[\"" + cond
 							+ "\", " + item.getExpActiv() + ", "
 							+ item.getExpDesactiv() + "];\n" + item.getName()
 							+ " setTriggerTimeout[" + item.getTimeoutMin()
