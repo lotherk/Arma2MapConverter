@@ -20,6 +20,7 @@ public class SQM {
 	private TypeClass rootType = new TypeClass("units", null);
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
+	private TypeClass vehicles = new TypeClass("vehicles", null);
 	private static Logger logger = Logger.getLogger(SQM.class);
 	private BufferedReader reader;
 	private int groupCountWest = 0;
@@ -63,6 +64,13 @@ public class SQM {
 						logger.debug("triggers processed. "
 								+ triggers.getFullCount()
 								+ " triggers processed.");
+					}
+					if (type.equals("Vehicles")) {
+						logger.debug("Processing empty vehicles... ");
+						parse(line, vehicles);
+						logger.debug("vehicles processed. "
+								+ vehicles.getFullCount()
+								+ " vehicles processed.");
 					}
 				}
 
@@ -333,7 +341,8 @@ public class SQM {
 		code += "_westHQ = createCenter west;\n"
 				+ "_eastHQ = createCenter east;\n"
 				+ "_guerHQ = createCenter resistance;\n"
-				+ "_civHQ  = createCenter civilian;\n\n";
+				+ "_civHQ  = createCenter civilian;\n"
+				+ "_emptyHQ = createCenter civilian;\n\n";
 
 		code += "\n_createdUnits = [];\n" + "_createdMarkers = [];\n"
 				+ "_createdTriggers = [];\n";
@@ -341,6 +350,9 @@ public class SQM {
 		code += "\n/*******************\n" + " * MARKER CREATION *\n"
 				+ " *******************/\n";
 		code += generateSQF(markers);
+		code += "\n/*****************\n" + " * EMPTY VEHICLE CREATION *\n"
+				+ " *****************/\n";
+		code += generateSQF(vehicles);
 		code += "\n/*****************\n" + " * UNIT CREATION *\n"
 				+ " *****************/\n";
 		code += generateSQF(rootType);
