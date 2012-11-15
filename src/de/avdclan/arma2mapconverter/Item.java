@@ -3,7 +3,7 @@ package de.avdclan.arma2mapconverter;
 public class Item {
 	private Position position;
 	private String azimut;
-	private String special;
+	private String special = "\"NONE\"";
 	private String id;
 	private String vehicle;
 	private String typeClass;

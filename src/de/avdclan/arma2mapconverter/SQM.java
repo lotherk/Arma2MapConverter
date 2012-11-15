@@ -529,7 +529,7 @@ public class SQM {
 						code += "\n" + "\t" + item.getName()
 								+ " = createVehicle [" + item.getVehicle()
 								+ ", " + item.getPosition()
-								+ ", [], 0, \"CAN_COLLIDE\"];\n";
+								+ ", [], 0, " + item.getSpecial() + "];\n";
 					} else {
 						code += "\n" + "\t"
 								+ item.getName()
