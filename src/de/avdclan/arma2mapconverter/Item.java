@@ -1,5 +1,7 @@
 package de.avdclan.arma2mapconverter;
 
+import java.util.UUID;
+
 public class Item {
 	private Position position;
 	private String azimut;
@@ -385,6 +387,12 @@ public class Item {
 	}
 
 	public String getName() {
+		if (name == null) {
+			// generate unique unit name
+			name ="autogen_"
+					+ UUID.randomUUID().toString()
+							.replaceAll("-", "");
+		}
 		return name;
 	}
 

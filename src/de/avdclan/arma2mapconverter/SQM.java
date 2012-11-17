@@ -515,13 +515,7 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
-
-					if (item.getName() == null) {
-						// generate unique unit name
-						item.setName("autogen_"
-								+ UUID.randomUUID().toString()
-										.replaceAll("-", ""));
-					}
+					
 					code += "// begin " + item.getName() + ", part of group "
 							+ group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";
