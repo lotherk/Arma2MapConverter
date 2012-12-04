@@ -12,7 +12,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.5.1-beta";
+	final static String VERSION = "0.5.2-beta";
 	
 	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
