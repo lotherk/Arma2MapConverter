@@ -580,6 +580,10 @@ public class SQM {
 						code += "\tif(true) then { " + group + " selectLeader "
 								+ item.getName() + "; };\n";
 					}
+					if (item.getText() != null
+							&& !item.getSide().equals("EMPTY")) {
+						code += "\tsetVehicleVarName \"" + item.getText() + "\";\n";
+					}
 					code += "\t_createdUnits = _createdUnits + ["
 							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";
