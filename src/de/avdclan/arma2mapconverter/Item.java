@@ -392,6 +392,7 @@ public class Item {
 			name ="autogen_"
 					+ UUID.randomUUID().toString()
 							.replaceAll("-", "");
+			name = "_obj";
 		}
 		return name;
 	}
