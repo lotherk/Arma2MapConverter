@@ -11,9 +11,11 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.UUID;
+import java.util.regex.PatternSyntaxException;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 public class SQM {
 
@@ -21,7 +23,7 @@ public class SQM {
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
 	private TypeClass vehicles = new TypeClass("vehicles", null);
-	private static Logger logger = Logger.getLogger(SQM.class);
+	//private static Logger logger = Logger.getLogger(SQM.class);
 	private BufferedReader reader;
 	private int groupCountWest = 0;
 	private int groupCountEast = 0;
@@ -30,7 +32,7 @@ public class SQM {
 	private File source;
 
 	public void load(File mission) throws FileNotFoundException {
-		logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
+		//logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
 		this.source = mission;
 		reader = new BufferedReader(new FileReader(mission));
 		String line;
@@ -45,43 +47,42 @@ public class SQM {
 				}
 				if (type != null) {
 					if (type.equals("Groups")) {
-						logger.debug("Processing groups... ");
+						//logger.debug("Processing groups... ");
 						parse(line, rootType);
-						logger.debug("Groups processed. "
+						/*logger.debug("Groups processed. "
 								+ rootType.getFullCount()
-								+ " Groups processed.");
+								+ " Groups processed.");*/
 					}
 					if (type.equals("Markers")) {
-						logger.debug("Processing markers... ");
+						//logger.debug("Processing markers... ");
 						parse(line, markers);
-						logger.debug("Markers processed. "
+						/*logger.debug("Markers processed. "
 								+ markers.getFullCount()
-								+ " Markers processed.");
+								+ " Markers processed.");*/
 					}
 					if (type.equals("Sensors")) {
-						logger.debug("Processing triggers... ");
+						//logger.debug("Processing triggers... ");
 						parse(line, triggers);
-						logger.debug("triggers processed. "
+						/*logger.debug("triggers processed. "
 								+ triggers.getFullCount()
-								+ " triggers processed.");
+								+ " triggers processed.");*/
 					}
 					if (type.equals("Vehicles")) {
-						logger.debug("Processing empty vehicles... ");
+						//logger.debug("Processing empty vehicles... ");
 						parse(line, vehicles);
-						logger.debug("vehicles processed. "
+						/*logger.debug("vehicles processed. "
 								+ vehicles.getFullCount()
-								+ " vehicles processed.");
+								+ " vehicles processed.");*/
 					}
 				}
 
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			logger.error(e);
+			//logger.error(e);
 		}
-
-		logger.debug("Loaded.");
-	}
+		//logger.debug("Loaded.");
+	}             
 
 	/**
 	 * This is the parsing algorithm. If you know a better way, feel free to
@@ -90,10 +91,10 @@ public class SQM {
 	 * Please also send your changes to the author.
 	 * 
 	 * 
-	 * @param input
+	 * @param input throw PatternSyntaxException
 	 * @throws IOException
 	 */
-	private void parse(String input, TypeClass parent) throws IOException {
+	private void parse(String input, TypeClass parent) throws IOException, PatternSyntaxException {
 		String line = input.replaceAll("^\\s+", "");
 		if (line.startsWith("class")) {
 
@@ -105,7 +106,6 @@ public class SQM {
 					.startsWith("}")) {
 				parse(line, typeClass);
 			}
-
 		}
 		if (parent.getType().equals("Groups")) {
 
@@ -119,7 +119,6 @@ public class SQM {
 
 				((Vehicle) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Waypoints")) {
@@ -132,7 +131,6 @@ public class SQM {
 
 				((Waypoints) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Markers")) {
@@ -144,7 +142,6 @@ public class SQM {
 
 				((Markers) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Sensors")) {
@@ -156,7 +153,6 @@ public class SQM {
 
 				((Triggers) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Item")) {
@@ -194,7 +190,7 @@ public class SQM {
 						""));
 			} else if (line.startsWith("init=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setInit(tmp[1]);
+				((Item) parent.getObject()).setInit(tmp[1].substring(0, tmp[1].length()-1));
 			} else if (line.startsWith("name=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setName(tmp[1]
@@ -238,9 +234,9 @@ public class SQM {
 				((Item) parent.getObject()).setAngle(tmp[1].replaceAll("\\;",
 						""));
 			} else if (line.startsWith("text=")) {
-				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setText(tmp[1]
-						.replaceAll("\\;", ""));
+                                String[] tmp = line.split("=", 2);
+                                ((Item) parent.getObject()).setText(tmp[1]
+                                                .replaceAll("\\;", ""));                         
 			} else if (line.startsWith("rectangular=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setRectangular(tmp[1].replaceAll(
@@ -317,11 +313,46 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll("\\;",
 						""));
-			}
+                                //Added by Thug Actual/RexJoker 20131205
+			} else if(line.startsWith("offsetY=")) {
+                            String[] tmp = line.split("=", 2);
+                            ((Item) parent.getObject()).getPosition().setZ(tmp[1].replaceAll("\\;",""));
+                        } else if(line.startsWith("syncId=")) {
+                            String[] tmp = line.split("=", 2);
+                            ((Item) parent.getObject()).setGlobalSyncIdName(Integer.parseInt(tmp[1].replaceAll("\\;", "")),
+                                    ((Item) parent.getObject()).getName());
+                        } else if(line.startsWith("synchronizations[]={")) {
+                            String[] tmp = line.split("=", 2);   
+                            String replace = tmp[1];
+                            replace = replace.replace(";", "");  
+                            replace = replace.replace("{", "");
+                            replace = replace.replace("}", "");
+                            if(replace.length() > 1)
+                            {
+                                String[] num = replace.split(",");
+                                for(int index =0; index < num.length;index++)
+                                {
+                                    ((Item) parent.getObject()).syncLocalItemId(Integer.parseInt(num[index]));
+                                }
+                            } 
+                            else
+                            {
+                             for(int index =0; index < replace.length();index++)
+                                {
+                                    Scanner scan = new Scanner(replace);
+                                    while(scan.hasNext())
+                                    {
+                                        ((Item) parent.getObject()).syncLocalItemId(scan.nextInt());
+                                    }                    
+                                } 
+                            }
+                       } else if(line.startsWith("special=")) {
+                           String[] tmp = line.split("=", 2);
+                           ((Item) parent.getObject()).setSpecial(tmp[1].replaceAll("\\;",
+						""));
+                       }
 		} else {
-			// unsupported class
 		}
-
 	}
 
 	public SQF toSQF() {
@@ -342,7 +373,7 @@ public class SQM {
 				+ "_eastHQ = createCenter east;\n"
 				+ "_guerHQ = createCenter resistance;\n"
 				+ "_civHQ  = createCenter civilian;\n"
-				+ "_emptyHQ = createCenter civilian;\n\n";
+				+ "_emptyHQ = createCenter civilian;\n";
 
 		code += "\n_createdUnits = [];\n" + "_createdMarkers = [];\n"
 				+ "_createdTriggers = [];\n";
@@ -350,18 +381,18 @@ public class SQM {
 		code += "\n/*******************\n" + " * MARKER CREATION *\n"
 				+ " *******************/\n";
 		code += generateSQF(markers);
-		code += "\n/*****************\n" + " * EMPTY VEHICLE CREATION *\n"
+		code += "/*****************\n" + " * EMPTY VEHICLE CREATION *\n"
 				+ " *****************/\n";
 		code += generateSQF(vehicles);
 		code += "\n/*****************\n" + " * UNIT CREATION *\n"
 				+ " *****************/\n";
 		code += generateSQF(rootType);
 		code += "\n/********************\n" + " * TRIGGER CREATION *\n"
-				+ " ********************/\n";
-		;
+				+ " ********************/\n";		
 		code += generateSQF(triggers);
-		code += "\n// return all created units in an array\n"
+                code += "\n\n// return all created units in an array\n"
 				+ "[_createdUnits, _createdMarkers, _createdTriggers]\n";
+                
 		sqf.setCode(code);
 		return sqf;
 	}
@@ -383,12 +414,12 @@ public class SQM {
 								+ UUID.randomUUID().toString()
 										.replaceAll("-", ""));
 					}
-					code += "_marker = createMarker[" + item.getName() + ", ["
+					code += "_marker = createMarker [" + item.getName() + ", ["
 							+ item.getPosition().getX() + ", "
 							+ item.getPosition().getY() + "]];\n"
-							+ "_marker setMarkerShape " + item.getType()
+							+ "_marker setMarkerShape " + item.getMarkerType()
 							+ ";\n" + "_marker setMarkerType "
-							+ item.getMarkerType() + ";\n"
+							+ item.getType() + ";\n"
 							+ "_marker setMarkerSize [" + item.getA() + ", "
 							+ item.getB() + "];\n";
 
@@ -404,9 +435,8 @@ public class SQM {
 						code += "_marker setMarkerBrush " + item.getFillName()
 								+ ";\n";
 					}
-					code += "_createdMarkers = _createdMarkers + [_marker];\n";
+					code += "_createdMarkers set[count _createdMarkers, _marker];\n";
 					code += "\n";
-
 				}
 			}
 			if (tc.equals("Sensors")) {
@@ -419,34 +449,45 @@ public class SQM {
 					item.setName(item.getName().replaceAll("\"", ""));
 					String cond;
 					if(item.getExpCond().equals("true")) {
-						cond = "this";
+						cond = "\"this\"";
 					} else {
 						cond = item.getExpCond();
-					}
-						
+					}						
 					code += item.getName()
-							+ " = createTrigger[\"EmptyDetector\", "
+							+ " = createTrigger [\"EmptyDetector\", "
 							+ item.getPosition() + "];\n" + item.getName()
-							+ " setTriggerArea[" + item.getA() + ", "
+							+ " setTriggerArea [" + item.getA() + ", "
 							+ item.getB() + ", " + item.getAngle() + ", "
 							+ item.getRectangular() + "];\n" + item.getName()
-							+ " setTriggerActivation[" + item.getActivationBy()
+							+ " setTriggerActivation [" + item.getActivationBy()
 							+ ", " + item.getActivationType() + ", "
 							+ item.getRepeating() + "];\n" + item.getName()
-							+ " setTriggerStatements[\"" + cond
-							+ "\", " + item.getExpActiv() + ", "
+							+ " setTriggerStatements [" + cond
+							+ ", " + item.getExpActiv() + ", "
 							+ item.getExpDesactiv() + "];\n" + item.getName()
-							+ " setTriggerTimeout[" + item.getTimeoutMin()
+							+ " setTriggerTimeout [" + item.getTimeoutMin()
 							+ ", " + item.getTimeoutMid() + ", "
 							+ item.getTimeoutMax() + ", "
 							+ item.getInterruptable() + "];\n";
 					if (item.getText() != null) {
 						code += item.getName() + " setTriggerText "
 								+ item.getText() + ";\n";
-					}
-					code += "_createdTriggers = _createdTriggers + ["
-							+ item.getName() + "];\n";
-
+					}//Added by ThugActula | RexJoker
+                                            code += item.getName() + " synchronizeWaypoint [";
+                                            for(int index = 0; index < item.syncItemId.size(); index++)
+                                            {
+                                                code += item.getGlobalSyncIdName(item.syncItemId.get(index))+",";
+                                            }
+                                            //code += code.substring(code.length()-1);
+                                            if(code.endsWith(",") == true)
+                                            {
+                                               code = code.substring(0, code.length()-1);
+                                            }
+                                            code +="];\n";
+                                        //}
+					code += "_createdTriggers set[count _createdTriggers, " 
+							+ item.getName() + "];\n\n";
+                                        ////Finished
 				}
 			}
 			if (tc.equals("Waypoints")) {
@@ -458,50 +499,48 @@ public class SQM {
 								.getGroupName();
 					}
 				}
-				logger.debug("Adding waypoints for group " + groupName);
+				//logger.debug("Adding waypoints for group " + groupName);
 				code += "\n/**\n" + " * Waypoints for group " + groupName
 						+ "\n" + " */\n";
 				for (TypeClass items : tc.getChilds()) {
 					++index;
 					Item item = (Item) items.getObject();
 					code += "// waypoint #" + index + "\n";
-					code += "_wp = " + groupName + " addWaypoint[["
+					code += item.getName()+" = " + groupName + " addWaypoint[["
 							+ item.getPosition().getX() + ", "
 							+ item.getPosition().getY() + ", 0], "
 							+ item.getPlacement() + ", " + index + "];\n";
 					String wp = "[" + groupName + ", " + index + "]";
 					if (item.getCombat() != null) {
-						code += wp + " setWaypointBehaviour "
+						code += item.getName()+ " setWaypointBehaviour "
 								+ item.getCombat() + ";\n";
 					}
 					if (item.getCombatMode() != null) {
-						code += wp + " setWaypointCombatMode "
+						code += item.getName()+ " setWaypointCombatMode "
 								+ item.getCombatMode() + ";\n";
 					}
 					if (item.getCompletionRadius() != null) {
-						code += wp + " setWaypointCompletionRadius "
+						code += item.getName()+ " setWaypointCompletionRadius "
 								+ item.getCompletionRadius() + ";\n";
 					}
 					if (item.getFormation() != null) {
-						code += wp + " setWaypointFormation "
+						code += item.getName()+ " setWaypointFormation "
 								+ item.getFormation() + ";\n";
 					}
 					if (item.getSpeed() != null) {
-						code += wp + " setWaypointSpeed " + item.getSpeed()
+						code += item.getName()+ " setWaypointSpeed " + item.getSpeed()
 								+ ";\n";
 					}
 					if (item.getExpCond() != null) {
-						code += wp + " setWaypointStatements[\""
+						code += item.getName()+ " setWaypointStatements[\""
 								+ item.getExpCond() + "\", " + item.getExpActiv()
 								+ "];\n";
 					}	
 					if (item.getType() != null) {
-						code += wp + " setWaypointType " + item.getType()
+						code += item.getName()+ " setWaypointType " + item.getType()
 								+ ";\n";
 					}
-
 				}
-
 			}
 			if (tc.equals("Vehicles")) {
 
@@ -515,6 +554,12 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
+                                        if(item.getText() != null)
+                                        {
+                                            String temp = item.getText();
+                                            temp = temp.replaceAll("\"","");
+                                            item.setName(temp);
+                                        }
 					
 					code += "// begin " + item.getName() + ", part of group "
 							+ group + "\n";
@@ -523,7 +568,7 @@ public class SQM {
 						code += "\n" + "\t" + item.getName()
 								+ " = createVehicle [" + item.getVehicle()
 								+ ", " + item.getPosition()
-								+ ", [], 0, " + item.getSpecial() + "];\n";
+								+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() + "];\n";
 					} else {
 						code += "\n" + "\t"
 								+ item.getName()
@@ -533,7 +578,7 @@ public class SQM {
 								+ item.getVehicle()
 								+ ", "
 								+ item.getPosition()
-								+ ", [], 0, \"CAN_COLLIDE\"];\n"
+								+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() +"];\n"
 								+
 								// this is VERY dirty....
 								"\n\t// this is VERY dirty and only used because I don't want to create\n"
@@ -546,18 +591,19 @@ public class SQM {
 								+ " = createVehicle [" + item.getVehicle()
 								+ ", "
 								+ item.getPosition()
-								+ ", [], 0, \"CAN_COLLIDE\"];\n"
+								+ ", [], "+item.getPlacement()+" ,"+item.getSpecial()+"];\n"
 								// + "\t\t_group = createGroup _"
 								// + item.getSide().toLowerCase() + "HQ;\n"
 								+ "\t\t[" + item.getName()
 								// + ", _group] call BIS_fnc_spawnCrew;\n"
 								+ ", " + group + "] call BIS_fnc_spawnCrew;\n"
 								+ "\t};\n\n";
-
 					}
 					if (item.getInit() != null) {
-						code += "\t" + item.getName() + " setVehicleInit "
-								+ item.getInit() + ";\n";
+						/*code += "\t_vehicleInit set [count _vehicleInit, [" + item.getName() + ","
+								+ item.getInit() + "]];\n";*/
+                                                code += "\tthis = "+item.getName()+";\n";
+                                                code +="\t[] call compile "+item.getInit()+";\n";
 					}
 
 					if (item.getAzimut() != null) {
@@ -578,26 +624,23 @@ public class SQM {
 					if (item.getLeader() != null
 							&& !item.getSide().equals("EMPTY")) {
 						code += "\tif(true) then { " + group + " selectLeader "
-								+ item.getName() + "; };\n";
+								+ item.getName() + "};\n";
 					}
 					if (item.getText() != null
 							&& !item.getSide().equals("EMPTY")) {
-						code += "\tsetVehicleVarName \"" + item.getText() + "\";\n";
+						code += "\t"+item.getName()+" setVehicleVarName " + item.getText() + ";\n";
 					}
-					code += "\t_createdUnits = _createdUnits + ["
+					code += "\t_createdUnits set [count _createdUnits, "
 							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";
-
 				}
 
 			} else {
 				code += generateSQF(tc);
 			}
 		}
-
-		return code;
+                return code;
 	}
-
 	private String getGroupCound(String side) {
 		if (side.equals("west")) {
 			++groupCountWest;
@@ -611,10 +654,7 @@ public class SQM {
 			++groupCountGuer;
 			return String.valueOf(groupCountGuer);
 		}
-
 		++groupCountCiv;
 		return String.valueOf(groupCountCiv);
-
 	}
-
 }
