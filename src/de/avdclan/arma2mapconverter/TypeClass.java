@@ -1,3 +1,7 @@
+/**
+ * @author Konrad
+ */
+
 package de.avdclan.arma2mapconverter;
 
 import java.util.ArrayList;
@@ -63,16 +67,13 @@ public class TypeClass {
 		}
 	}
 
-
 	public TypeClass getParent() {
 		return parent;
 	}
 
-
 	public void setParent(TypeClass parent) {
 		this.parent = parent;
 	}
-
 
 	public int getFullCount() {
 		// TODO Auto-generated method stub
@@ -85,23 +86,16 @@ public class TypeClass {
 		return res;
 	}
 
-
 	public void addWaypoints(Waypoints waypoints) {
 		// TODO Auto-generated method stub
 		setWaypoints(waypoints);
 	}
 
-
 	public Waypoints getWaypoints() {
 		return waypoints;
 	}
 
-
 	public void setWaypoints(Waypoints waypoints) {
 		this.waypoints = waypoints;
-	}
-	
-	
-	
+	}	
 }
-
