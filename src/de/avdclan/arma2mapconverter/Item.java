@@ -1,9 +1,12 @@
 package de.avdclan.arma2mapconverter;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-public class Item {
-	private Position position;
+public class Item 
+{
+	public static int increment = 0;
+        private Position position;
 	private String azimut;
 	private String special = "\"NONE\"";
 	private String id;
@@ -44,6 +47,8 @@ public class Item {
 	private String combat = "\"UNCHANGED\"";
 	private String description;
 	private String showWP="\"NEVER\"";
+        public static ArrayList<String> itemsSync = new ArrayList<>(1000);
+        public ArrayList<Integer> syncItemId = new ArrayList<>(1000);
 
 	public Item(String typeClass) {
 		this.typeClass = typeClass;
@@ -167,10 +172,8 @@ public class Item {
 			return "false";
 		else if(rectangular.equals("1"))
 			return "true";
-		else
-	
+		else	
 			return rectangular;
-
 	}
 
 	public void setRectangular(String rectangular) {
@@ -387,12 +390,10 @@ public class Item {
 	}
 
 	public String getName() {
-		if (name == null) {
-			// generate unique unit name
-			name ="autogen_"
-					+ UUID.randomUUID().toString()
-							.replaceAll("-", "");
-			name = "_obj";
+		if (name == null) 
+                {
+			name = "_obj_"+increment;
+                        increment++;
 		}
 		return name;
 	}
@@ -408,5 +409,21 @@ public class Item {
 	public void setPresenceCondition(String presenceCondition) {
 		this.presenceCondition = presenceCondition;
 	}
-
+        
+        public void setGlobalSyncIdName(int index, String name) {
+            itemsSync.add(index, name);
+        }
+        
+        public String getGlobalSyncIdName(int index) {
+            return itemsSync.get(index);
+        }
+        
+        public void syncLocalItemId(int index)
+        {
+            syncItemId.add(index);
+        }
+        
+        public Integer getLocalSyncIdName(int index) {
+            return syncItemId.get(index);
+        }
 }
