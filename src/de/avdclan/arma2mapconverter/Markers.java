@@ -1,3 +1,7 @@
+/**
+ * @author Konrad
+ */
+
 package de.avdclan.arma2mapconverter;
 
 import java.util.ArrayList;
@@ -21,5 +25,4 @@ public class Markers {
 	public void setSide(String side) {
 		this.side = side;
 	}
-	
 }
