@@ -1,3 +1,8 @@
+/**
+ * @author Konrad
+ * edited by [TFM]RexJoker
+ */
+
 package de.avdclan.arma2mapconverter;
 
 import java.io.File;
@@ -9,14 +14,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.1-beta-[TFM]RexJoker";
+	final static String VERSION = "0.1-beta-ARMA 3";
 	
-	//private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
+	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
-	//	logger.debug("Initializing Arma2MapConverter v" + VERSION + " by [AvD] Rush");
+	logger.debug("Initializing Arma3MapConverter v" + VERSION + " by [AvD] Rush");
 	}
 	
 	public SQM openSQM(File mission) {
@@ -25,7 +30,7 @@ public class Arma2MapConverter {
 			sqm.load(mission);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-	//		logger.error(e);
+			logger.error(e);
 		}
 		return sqm;
 	}
@@ -59,7 +64,7 @@ public class Arma2MapConverter {
 	    } else {
 	    	inputFile = openDialog();
 	    }
-	    //logger.debug("Selected SQM Mission: " + inputFile.getAbsolutePath());
+	    logger.debug("Selected SQM Mission: " + inputFile.getAbsolutePath());
 		Arma2MapConverter a2mc = new Arma2MapConverter();
 		SQM sqm = a2mc.openSQM(inputFile);
 		SQF sqf = sqm.toSQF();
@@ -74,12 +79,12 @@ public class Arma2MapConverter {
 	    } else {
 	    	outputFile = saveDialog();
 	    }
-	    //logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
+	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
 		try {
 			sqf.save(outputFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//logger.error("Could not write to output file: " + e.getLocalizedMessage(), e);
+			logger.error("Could not write to output file: " + e.getLocalizedMessage(), e);
 		}		
 	}
 	
@@ -102,11 +107,11 @@ public class Arma2MapConverter {
 	    if ( state == JFileChooser.APPROVE_OPTION )
 	    {
 	    	File missionFile = fc.getSelectedFile();
-	      //	logger.debug("Selected mission: " + missionFile.getAbsolutePath());
+	      	logger.debug("Selected mission: " + missionFile.getAbsolutePath());
 	      	return missionFile;
 	    }
 	    else {
-	    	//logger.debug("Cancled selection, exiting.");
+	    	logger.debug("Cancled selection, exiting.");
 	    	System.exit( 0 );
 		}
 	    return null;
@@ -133,7 +138,7 @@ public class Arma2MapConverter {
 	      	return missionFile;
 	    }
 	    else {
-	    	//logger.debug("Cancled selection, exiting.");
+	    	logger.debug("Cancled selection, exiting.");
 	    	System.exit( 0 );
 		}
 	    return null;
