@@ -1,3 +1,8 @@
+/**
+ * @author Konrad
+ * edited by [TFM]RexJoker
+ */
+
 package de.avdclan.arma2mapconverter;
 
 import java.util.ArrayList;
@@ -47,8 +52,10 @@ public class Item
 	private String combat = "\"UNCHANGED\"";
 	private String description;
 	private String showWP="\"NEVER\"";
-        public static ArrayList<String> itemsSync = new ArrayList<>(1000);
-        public ArrayList<Integer> syncItemId = new ArrayList<>(1000);
+        //Added by [TFM]RexJoker
+        public static ArrayList<String> itemsSync = new ArrayList<>(500);
+        //Added by [TFM]RexJoker
+        public ArrayList<Integer> syncItemId = new ArrayList<>(500);
 
 	public Item(String typeClass) {
 		this.typeClass = typeClass;
@@ -409,20 +416,20 @@ public class Item
 	public void setPresenceCondition(String presenceCondition) {
 		this.presenceCondition = presenceCondition;
 	}
-        
+        //Added by [TFM]RexJoker
         public void setGlobalSyncIdName(int index, String name) {
             itemsSync.add(index, name);
         }
-        
+        //Added by [TFM]RexJoker
         public String getGlobalSyncIdName(int index) {
             return itemsSync.get(index);
         }
-        
+        //Added by [TFM]RexJoker
         public void syncLocalItemId(int index)
         {
             syncItemId.add(index);
         }
-        
+        //Added by [TFM]RexJoker
         public Integer getLocalSyncIdName(int index) {
             return syncItemId.get(index);
         }
