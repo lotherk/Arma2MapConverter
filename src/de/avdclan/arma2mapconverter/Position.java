@@ -1,3 +1,7 @@
+/**
+ * @author Konrad
+ */
+
 package de.avdclan.arma2mapconverter;
 
 public class Position {
@@ -38,6 +42,5 @@ public class Position {
 
 	public void setZ(String z) {
 		this.z = z;
-	}
-	
+	}	
 }
