@@ -1,3 +1,7 @@
+/**
+ * @author Konrad
+ */
+
 package de.avdclan.arma2mapconverter;
 
 import java.util.ArrayList;
