@@ -1,3 +1,8 @@
+/**
+ * @author Konrad
+ * edited by [TFM]RexJoker
+ */
+
 package de.avdclan.arma2mapconverter;
 
 import java.io.BufferedReader;
@@ -15,7 +20,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.regex.PatternSyntaxException;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 public class SQM {
 
@@ -23,7 +28,7 @@ public class SQM {
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
 	private TypeClass vehicles = new TypeClass("vehicles", null);
-	//private static Logger logger = Logger.getLogger(SQM.class);
+	private static Logger logger = Logger.getLogger(SQM.class);
 	private BufferedReader reader;
 	private int groupCountWest = 0;
 	private int groupCountEast = 0;
@@ -32,7 +37,7 @@ public class SQM {
 	private File source;
 
 	public void load(File mission) throws FileNotFoundException {
-		//logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
+		logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
 		this.source = mission;
 		reader = new BufferedReader(new FileReader(mission));
 		String line;
@@ -47,41 +52,41 @@ public class SQM {
 				}
 				if (type != null) {
 					if (type.equals("Groups")) {
-						//logger.debug("Processing groups... ");
+						logger.debug("Processing groups... ");
 						parse(line, rootType);
-						/*logger.debug("Groups processed. "
+						logger.debug("Groups processed. "
 								+ rootType.getFullCount()
-								+ " Groups processed.");*/
+								+ " Groups processed.");
 					}
 					if (type.equals("Markers")) {
-						//logger.debug("Processing markers... ");
+						logger.debug("Processing markers... ");
 						parse(line, markers);
-						/*logger.debug("Markers processed. "
+						logger.debug("Markers processed. "
 								+ markers.getFullCount()
-								+ " Markers processed.");*/
+								+ " Markers processed.");
 					}
 					if (type.equals("Sensors")) {
-						//logger.debug("Processing triggers... ");
+						logger.debug("Processing triggers... ");
 						parse(line, triggers);
-						/*logger.debug("triggers processed. "
+						logger.debug("triggers processed. "
 								+ triggers.getFullCount()
-								+ " triggers processed.");*/
+								+ " triggers processed.");
 					}
 					if (type.equals("Vehicles")) {
-						//logger.debug("Processing empty vehicles... ");
+						logger.debug("Processing empty vehicles... ");
 						parse(line, vehicles);
-						/*logger.debug("vehicles processed. "
+						logger.debug("vehicles processed. "
 								+ vehicles.getFullCount()
-								+ " vehicles processed.");*/
+								+ " vehicles processed.");
 					}
 				}
 
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//logger.error(e);
+			logger.error(e);
 		}
-		//logger.debug("Loaded.");
+		logger.debug("Loaded.");
 	}             
 
 	/**
@@ -313,7 +318,7 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll("\\;",
 						""));
-                                //Added by Thug Actual/RexJoker 20131205
+                                //Added by [TFM]RexJoker 
 			} else if(line.startsWith("offsetY=")) {
                             String[] tmp = line.split("=", 2);
                             ((Item) parent.getObject()).getPosition().setZ(tmp[1].replaceAll("\\;",""));
@@ -345,7 +350,7 @@ public class SQM {
                                         ((Item) parent.getObject()).syncLocalItemId(scan.nextInt());
                                     }                    
                                 } 
-                            }
+                            }//end of code [TFM]RexJoker
                        } else if(line.startsWith("special=")) {
                            String[] tmp = line.split("=", 2);
                            ((Item) parent.getObject()).setSpecial(tmp[1].replaceAll("\\;",
@@ -359,7 +364,8 @@ public class SQM {
 		SQF sqf = new SQF();
 		String code = ""
 				+ "/**\n"
-				+ " * Converted with Arma2MapConverter v"
+				//+ " * Converted with Arma2MapConverter v" needs to be ARMA 3 since it will only for it. [TFM]RexJoker
+                                + " * Converted with Arma3MapConverter v"
 				+ Arma2MapConverter.VERSION
 				+ "\n"
 				+ " *\n"
@@ -414,6 +420,7 @@ public class SQM {
 								+ UUID.randomUUID().toString()
 										.replaceAll("-", ""));
 					}
+                                        //Switched around MarkerShape and Type. Original author had them backwards.[TFM]RexJoker
 					code += "_marker = createMarker [" + item.getName() + ", ["
 							+ item.getPosition().getX() + ", "
 							+ item.getPosition().getY() + "]];\n"
@@ -435,6 +442,8 @@ public class SQM {
 						code += "_marker setMarkerBrush " + item.getFillName()
 								+ ";\n";
 					}
+                                        //Changed the way the arrays were created. This is way more efficent than the
+                                        //previous authors code.[TFM]RexJoker
 					code += "_createdMarkers set[count _createdMarkers, _marker];\n";
 					code += "\n";
 				}
@@ -472,7 +481,7 @@ public class SQM {
 					if (item.getText() != null) {
 						code += item.getName() + " setTriggerText "
 								+ item.getText() + ";\n";
-					}//Added by ThugActula | RexJoker
+					}//Added by [TFM]RexJoker
                                             code += item.getName() + " synchronizeWaypoint [";
                                             for(int index = 0; index < item.syncItemId.size(); index++)
                                             {
@@ -484,7 +493,8 @@ public class SQM {
                                                code = code.substring(0, code.length()-1);
                                             }
                                             code +="];\n";
-                                        //}
+                                        //}//Changed the way the arrays were created. This is way more efficent than the
+                                        //previous authors code.[TFM]RexJoker
 					code += "_createdTriggers set[count _createdTriggers, " 
 							+ item.getName() + "];\n\n";
                                         ////Finished
@@ -499,7 +509,7 @@ public class SQM {
 								.getGroupName();
 					}
 				}
-				//logger.debug("Adding waypoints for group " + groupName);
+				logger.debug("Adding waypoints for group " + groupName);
 				code += "\n/**\n" + " * Waypoints for group " + groupName
 						+ "\n" + " */\n";
 				for (TypeClass items : tc.getChilds()) {
@@ -602,6 +612,9 @@ public class SQM {
 					if (item.getInit() != null) {
 						/*code += "\t_vehicleInit set [count _vehicleInit, [" + item.getName() + ","
 								+ item.getInit() + "]];\n";*/
+                                                                //BIS use the code above in their 3D editor scripts but for some
+                                                                //reason it doesn't work for this. I lef here in case I figured it out
+                                                                //I could easily make it work here. [TFM]RexJoker
                                                 code += "\tthis = "+item.getName()+";\n";
                                                 code +="\t[] call compile "+item.getInit()+";\n";
 					}
@@ -630,6 +643,8 @@ public class SQM {
 							&& !item.getSide().equals("EMPTY")) {
 						code += "\t"+item.getName()+" setVehicleVarName " + item.getText() + ";\n";
 					}
+                                        //Changed the way the arrays were created. This is way more efficent than the
+                                        //previous authors code.[TFM]RexJoker
 					code += "\t_createdUnits set [count _createdUnits, "
 							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";
