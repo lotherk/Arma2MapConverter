@@ -388,11 +388,16 @@ public class Item {
 
 	public String getName() {
 		if (name == null) {
+			// Fix: if text is empty, generate unique unit name, otherwise return the contents of text field
+			if (text == null){
 			// generate unique unit name
-			name ="autogen_"
+				name ="autogen_"
 					+ UUID.randomUUID().toString()
 							.replaceAll("-", "");
-			name = "_obj";
+				//name = "_obj";
+			} else {
+				name = text.replace("\"", "");				
+			}
 		}
 		return name;
 	}
