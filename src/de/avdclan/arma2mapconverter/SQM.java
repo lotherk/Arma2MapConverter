@@ -191,7 +191,7 @@ public class SQM {
 			} else if (line.startsWith("init=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setInit(tmp[1].substring(0, tmp[1].length()-1));
-			} else if (line.startsWith("text=")) {
+			} else if (line.startsWith("name=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setName(tmp[1]
 						.replaceAll("\\;", ""));
