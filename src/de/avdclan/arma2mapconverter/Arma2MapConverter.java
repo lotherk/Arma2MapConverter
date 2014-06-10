@@ -1,8 +1,3 @@
-/**
- * @author Konrad
- * edited by [TFM]RexJoker
- */
-
 package de.avdclan.arma2mapconverter;
 
 import java.io.File;
@@ -17,7 +12,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.1-beta-ARMA 3";
+	final static String VERSION = "0.6.0-beta";
 	
 	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
