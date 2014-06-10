@@ -1,8 +1,3 @@
-/**
- * @author Konrad
- * edited by [TFM]RexJoker
- */
-
 package de.avdclan.arma2mapconverter;
 
 import java.io.BufferedReader;
