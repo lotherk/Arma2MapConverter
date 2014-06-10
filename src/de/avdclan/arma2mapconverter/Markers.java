@@ -1,6 +1,3 @@
-/**
- * @author Konrad
- */
 
 package de.avdclan.arma2mapconverter;
 
