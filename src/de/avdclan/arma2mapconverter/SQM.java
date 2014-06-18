@@ -15,7 +15,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.regex.PatternSyntaxException;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 public class SQM {
 
@@ -23,7 +23,7 @@ public class SQM {
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
 	private TypeClass vehicles = new TypeClass("vehicles", null);
-	//private static Logger //logger = Logger.getLogger(SQM.class);
+	private static Logger logger = Logger.getLogger(SQM.class);
 	private BufferedReader reader;
 	private int groupCountWest = 0;
 	private int groupCountEast = 0;
@@ -33,7 +33,7 @@ public class SQM {
 	private File source;
 
 	public void load(File mission) throws FileNotFoundException {
-		//logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
+		logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
 		this.source = mission;
 		reader = new BufferedReader(new FileReader(mission));
 		String line;
@@ -48,41 +48,41 @@ public class SQM {
 				}
 				if (type != null) {
 					if (type.equals("Groups")) {
-						//logger.debug("Processing groups... ");
+						logger.debug("Processing groups... ");
 						parse(line, rootType);
-						//logger.debug("Groups processed. "
-								//+ rootType.getFullCount()
-								//+ " Groups processed.");
+						logger.debug("Groups processed. "
+								+ rootType.getFullCount()
+								+ " Groups processed.");
 					}
 					if (type.equals("Markers")) {
-						//logger.debug("Processing markers... ");
+						logger.debug("Processing markers... ");
 						parse(line, markers);
-						//logger.debug("Markers processed. "
-								//+ markers.getFullCount()
-								//+ " Markers processed.");
+						logger.debug("Markers processed. "
+								+ markers.getFullCount()
+								+ " Markers processed.");
 					}
 					if (type.equals("Sensors")) {
-						//logger.debug("Processing triggers... ");
+						logger.debug("Processing triggers... ");
 						parse(line, triggers);
-						//logger.debug("triggers processed. "
-								//+ triggers.getFullCount()
-								//+ " triggers processed.");
+						logger.debug("triggers processed. "
+								+ triggers.getFullCount()
+								+ " triggers processed.");
 					}
 					if (type.equals("Vehicles")) {
-						//logger.debug("Processing empty vehicles... ");
+						logger.debug("Processing empty vehicles... ");
 						parse(line, vehicles);
-						//logger.debug("vehicles processed. "
-								//+ vehicles.getFullCount()
-								//+ " vehicles processed.");
+						logger.debug("vehicles processed. "
+								+ vehicles.getFullCount()
+								+ " vehicles processed.");
 					}
 				}
 
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//logger.error(e);
+			logger.error(e);
 		}
-		//logger.debug("Loaded.");
+		logger.debug("Loaded.");
 	}             
 
 	/**
@@ -525,7 +525,7 @@ public class SQM {
 								.getGroupName();
 					}
 				}
-				//logger.debug("Adding waypoints for group " + groupName);
+				logger.debug("Adding waypoints for group " + groupName);
 				code += "\n/**\n" + " * Waypoints for group " + groupName
 						+ "\n" + " */\n";
 				for (TypeClass items : tc.getChilds()) {
