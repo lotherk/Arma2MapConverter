@@ -15,7 +15,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 public class SQM {
 
@@ -23,16 +23,17 @@ public class SQM {
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
 	private TypeClass vehicles = new TypeClass("vehicles", null);
-	private static Logger logger = Logger.getLogger(SQM.class);
+	//private static Logger //logger = Logger.getLogger(SQM.class);
 	private BufferedReader reader;
 	private int groupCountWest = 0;
 	private int groupCountEast = 0;
 	private int groupCountGuer = 0;
 	private int groupCountCiv = 0;
+       
 	private File source;
 
 	public void load(File mission) throws FileNotFoundException {
-		logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
+		//logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
 		this.source = mission;
 		reader = new BufferedReader(new FileReader(mission));
 		String line;
@@ -47,41 +48,41 @@ public class SQM {
 				}
 				if (type != null) {
 					if (type.equals("Groups")) {
-						logger.debug("Processing groups... ");
+						//logger.debug("Processing groups... ");
 						parse(line, rootType);
-						logger.debug("Groups processed. "
-								+ rootType.getFullCount()
-								+ " Groups processed.");
+						//logger.debug("Groups processed. "
+								//+ rootType.getFullCount()
+								//+ " Groups processed.");
 					}
 					if (type.equals("Markers")) {
-						logger.debug("Processing markers... ");
+						//logger.debug("Processing markers... ");
 						parse(line, markers);
-						logger.debug("Markers processed. "
-								+ markers.getFullCount()
-								+ " Markers processed.");
+						//logger.debug("Markers processed. "
+								//+ markers.getFullCount()
+								//+ " Markers processed.");
 					}
 					if (type.equals("Sensors")) {
-						logger.debug("Processing triggers... ");
+						//logger.debug("Processing triggers... ");
 						parse(line, triggers);
-						logger.debug("triggers processed. "
-								+ triggers.getFullCount()
-								+ " triggers processed.");
+						//logger.debug("triggers processed. "
+								//+ triggers.getFullCount()
+								//+ " triggers processed.");
 					}
 					if (type.equals("Vehicles")) {
-						logger.debug("Processing empty vehicles... ");
+						//logger.debug("Processing empty vehicles... ");
 						parse(line, vehicles);
-						logger.debug("vehicles processed. "
-								+ vehicles.getFullCount()
-								+ " vehicles processed.");
+						//logger.debug("vehicles processed. "
+								//+ vehicles.getFullCount()
+								//+ " vehicles processed.");
 					}
 				}
 
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			logger.error(e);
+			//logger.error(e);
 		}
-		logger.debug("Loaded.");
+		//logger.debug("Loaded.");
 	}             
 
 	/**
@@ -94,7 +95,8 @@ public class SQM {
 	 * @param input throw PatternSyntaxException
 	 * @throws IOException
 	 */
-	private void parse(String input, TypeClass parent) throws IOException, PatternSyntaxException {
+	private void parse(String input, TypeClass parent) throws IOException, PatternSyntaxException {               
+            
 		String line = input.replaceAll("^\\s+", "");
 		if (line.startsWith("class")) {
 
@@ -400,6 +402,25 @@ public class SQM {
 
 	private String generateSQF(TypeClass typeClass) {
 		String code = "";
+                ArrayList<String> mineList = new ArrayList<>();
+                mineList.add("APERSBoundingMine");
+                mineList.add("APERSMine");
+                mineList.add("APERSTripMine");
+                mineList.add("ATMine");
+                mineList.add("placed_chemlight_blue");
+                mineList.add("placed_chemlight_green");
+                mineList.add("placed_chemlight_red");
+                mineList.add("placed_chemlight_yellow");
+                mineList.add("Claymore_F");
+                mineList.add("DemoCharge_F");
+                mineList.add("SatchelCharge_F");
+                mineList.add("placed_O_IR_grenade");
+                mineList.add("placed_I_IR_grenade");
+                mineList.add("placed_B_IR_grenade");
+                mineList.add("SLAMDirectionalMine");
+                mineList.add("UnderwaterMineAB");
+                mineList.add("UnderwaterMine");
+                mineList.add("UnderwaterMinePDM");
 
 		int groupCount = 0;
 		for (TypeClass tc : typeClass.getChilds()) {
@@ -504,7 +525,7 @@ public class SQM {
 								.getGroupName();
 					}
 				}
-				logger.debug("Adding waypoints for group " + groupName);
+				//logger.debug("Adding waypoints for group " + groupName);
 				code += "\n/**\n" + " * Waypoints for group " + groupName
 						+ "\n" + " */\n";
 				for (TypeClass items : tc.getChilds()) {
@@ -548,7 +569,6 @@ public class SQM {
 				}
 			}
 			if (tc.equals("Vehicles")) {
-
 				String side = ((Vehicle) tc.getObject()).getSide()
 						.toLowerCase();
 				String group = "_group_" + side + "_" + getGroupCound(side);
@@ -570,10 +590,26 @@ public class SQM {
 							+ group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";
 					if (item.getSide().equals("EMPTY")) {
+                                            //Mines can't be added using createVehicle have to use createMine
+                                            //Below is an example from ARMA 3D editor when a mine was used.
+                                            //_mine_0 = createMine ["APERSTripMine", [10741.387, 11156.012, 0], [], 0];
+                                            if(mineList.contains(item.getVehicle()))
+                                            {
+                                                code += "\n" + "\t" + item.getName()
+                                                            + " = createMine ["+item.getVehicle()
+                                                            + ", " + item.getPosition()
+                                                            + ", [], " + item.getPlacement()+ "];\n";
+                                            }
+                                            else
+                                            {
+                                            //search array for mine class list then set up different procedures
+                                            //copied from BIS - 
+                                            
 						code += "\n" + "\t" + item.getName()
 								+ " = createVehicle [" + item.getVehicle()
 								+ ", " + item.getPosition()
 								+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() + "];\n";
+                                            }
 					} else {
 						code += "\n" + "\t"
 								+ item.getName()
