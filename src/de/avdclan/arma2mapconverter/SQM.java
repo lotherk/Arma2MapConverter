@@ -171,7 +171,7 @@ public class SQM {
 				z = tmp[1];
 				y = tmp[2].replaceAll("\\}\\;", "");
 				((Item) parent.getObject())
-						.setPosition(new Position(x, y, "0"));
+						.setPosition(new Position(x, y, z));
 			}
 			if (line.startsWith("id=")) {
 				String[] tmp = line.split("=", 2);
