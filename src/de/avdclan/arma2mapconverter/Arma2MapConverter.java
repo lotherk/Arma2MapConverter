@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
 	final static String VERSION = "0.5.2-beta";
+	static File inputFile = new File("");
 	
 	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
@@ -50,7 +51,6 @@ public class Arma2MapConverter {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		File inputFile = null;
 	    if(args.length > 0) {
 	    	inputFile = new File(args[0]);
 	    	if(! inputFile.exists()) {
@@ -115,6 +115,8 @@ public class Arma2MapConverter {
 	private static File saveDialog() {
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle("Arma2MapConverter v" + VERSION + ": save to sqf script");
+		fc.setCurrentDirectory(inputFile);
+		fc.setSelectedFile(new File("convertedMission.sqf"));
 	    fc.setFileFilter( new FileFilter()
 	    {
 	      @Override public boolean accept( File f )
