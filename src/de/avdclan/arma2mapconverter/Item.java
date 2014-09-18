@@ -11,6 +11,7 @@ public class Item {
 	private String typeClass;
 	private String side;
 	private String leader;
+	private String player;
 	private String skill;
 	private String init;
 	private String type;
@@ -353,6 +354,14 @@ public class Item {
 	public void setLeader(String leader) {
 		this.leader = leader;
 	}
+	
+	public String getPlayer() {
+		return player;
+	}
+	
+	public void setPlayer(String player) {
+		this.player = player;
+	}
 
 	public String getSkill() {
 		return skill;
@@ -388,11 +397,16 @@ public class Item {
 
 	public String getName() {
 		if (name == null) {
+			// Fix: if text is empty, generate unique unit name, otherwise return the contents of text field
+			if (text == null){
 			// generate unique unit name
-			name ="autogen_"
+				name ="autogen_"
 					+ UUID.randomUUID().toString()
 							.replaceAll("-", "");
-			name = "_obj";
+				//name = "_obj";
+			} else {
+				name = text.replace("\"", "");				
+			}
 		}
 		return name;
 	}

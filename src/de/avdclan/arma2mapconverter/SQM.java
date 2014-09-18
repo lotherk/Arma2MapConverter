@@ -192,6 +192,10 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setLeader(tmp[1].replaceAll("\\;",
 						""));
+			}  else if (line.startsWith("player=")) {
+				String[] tmp = line.split("=", 2);
+				((Item) parent.getObject()).setPlayer(tmp[1].replaceAll("\\;",
+						""));
 			} else if (line.startsWith("init=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setInit(tmp[1]);
@@ -515,7 +519,10 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
-					
+					//Do not include player slots
+					if ( item.getPlayer() != null ) {
+						continue;
+					}
 					code += "// begin " + item.getName() + ", part of group "
 							+ group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";
@@ -555,9 +562,15 @@ public class SQM {
 								+ "\t};\n\n";
 
 					}
+					
+					// Fix: setVehicleInit is not supported any more.
+//					if (item.getInit() != null) {
+//						code += "\t" + item.getName() + " setVehicleInit "
+//								+ item.getInit() + ";\n";
+//					}
+					
 					if (item.getInit() != null) {
-						code += "\t" + item.getName() + " setVehicleInit "
-								+ item.getInit() + ";\n";
+						code += "\t" + fixInitCode(item.getInit()).replace("this",item.getName()) + "\n";
 					}
 
 					if (item.getAzimut() != null) {
@@ -580,10 +593,11 @@ public class SQM {
 						code += "\tif(true) then { " + group + " selectLeader "
 								+ item.getName() + "; };\n";
 					}
-					if (item.getText() != null
-							&& !item.getSide().equals("EMPTY")) {
-						code += "\tsetVehicleVarName \"" + item.getText() + "\";\n";
-					}
+//					if (item.getText() != null
+//							&& !item.getSide().equals("EMPTY")) {
+//						code += "\tsetVehicleVarName \"" + item.getText().replace("\"", "") + "\";\n";
+//					}
+					
 					code += "\t_createdUnits = _createdUnits + ["
 							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";
@@ -617,4 +631,15 @@ public class SQM {
 
 	}
 
+	private String fixInitCode(String text){
+		String result = new String(text);
+		
+		if (result.startsWith("\""))
+			result = result.substring(1);
+		
+		if (result.endsWith("\";"))
+			result = result.substring(0, result.length()-2);
+		
+		return result;
+	}
 }
