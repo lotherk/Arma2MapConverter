@@ -179,8 +179,6 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				String id = tmp[1].replaceAll("\\;", "");
 				((Item) parent.getObject()).setId(id);
-				//Delete unit from the mission.sqm
-				missionTrimmer.deleteUnit(id);
 			} else if (line.startsWith("side=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setSide(tmp[1]
@@ -528,6 +526,9 @@ public class SQM {
 					if ( item.getPlayer() != null ) {
 						continue;
 					}
+					//Delete unit from the mission.sqm
+					missionTrimmer.deleteUnit(item.getId());
+					
 					code += "// begin " + item.getName() + ", part of group "
 							+ group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";

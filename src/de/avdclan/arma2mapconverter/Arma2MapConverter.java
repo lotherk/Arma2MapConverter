@@ -8,7 +8,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JOptionPane;
-
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
@@ -72,8 +71,8 @@ public class Arma2MapConverter {
 		File outputFile = new File(missionTrimmer.getOutputDir()+"/"+SCRIPT_NAME);
 	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
 		try {
+			missionTrimmer.writeMission();			
 			sqf.save(outputFile);
-			missionTrimmer.writeMission();
 		} catch (IOException e) {
 			String errorMessage = "Could not write to output file: " + e.getLocalizedMessage();
 			logger.error(errorMessage, e);

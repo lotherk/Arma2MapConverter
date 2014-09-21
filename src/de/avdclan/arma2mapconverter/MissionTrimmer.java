@@ -8,7 +8,10 @@ package de.avdclan.arma2mapconverter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
+import org.arma.sqmparser.Parameter;
 import org.arma.sqmparser.SQMParser;
 import org.arma.sqmparser.ClassNode;
 import org.apache.commons.io.FileUtils;
@@ -35,6 +38,20 @@ public class MissionTrimmer {
 		//Add prefix in between map name.
 		String newDirName = missionDirName.replace("."+mapName, MISSION_PREFIX+"."+mapName);
 		outputDir_ = new File(missionsDirPath+"/"+newDirName);
+		ArrayList<ClassNode> intels = parser_.getClassesByName("Intel");
+		for (ClassNode intel : intels) 
+		{
+			Parameter parameter = intel.getParameter("briefingName");
+			if (parameter != null)
+			{
+				String newMissionName = parameter.getValue();
+				//Strip quotation marks
+				newMissionName = parameter.getValue().substring(1, newMissionName.length()-1);
+				newMissionName = "\"" + newMissionName+" (HEADLESS)\"";
+				parameter.setValue(newMissionName);
+				intel.updateText();
+			}
+		}
 		logger.debug("missionDirName="+missionDirName+
 				" mapName="+mapName+" missionsDirPath="+missionsDirPath+
 				" newDirName="+newDirName+
@@ -54,7 +71,6 @@ public class MissionTrimmer {
 		String initString = FileUtils.readFileToString(initFile);
 		initString = initString.replaceFirst(SCRIPT_MARKER, "[] execVM \""+SCRIPT_FILE_NAME+"\";");
 		FileUtils.writeStringToFile(initFile, initString);
-		
 	}
 	
 	public String getOutputDir() {

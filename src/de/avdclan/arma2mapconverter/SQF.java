@@ -8,6 +8,7 @@ public class SQF {
 	private String code;
 	
 	public void save(File file) throws IOException {
+		file.createNewFile();
 		FileWriter fw = new FileWriter(file);
 		fw.write(code);
 		fw.flush();
@@ -24,8 +25,4 @@ public class SQF {
 	public String toString() {
 		return getCode();
 	}
-	
-
-	
-
 }
