@@ -5,18 +5,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
 public class SQM {
-
+	//TODO: Verify that player groups are not spawned by the headless.
+	//TODO: Integrate with SQMParser
 	private TypeClass rootType = new TypeClass("units", null);
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
@@ -28,9 +25,11 @@ public class SQM {
 	private int groupCountGuer = 0;
 	private int groupCountCiv = 0;
 	private File source;
-
+	private MissionTrimmer missionTrimmer;
+	
 	public void load(File mission) throws FileNotFoundException {
 		logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
+		missionTrimmer = new MissionTrimmer(mission.getAbsolutePath());
 		this.source = mission;
 		reader = new BufferedReader(new FileReader(mission));
 		String line;
@@ -65,24 +64,27 @@ public class SQM {
 								+ triggers.getFullCount()
 								+ " triggers processed.");
 					}
-					if (type.equals("Vehicles")) {
+					/*if (type.equals("Vehicles")) {
 						logger.debug("Processing empty vehicles... ");
 						parse(line, vehicles);
 						logger.debug("vehicles processed. "
 								+ vehicles.getFullCount()
 								+ " vehicles processed.");
-					}
+					}*/
 				}
 
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			logger.error(e);
 		}
 
 		logger.debug("Loaded.");
 	}
 
+	public MissionTrimmer getMissionTrimmer() {
+		return missionTrimmer;
+	}
+	
 	/**
 	 * This is the parsing algorithm. If you know a better way, feel free to
 	 * change it.
@@ -175,7 +177,10 @@ public class SQM {
 			}
 			if (line.startsWith("id=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setId(tmp[1].replaceAll("\\;", ""));
+				String id = tmp[1].replaceAll("\\;", "");
+				((Item) parent.getObject()).setId(id);
+				//Delete unit from the mission.sqm
+				missionTrimmer.deleteUnit(id);
 			} else if (line.startsWith("side=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setSide(tmp[1]

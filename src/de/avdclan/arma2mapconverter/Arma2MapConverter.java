@@ -3,21 +3,26 @@ package de.avdclan.arma2mapconverter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.5.2-beta";
+	//TODO: Open directory instead of mission.sqm
+	//TODO: Add init.sqf not found message error dialog
+	//TODO: Add script position not marked by //HEADLESS_SPAWN_SCRIPT_LOCATION error dialog
+	//TODO: Add mission.sqm error dialog
+	final static String VERSION = "0.6.0-beta";
+	final static String SCRIPT_NAME = "spawnHeadlessObjects.sqf";
 	static File inputFile = new File("");
 	
 	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
-		logger.debug("Initializing Arma2MapConverter v" + VERSION + " by [AvD] Rush");
+		logger.debug("Initializing Arma2MapConverter v" + VERSION + " by [AvD] Rush & Hoxzer");
 	}
 	
 	public SQM openSQM(File mission) {
@@ -25,7 +30,6 @@ public class Arma2MapConverter {
 		try {
 			sqm.load(mission);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			logger.error(e);
 		}
 		return sqm;
@@ -39,16 +43,12 @@ public class Arma2MapConverter {
 			 UIManager.setLookAndFeel(
 			            UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    if(args.length > 0) {
@@ -63,25 +63,22 @@ public class Arma2MapConverter {
 		Arma2MapConverter a2mc = new Arma2MapConverter();
 		SQM sqm = a2mc.openSQM(inputFile);
 		SQF sqf = sqm.toSQF();
-	    
 
-		File outputFile = null;
-	    if(args.length > 1) {
-	    	outputFile = new File(args[1]);
-	    	if(! outputFile.exists()) {
-	    		outputFile = saveDialog();
-	    	}
-	    } else {
-	    	outputFile = saveDialog();
-	    }
+		//Write edited mission.
+		MissionTrimmer missionTrimmer = sqm.getMissionTrimmer();
+		missionTrimmer.deleteMarkers();
+		missionTrimmer.deleteTriggers();
+		missionTrimmer.deleteWaypoints();
+		File outputFile = new File(missionTrimmer.getOutputDir()+"/"+SCRIPT_NAME);
 	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
 		try {
 			sqf.save(outputFile);
+			missionTrimmer.writeMission();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.error("Could not write to output file: " + e.getLocalizedMessage(), e);
+			String errorMessage = "Could not write to output file: " + e.getLocalizedMessage();
+			logger.error(errorMessage, e);
+			JOptionPane.showMessageDialog(null, errorMessage);
 		}
-		
 	}
 	
 	private static File openDialog() {
@@ -112,35 +109,4 @@ public class Arma2MapConverter {
 		}
 	    return null;
 	}
-	private static File saveDialog() {
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Arma2MapConverter v" + VERSION + ": save to sqf script");
-		fc.setCurrentDirectory(inputFile);
-		fc.setSelectedFile(new File("convertedMission.sqf"));
-	    fc.setFileFilter( new FileFilter()
-	    {
-	      @Override public boolean accept( File f )
-	      {
-	        return f.isDirectory() ||
-	          f.getName().toLowerCase().endsWith( ".sqf" );
-	      }
-	      @Override public String getDescription()
-	      {
-	        return "SQF File";
-	      }
-	    } );
-	    int state = fc.showSaveDialog( null );
-	    if ( state == JFileChooser.APPROVE_OPTION )
-	    {
-	    	File missionFile = fc.getSelectedFile();
-	      	return missionFile;
-	    }
-	    else {
-	    	logger.debug("Cancled selection, exiting.");
-	    	System.exit( 0 );
-		}
-	    return null;
-
-	}
-
 }
