@@ -11,10 +11,6 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	//TODO: Open directory instead of mission.sqm
-	//TODO: Add init.sqf not found message error dialog
-	//TODO: Add script position not marked by //HEADLESS_SPAWN_SCRIPT_LOCATION error dialog
-	//TODO: Add mission.sqm error dialog
 	final static String VERSION = "0.6.0-beta";
 	final static String SCRIPT_NAME = "spawnHeadlessObjects.sqf";
 	static File inputFile = new File("");
@@ -70,9 +66,16 @@ public class Arma2MapConverter {
 		missionTrimmer.deleteWaypoints();
 		File outputFile = new File(missionTrimmer.getOutputDir()+"/"+SCRIPT_NAME);
 	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
-		try {
-			missionTrimmer.writeMission();			
-			sqf.save(outputFile);
+		String verifyError  = null;
+	    try {
+			verifyError = missionTrimmer.writeMission();
+		    if (verifyError == null) {
+		    	//Mission verified
+				sqf.save(outputFile);
+		    }
+		    else {
+				JOptionPane.showMessageDialog(null, verifyError);	    	
+		    }
 		} catch (IOException e) {
 			String errorMessage = "Could not write to output file: " + e.getLocalizedMessage();
 			logger.error(errorMessage, e);

@@ -522,8 +522,8 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
-					//Do not include player slots
-					if ( item.getPlayer() != null ) {
+					//Do not include player slots or modules
+					if ( item.getPlayer() != null || item.getSide().equals("LOGIC") ) {
 						continue;
 					}
 					//Delete unit from the mission.sqm
@@ -568,22 +568,15 @@ public class SQM {
 								+ "\t};\n\n";
 
 					}
-					
 					// Fix: setVehicleInit is not supported any more.
 //					if (item.getInit() != null) {
 //						code += "\t" + item.getName() + " setVehicleInit "
 //								+ item.getInit() + ";\n";
 //					}
-					
-					if (item.getInit() != null) {
-						code += "\t" + fixInitCode(item.getInit()).replace("this",item.getName()) + "\n";
-					}
-
 					if (item.getAzimut() != null) {
 						code += "\t" + item.getName() + " setDir "
 								+ item.getAzimut() + ";\n";
 					}
-
 					if (item.getSkill() != null
 							&& !item.getSide().equals("EMPTY")) {
 						code += "\t" + item.getName() + " setUnitAbility "
@@ -598,6 +591,9 @@ public class SQM {
 							&& !item.getSide().equals("EMPTY")) {
 						code += "\tif(true) then { " + group + " selectLeader "
 								+ item.getName() + "; };\n";
+					}
+					if (item.getInit() != null) {
+						code += "\t" + fixInitCode(item.getInit()).replace("this",item.getName()) + "\n";
 					}
 //					if (item.getText() != null
 //							&& !item.getSide().equals("EMPTY")) {
@@ -645,6 +641,13 @@ public class SQM {
 		
 		if (result.endsWith("\";"))
 			result = result.substring(0, result.length()-2);
+
+		//Init does not need to end with ";" but the code needs to.
+		if (!result.endsWith(";"))
+			result = result+";";
+		
+		//Replace Double quotes with single quotes
+		result = result.replaceAll("\"\"","\"");
 		
 		return result;
 	}

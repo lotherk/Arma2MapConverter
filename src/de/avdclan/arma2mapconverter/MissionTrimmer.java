@@ -23,14 +23,12 @@ public class MissionTrimmer {
 	private File outputDir_ = null;
 	private static Logger logger = Logger.getLogger(MissionTrimmer.class);
 	private static final String MISSION_PREFIX = "_headless";
-	private static final String SCRIPT_MARKER = "//HEADLESS_SPAWN_SCRIPT_LOCATION";
+	private static final String SCRIPT_MARKER = "//HEADLESS_SCRIPT";
 	private static final String SCRIPT_FILE_NAME = "spawnHeadlessObjects.sqf";
 	
 	public MissionTrimmer(String inputFilePath) {
 		readFile(inputFilePath);
 		inputFile_ = new File(inputFilePath);
-		//TODO: Check if init.sqf exists
-		//TODO: Check if init.sqf is tagged
 		inputDir_ = inputFile_.getParentFile();
 		String missionDirName = inputDir_.getName();
 		String mapName = missionDirName.replaceFirst(".*\\.", "");
@@ -64,13 +62,32 @@ public class MissionTrimmer {
 		parser_.parseFile(filePath);		
 	}
 	
-	public void writeMission() throws IOException {
+	private String verify() throws IOException {
+		File initFile = new File(inputDir_+"/init.sqf");
+		if (!initFile.exists())
+		{
+			return "No init.sqf file found!";
+		}
+		String init = FileUtils.readFileToString(initFile);
+		if (!init.contains(SCRIPT_MARKER)) {
+			return "The headless spawn script location is not marked."+
+					" Please add line: \""+SCRIPT_MARKER+"\" somewhere in your init.sqf.";
+		}
+		return null;
+	}
+	
+	public String writeMission() throws IOException {
+		String errorMessage = verify();
+		if (errorMessage != null) {
+			return errorMessage;
+		}
 		FileUtils.copyDirectory(inputDir_, outputDir_);
 		parser_.write(outputDir_+"/mission.sqm");
 		File initFile = new File(outputDir_+"/init.sqf");
 		String initString = FileUtils.readFileToString(initFile);
 		initString = initString.replaceFirst(SCRIPT_MARKER, "[] execVM \""+SCRIPT_FILE_NAME+"\";");
 		FileUtils.writeStringToFile(initFile, initString);
+		return null;
 	}
 	
 	public String getOutputDir() {
