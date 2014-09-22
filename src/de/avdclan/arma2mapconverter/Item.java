@@ -1,7 +1,5 @@
 package de.avdclan.arma2mapconverter;
 
-import java.util.UUID;
-
 public class Item {
 	private Position position;
 	private String azimut;

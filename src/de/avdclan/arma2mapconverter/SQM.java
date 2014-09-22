@@ -168,10 +168,9 @@ public class SQM {
 			if (line.startsWith("position[]=")) {
 				String[] tmp = line.split("=", 2);
 				tmp = tmp[1].split(",", 3);
-				String x, y, z;
-				x = tmp[0].replaceAll("\\{", "");
-				z = tmp[1];
-				y = tmp[2].replaceAll("\\}\\;", "");
+				String x = tmp[0].replaceAll("\\{", "");
+				//String z = tmp[1];
+				String y = tmp[2].replaceAll("\\}\\;", "");
 				((Item) parent.getObject())
 						.setPosition(new Position(x, y, "0"));
 			}
@@ -378,12 +377,9 @@ public class SQM {
 	private String generateSQF(TypeClass typeClass) {
 		String code = "";
 
-		int groupCount = 0;
 		for (TypeClass tc : typeClass.getChilds()) {
 
 			if (tc.equals("Markers")) {
-				String side = ((Markers) tc.getObject()).getSide()
-						.toLowerCase();
 				for (TypeClass items : tc.getChilds()) {
 					Item item = (Item) items.getObject();
 					if (item.getName() == null) {

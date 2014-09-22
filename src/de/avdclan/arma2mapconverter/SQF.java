@@ -12,6 +12,7 @@ public class SQF {
 		FileWriter fw = new FileWriter(file);
 		fw.write(code);
 		fw.flush();
+		fw.close();
 	}
 
 	public String getCode() {
