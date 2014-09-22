@@ -81,6 +81,7 @@ public class Arma2MapConverter {
 			logger.error(errorMessage, e);
 			JOptionPane.showMessageDialog(null, errorMessage);
 		}
+	    JOptionPane.showMessageDialog(null, "Headless compatible mission created in: "+missionTrimmer.getOutputDir());
 	}
 	
 	private static File openDialog() {
