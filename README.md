@@ -1,38 +1,32 @@
 Arma2MapConverter
 =================
 
-Convert ArmA 2 2D Maps into SQF (3D Editor)
+Convert ArmA 2 and 3 missions into headless compatible missions.
 
-This program reads a mission.sqm and converts it into SQF code. The resulting SQF code can 
-then be called within your scripts.
+This program reads a mission.sqm and creates a new mission in which all of the AI units are spawned through headless client. The headless client compatible mission should be identicalw ith the original mission as long as the headless client is present.
 
 Currently working:
 
-	- Converting units, groups and vehicles (also empty vehicles).
-	- Converting markers and triggers
-	- Converting waypoints
-	
-What's not working:
-
-	- Converting modules.
-	
-Known Bugs
-==========
-The converter does currently not ask you if the save file does already exist. It will just overwrite the file.
+- Converting units, groups and manned vehicles
+- Converting waypoints
 
 Usage
 =====
 
-	1. Create your map in 2D Editor
-	2. Open the saved mission.sqm with Arma2MapConverter
-	3. Specify a save location.
-	4. Done
+	1. Create new mission
+	2. Create init.sqf script in the mission directory
+	3. Add line: "//HEADLESS_SCRIPT" in the init.sqf. This line is replaced by the headless spawn script execution on conversion.
+	4. Open the saved mission.sqm with Arma2MapConverter
+	5. Done
 	
-	You then have to call the resulting .sqf Script within your scripts, e.g. init.sqf
-	
-		execVM "path\to\converted.sqf";
-		
-	
-	
-Discussion on ArmAholic forum:
+Updates from the original a2mc
+==============================
+- Creates totally new mission "Mission Name (HEADLESS)"
+- Removes headless spawnable units from the mission.sqm
+- Does not spawn players slots nor logic modules on headless
+- Size of the headless spawn script greatly reduced
+- Simplified Headless spawn script
+
+
+Original Arma2MapConverter(by Lotherk) discussion on ArmAholic forum:
 http://www.armaholic.com/forums.php?m=posts&q=19530
