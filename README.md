@@ -3,7 +3,7 @@ Arma2MapConverter
 
 Convert ArmA 2 and 3 missions into headless compatible missions.
 
-This program reads a mission.sqm and creates a new mission in which all of the AI units are spawned through headless client. The headless client compatible mission should be identicalw ith the original mission as long as the headless client is present.
+This program reads a mission.sqm and creates a new mission in which all of the AI units are spawned through headless client. The headless client compatible mission should be identical with the original mission as long as the headless client is present.
 
 Currently working:
 
