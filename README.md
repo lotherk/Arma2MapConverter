@@ -12,7 +12,7 @@ Currently working:
 
 Currently not working:
 
-- Converting waypoint synchronization. 
+- Converting synchronization. 
 
 Usage
 =====
