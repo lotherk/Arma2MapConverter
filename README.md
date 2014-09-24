@@ -10,6 +10,10 @@ Currently working:
 - Converting units, groups and manned vehicles
 - Converting waypoints
 
+Currently not working:
+
+- Converting waypoint synchronization. 
+
 Usage
 =====
 
