@@ -12,9 +12,12 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.arma.sqmparser.Parameter;
+import org.arma.sqmparser.SQMArray;
 import org.arma.sqmparser.SQMParser;
 import org.arma.sqmparser.ClassNode;
 import org.apache.commons.io.FileUtils;
+
+import de.avdclan.arma2mapconverter.Synchronizable.SubTypes;
 
 public class MissionTrimmer {
 	private SQMParser parser_;
@@ -114,6 +117,20 @@ public class MissionTrimmer {
 	
 	public void deleteWaypoints() {
 		deleteByClassName("Waypoints");
+	}
+	
+	/**
+	 * Updates mission.sqm trigger name
+	 */
+	public void updateTrigger(Item trigger) {
+		Position pos = trigger.getPosition();
+		ArrayList<String> values = new ArrayList<String>();
+		values.add(pos.getX());
+		values.add(pos.getZ());
+		values.add(pos.getY());
+		ClassNode wp = parser_.getClassByArray("position", values);
+		wp.setParameter("name", "\""+ trigger.getName() + "\"");
+		logger.debug("Renamed wp name="+trigger.getName());
 	}
 	
 	public void deleteTriggers() {

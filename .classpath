@@ -8,6 +8,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Arma2MapConverter/lib/commons-io-2.4/commons-io-2.4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/SQMParser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SQMParser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
