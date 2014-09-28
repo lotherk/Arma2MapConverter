@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 import de.avdclan.arma2mapconverter.Synchronizable.SubTypes;
@@ -14,11 +15,11 @@ import org.apache.log4j.Logger;
 
 public class SQM {
 	//TODO: Verify that player groups are not spawned by the headless.
-	//TODO: Integrate with SQMParser
 	private TypeClass rootType = new TypeClass("units", null);
 	private TypeClass markers = new TypeClass("markers", null);
 	private TypeClass triggers = new TypeClass("triggers", null);
-	private TypeClass vehicles = new TypeClass("vehicles", null);
+	//private TypeClass vehicles = new TypeClass("vehicles", null);
+	private ArrayList<Item> modules = new ArrayList<Item>();
 	private static Logger logger = Logger.getLogger(SQM.class);
 	private BufferedReader reader;
 	private int groupCountWest = 0;
@@ -29,6 +30,7 @@ public class SQM {
 	private MissionTrimmer missionTrimmer;
 	
 	public void load(File mission) throws FileNotFoundException {
+		//TODO: Integrate with SQMParser
 		logger.debug("Loading SQM Mission: " + mission.getAbsolutePath());
 		missionTrimmer = new MissionTrimmer(mission.getAbsolutePath());
 		this.source = mission;
@@ -347,16 +349,13 @@ public class SQM {
 				+ " * Date: "
 				+ DateFormat.getInstance().format(
 						Calendar.getInstance().getTime()) + "\n" + " */\n\n";
-		code += "private[\"_westHQ\",\"_eastHQ\",\"_guerHQ\",\"_civHQ\",\"_emptyHQ\","
-				+ "\"_createdUnits\",\"_createdTriggers\",\"_createdMarkers\",\"_marker\",\"_wp\"];\n\n";
+		code += "private[\"_westHQ\",\"_eastHQ\",\"_guerHQ\",\"_civHQ\",\"_createdUnits\",\"_wp\"];\n\n";
 		code += "_westHQ = createCenter west;\n"
 				+ "_eastHQ = createCenter east;\n"
 				+ "_guerHQ = createCenter resistance;\n"
-				+ "_civHQ  = createCenter civilian;\n"
-				+ "_emptyHQ = createCenter civilian;\n\n";
+				+ "_civHQ  = createCenter civilian;\n";
 
-		code += "\n_createdUnits = [];\n" + "_createdMarkers = [];\n"
-				+ "_createdTriggers = [];\n";
+		code += "\n_createdUnits = [];\n";
 
 		//code += "\n/*******************\n" + " * MARKER CREATION *\n"
 		//		+ " *******************/\n";
@@ -369,8 +368,10 @@ public class SQM {
 		code += generateSQF(rootType);
 		code += "\n/********************\n" + " * TRIGGER SYNCHRONIZATION *\n"
 				+ " ********************/\n";
-		;
 		code += generateSQF(triggers);
+		code += "\n/********************\n" + " * MODULE SYNCHRONIZATION *\n"
+				+ " ********************/\n";
+		code += generateModuleSyncSQF();
 		code += "\n// return all created units in an array\n"
 				+ "[_createdUnits]\n";
 		sqf.setCode(code);
@@ -533,7 +534,15 @@ public class SQM {
 
 					Item item = (Item) items.getObject();
 					//Do not include player slots or modules
-					if ( item.getPlayer() != null || item.getSide().equals("LOGIC") ) {
+					if ( item.getPlayer() != null ) {
+						continue;
+					}
+					if (item.getSide().equals("LOGIC")) {
+						//Registers unit as a logic module for syncing
+						//Assures logic module has a name so it can be
+						//referenced in the SQF-script
+						modules.add(item);
+						missionTrimmer.updateModule(item);
 						continue;
 					}
 					item.setSubtype(SubTypes.UNIT);
@@ -629,6 +638,16 @@ public class SQM {
 		return code;
 	}
 
+	private String generateModuleSyncSQF() {
+		String code = "";
+		for (Item module : modules) {
+			module.generatePublicName();
+			module.setSubtype(SubTypes.UNIT);
+			code += module.getSyncSQF();
+		}
+		return code;
+	}
+	
 	private String getGroupCound(String side) {
 		if (side.equals("west")) {
 			++groupCountWest;

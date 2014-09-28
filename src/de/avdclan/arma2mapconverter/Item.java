@@ -4,7 +4,6 @@ public class Item extends Synchronizable {
 	private Position position;
 	private String azimut;
 	private String special = "\"NONE\"";
-	private String id;
 	private String vehicle;
 	private String typeClass;
 	private String side;
@@ -312,14 +311,6 @@ public class Item extends Synchronizable {
 
 	public void setSpecial(String special) {
 		this.special = special;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getVehicle() {

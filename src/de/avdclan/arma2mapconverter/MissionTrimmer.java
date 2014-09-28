@@ -128,9 +128,16 @@ public class MissionTrimmer {
 		values.add(pos.getX());
 		values.add(pos.getZ());
 		values.add(pos.getY());
-		ClassNode wp = parser_.getClassByArray("position", values);
-		wp.setParameter("name", "\""+ trigger.getName() + "\"");
-		logger.debug("Renamed wp name="+trigger.getName());
+		ClassNode trg = parser_.getClassByArray("position", values);
+		trg.setParameter("name", "\"" + trigger.getName() + "\"");
+		logger.debug("Renamed trg name="+trigger.getName());
+	}
+	
+	public void updateModule(Item module) {
+		ClassNode sqmMod = parser_.getClassByParameter("id", module.getId());
+		module.generatePublicName();
+		sqmMod.setParameter("name", "\"" + module.getName() + "\"");
+		logger.debug("Renamed module name="+module.getName());
 	}
 	
 	public void deleteTriggers() {
