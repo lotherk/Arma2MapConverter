@@ -82,6 +82,7 @@ public class MissionTrimmer {
 			return errorMessage;
 		}
 		FileUtils.copyDirectory(inputDir_, outputDir_);
+		removeEmptyGroups();
 		parser_.write(outputDir_+"/mission.sqm");
 		File initFile = new File(outputDir_+"/init.sqf");
 		String initString = FileUtils.readFileToString(initFile);
@@ -162,5 +163,25 @@ public class MissionTrimmer {
 		}
 		headlessSlot.setParameter("forceHeadlessClient", "1");
 		return true;
+	}
+	
+	private void removeEmptyGroups() {
+		ClassNode groups = parser_.getClassesByName("Groups").get(0);
+		ArrayList<ClassNode> groupList = groups.getChildren();
+		ArrayList<ClassNode> deletables = new ArrayList<ClassNode>();
+		for (ClassNode group : groupList)
+		{
+			ClassNode vehicles = group.getChildByName("Vehicles");
+			if (vehicles != null && vehicles.getChildren().size() == 0)
+			{
+				deletables.add(group);
+			}
+		}
+		//Direct removal will lead to concurrent editing exception.
+		//Remove after search.
+		for (ClassNode group : deletables)
+		{
+			group.delete();
+		}
 	}
 }
