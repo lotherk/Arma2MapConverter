@@ -12,12 +12,9 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.arma.sqmparser.Parameter;
-import org.arma.sqmparser.SQMArray;
 import org.arma.sqmparser.SQMParser;
 import org.arma.sqmparser.ClassNode;
 import org.apache.commons.io.FileUtils;
-
-import de.avdclan.arma2mapconverter.Synchronizable.SubTypes;
 
 public class MissionTrimmer {
 	private SQMParser parser_;
@@ -36,7 +33,7 @@ public class MissionTrimmer {
 		String missionDirName = inputDir_.getName();
 		String mapName = missionDirName.replaceFirst(".*\\.", "");
 		String missionsDirPath = inputFile_.getParentFile().getParent();
-		//Add prefix in between map name.
+		//Add (HEADLESS) to the map name.
 		String newDirName = missionDirName.replace("."+mapName, MISSION_PREFIX+"."+mapName);
 		outputDir_ = new File(missionsDirPath+"/"+newDirName);
 		ArrayList<ClassNode> intels = parser_.getClassesByName("Intel");
@@ -133,6 +130,11 @@ public class MissionTrimmer {
 		logger.debug("Renamed trg name="+trigger.getName());
 	}
 	
+	/**
+	 * Reads module's name and updates it to mission.sqm.
+	 * To identify a correct module position is used.
+	 * @param module is the module to be read from.
+	 */
 	public void updateModule(Item module) {
 		ClassNode sqmMod = parser_.getClassByParameter("id", module.getId());
 		module.generatePublicName();
@@ -145,6 +147,20 @@ public class MissionTrimmer {
 	}
 	
 	public void deleteUnit(String id) {
-		parser_.deleteByID(id);
+		parser_.deleteByParameter("id", id);
+	}
+	
+	/**
+	 * Adds forceHeadlessClient=1 on the HeadlessSlot
+	 * @return true if headlessSlot was found and false if not.
+	 */
+	public boolean forceHeadlessOnSlot() {
+		ClassNode headlessSlot = parser_.getClassByParameter("text", "\"HeadlessSlot\"");
+		if ( headlessSlot == null )
+		{
+			return false;
+		}
+		headlessSlot.setParameter("forceHeadlessClient", "1");
+		return true;
 	}
 }

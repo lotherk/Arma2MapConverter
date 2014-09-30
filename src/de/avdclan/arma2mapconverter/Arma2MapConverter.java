@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.6.0-beta";
+	final static String VERSION = "0.7.0-beta";
 	final static String SCRIPT_NAME = "spawnHeadlessObjects.sqf";
 	static File inputFile = new File("");
 	
@@ -67,7 +67,11 @@ public class Arma2MapConverter {
 		File outputFile = new File(missionTrimmer.getOutputDir()+"/"+SCRIPT_NAME);
 	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
 		String verifyError  = null;
-	    try {
+	    if (! missionTrimmer.forceHeadlessOnSlot()) {
+	    	JOptionPane.showMessageDialog(null, "Warning: No Headless Slot found. " +
+	    			"Headless Slot should have name: \"HeadlessSlot\"");
+	    }
+		try {
 			verifyError = missionTrimmer.writeMission();
 		    if (verifyError == null) {
 		    	//Mission verified

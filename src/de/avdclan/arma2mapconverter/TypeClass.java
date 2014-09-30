@@ -15,11 +15,7 @@ public class TypeClass {
 		this.type = string;
 		this.parent = parent;
 	}
-	
-	
-	public TypeClass(TypeClass parent) {
-		// TODO Auto-generated constructor stub
-	}
+
 	public String getType() {
 		return type;
 	}
@@ -75,7 +71,6 @@ public class TypeClass {
 
 
 	public int getFullCount() {
-		// TODO Auto-generated method stub
 		int res = 0;
 		res += this.getChilds().size();
 		
@@ -87,7 +82,6 @@ public class TypeClass {
 
 
 	public void addWaypoints(Waypoints waypoints) {
-		// TODO Auto-generated method stub
 		setWaypoints(waypoints);
 	}
 
