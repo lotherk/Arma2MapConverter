@@ -28,6 +28,7 @@ public class SQM {
 	private int groupCountCiv = 0;
 	private File source;
 	private MissionTrimmer missionTrimmer;
+	private ArrayList<String> publicNames = new ArrayList<String>();
 	
 	public void load(File mission) throws FileNotFoundException {
 		//TODO: Integrate with SQMParser
@@ -372,8 +373,13 @@ public class SQM {
 		code += "\n/********************\n" + " * MODULE SYNCHRONIZATION *\n"
 				+ " ********************/\n";
 		code += generateModuleSyncSQF();
+		code += "\n/**************************\n"
+				+  "* BROADCAST PUBLIC NAMES *\n"
+				+  "**************************/\n";
+		code += generateBroadcastSQF();
 		code += "\n// return all created units in an array\n"
 				+ "[_createdUnits]\n";
+		//TODO: broadcast unit names
 		sqf.setCode(code);
 		return sqf;
 	}
@@ -555,6 +561,9 @@ public class SQM {
 					if (item.nameIsPrivate()) {
 						//Auto-generated units are referenced through private vars
 						code += "private[\"" + item.getName() + "\"];\n";
+					} else {
+						//Public name
+						publicNames.add(item.getName());
 					}
 					code += "if (" + item.getPresenceCondition() + ") then\n{\n";
 					if (item.getSide().equals("EMPTY")) {
@@ -667,6 +676,14 @@ public class SQM {
 
 	}
 
+	private String generateBroadcastSQF() {
+		String rVal = "";
+		for (String name : publicNames) {
+			rVal += "publicVariable \"" + name + "\";" + "\n";
+		}
+		return rVal;
+	}
+	
 	private String fixInitCode(String text){
 		String result = new String(text);
 		
