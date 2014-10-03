@@ -61,8 +61,6 @@ public class Arma2MapConverter {
 
 		//Write edited mission.
 		MissionTrimmer missionTrimmer = sqm.getMissionTrimmer();
-		missionTrimmer.deleteMarkers();
-		missionTrimmer.deleteTriggers();
 		missionTrimmer.deleteWaypoints();
 		File outputFile = new File(missionTrimmer.getOutputDir()+"/"+SCRIPT_NAME);
 	    logger.debug("Selected SQF File: " + outputFile.getAbsolutePath());
@@ -78,7 +76,8 @@ public class Arma2MapConverter {
 				sqf.save(outputFile);
 		    }
 		    else {
-				JOptionPane.showMessageDialog(null, verifyError);	    	
+				JOptionPane.showMessageDialog(null, verifyError);
+				return; //Exits program
 		    }
 		} catch (IOException e) {
 			String errorMessage = "Could not write to output file: " + e.getLocalizedMessage();
