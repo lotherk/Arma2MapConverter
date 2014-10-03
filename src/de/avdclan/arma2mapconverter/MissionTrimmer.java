@@ -28,7 +28,7 @@ public class MissionTrimmer {
 	private static final String SCRIPT_MARKER = "//HEADLESS_SCRIPT";
 	private static final String SCRIPT_FILE_NAME = "spawnHeadlessObjects.sqf";
 	//Dedicated ArmA 2 server behaves strangely if mission name size exceeds this.
-	private static final int MAX_MISSION_NAME_LENGHT = 65;
+	private static final int MAX_MISSION_NAME_LENGHT = 62;
 	
 	public MissionTrimmer(String inputFilePath) {
 		readFile(inputFilePath);
