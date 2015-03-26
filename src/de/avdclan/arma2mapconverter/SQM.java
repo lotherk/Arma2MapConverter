@@ -109,9 +109,10 @@ public class SQM {
 				parse(line, typeClass);
 			}
 		}
+		/*This is an empty body. It is not doing anything so I commented out. - Ramon
 		if (parent.getType().equals("Groups")) {
 
-		}
+		}*/
 		if (parent.toString().startsWith("Vehicles")) {
 			if (parent.getObject() == null) {
 				parent.setObject(new Vehicle());
@@ -166,7 +167,7 @@ public class SQM {
 				tmp = tmp[1].split(",", 3);
 				String x, y, z;
 				x = tmp[0].replaceAll("\\{", "");
-				z = tmp[1];
+				//--z = tmp[1]; This is never used just a place holder if need.--//
 				y = tmp[2].replaceAll("\\}\\;", "");
 				((Item) parent.getObject())
 						.setPosition(new Position(x, y, "0"));
@@ -315,7 +316,7 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll("\\;",
 						""));
-                                //Added by [TFM]RexJoker 
+                                //Added by [TFM]RexJoker
 			} else if(line.startsWith("offsetY=")) {
                             String[] tmp = line.split("=", 2);
                             ((Item) parent.getObject()).getPosition().setZ(tmp[1].replaceAll("\\;",""));
@@ -332,10 +333,9 @@ public class SQM {
                             if(replace.length() > 1)
                             {
                                 String[] num = replace.split(",");
-                                for(int index =0; index < num.length;index++)
-                                {
-                                    ((Item) parent.getObject()).syncLocalItemId(Integer.parseInt(num[index]));
-                                }
+								for (String aNum : num) {
+									((Item) parent.getObject()).syncLocalItemId(Integer.parseInt(aNum));
+								}
                             } 
                             else
                             {
@@ -353,7 +353,6 @@ public class SQM {
                            ((Item) parent.getObject()).setSpecial(tmp[1].replaceAll("\\;",
 						""));
                        }
-		} else {
 		}
 	}
 
@@ -504,12 +503,12 @@ public class SQM {
                                                 code += item.getGlobalSyncIdName(item.syncItemId.get(index))+",";
                                             }
                                             //code += code.substring(code.length()-1);
-                                            if(code.endsWith(",") == true)
+                                            if(code.endsWith(","))
                                             {
                                                code = code.substring(0, code.length()-1);
                                             }
                                             code +="];\n";
-                                        //}//Changed the way the arrays were created. This is way more efficent than the
+                                        //}//Changed the way the arrays were created. This is way more efficient than the
                                         //previous authors code.[TFM]RexJoker
 					code += "_createdTriggers set[count _createdTriggers, " 
 							+ item.getName() + "];\n\n";
@@ -674,7 +673,7 @@ public class SQM {
 							&& !item.getSide().equals("EMPTY")) {
 						code += "\t"+item.getName()+" setVehicleVarName " + item.getText() + ";\n";
 					}
-                                        //Changed the way the arrays were created. This is way more efficent than the
+                                        //Changed the way the arrays were created. This is way more efficient than the
                                         //previous authors code.[TFM]RexJoker
 					code += "\t_createdUnits set [count _createdUnits, "
 							+ item.getName() + "];\n";

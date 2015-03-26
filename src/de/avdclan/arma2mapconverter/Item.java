@@ -7,7 +7,7 @@ import java.util.UUID;
 public class Item 
 {
 	public static int increment = 0;
-        private Position position;
+	private Position position;
 	private String azimut;
 	private String special = "\"NONE\"";
 	private String id;
@@ -152,12 +152,14 @@ public class Item
 	}
 
 	public String getInterruptable() {
-		if(interruptable.equals("0"))
-			return "false";
-		else if(interruptable.equals("1"))
-			return "true";
-		else
-			return interruptable;
+		switch (interruptable) {
+			case "0":
+				return "false";
+			case "1":
+				return "true";
+			default:
+				return interruptable;
+		}
 	}
 
 	public void setInterruptable(String interruptable) {
@@ -169,12 +171,14 @@ public class Item
 	}
 
 	public String getRectangular() {
-		if(rectangular.equals("0"))
-			return "false";
-		else if(rectangular.equals("1"))
-			return "true";
-		else	
-			return rectangular;
+		switch (rectangular) {
+			case "0":
+				return "false";
+			case "1":
+				return "true";
+			default:
+				return rectangular;
+		}
 	}
 
 	public void setRectangular(String rectangular) {
@@ -190,12 +194,14 @@ public class Item
 	}
 
 	public String getRepeating() {
-		if(repeating.equals("0"))
-			return "false";
-		else if(repeating.equals("1"))
-			return "true";
-		else
-			return repeating;
+		switch (repeating) {
+			case "0":
+				return "false";
+			case "1":
+				return "true";
+			default:
+				return repeating;
+		}
 	}
 
 	public void setRepeating(String repeating) {
