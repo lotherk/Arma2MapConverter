@@ -401,25 +401,25 @@ public class SQM {
 
 	private String generateSQF(TypeClass typeClass) {
 		String code = "";
-                ArrayList<String> mineList = new ArrayList<>();
-                mineList.add("APERSBoundingMine");
-                mineList.add("APERSMine");
-                mineList.add("APERSTripMine");
-                mineList.add("ATMine");
-                mineList.add("placed_chemlight_blue");
-                mineList.add("placed_chemlight_green");
-                mineList.add("placed_chemlight_red");
-                mineList.add("placed_chemlight_yellow");
-                mineList.add("Claymore_F");
-                mineList.add("DemoCharge_F");
-                mineList.add("SatchelCharge_F");
-                mineList.add("placed_O_IR_grenade");
-                mineList.add("placed_I_IR_grenade");
-                mineList.add("placed_B_IR_grenade");
-                mineList.add("SLAMDirectionalMine");
-                mineList.add("UnderwaterMineAB");
-                mineList.add("UnderwaterMine");
-                mineList.add("UnderwaterMinePDM");
+		ArrayList<String> mineList = new ArrayList<>();
+		mineList.add("APERSBoundingMine");
+		mineList.add("APERSMine");
+		mineList.add("APERSTripMine");
+		mineList.add("ATMine");
+		mineList.add("placed_chemlight_blue");
+		mineList.add("placed_chemlight_green");
+		mineList.add("placed_chemlight_red");
+		mineList.add("placed_chemlight_yellow");
+		mineList.add("Claymore_F");
+		mineList.add("DemoCharge_F");
+		mineList.add("SatchelCharge_F");
+		mineList.add("placed_O_IR_grenade");
+		mineList.add("placed_I_IR_grenade");
+		mineList.add("placed_B_IR_grenade");
+		mineList.add("SLAMDirectionalMine");
+		mineList.add("UnderwaterMineAB");
+		mineList.add("UnderwaterMine");
+		mineList.add("UnderwaterMinePDM");
 
 		int groupCount = 0;
 		for (TypeClass tc : typeClass.getChilds()) {
@@ -509,7 +509,7 @@ public class SQM {
                                             }
                                             code +="];\n";
                                         //}//Changed the way the arrays were created. This is way more efficient than the
-                                        //previous authors code.[TFM]RexJoker
+                                        //previous authors code.[RJ4706]
 					code += "_createdTriggers set[count _createdTriggers, " 
 							+ item.getName() + "];\n\n";
                                         ////Finished
@@ -643,8 +643,8 @@ public class SQM {
 						/*code += "\t_vehicleInit set [count _vehicleInit, [" + item.getName() + ","
 								+ item.getInit() + "]];\n";*/
                                                                 //BIS use the code above in their 3D editor scripts but for some
-                                                                //reason it doesn't work for this. I lef here in case I figured it out
-                                                                //I could easily make it work here. [TFM]RexJoker
+                                                                //reason it doesn't work for this. I left it here in case I figured it out
+                                                                //I could easily make it work here. [RJ4706]
                                                 code += "\tthis = "+item.getName()+";\n";
                                                 code +="\t[] call compile "+item.getInit()+";\n";
 					}
