@@ -401,25 +401,26 @@ public class SQM {
 
 	private String generateSQF(TypeClass typeClass) {
 		String code = "";
+		//---Have to add Quotations to mines so they can be compared correctly-RJ4706-20150427-//
 		ArrayList<String> mineList = new ArrayList<>();
-		mineList.add("APERSBoundingMine");
-		mineList.add("APERSMine");
-		mineList.add("APERSTripMine");
-		mineList.add("ATMine");
-		mineList.add("placed_chemlight_blue");
-		mineList.add("placed_chemlight_green");
-		mineList.add("placed_chemlight_red");
-		mineList.add("placed_chemlight_yellow");
-		mineList.add("Claymore_F");
-		mineList.add("DemoCharge_F");
-		mineList.add("SatchelCharge_F");
-		mineList.add("placed_O_IR_grenade");
-		mineList.add("placed_I_IR_grenade");
-		mineList.add("placed_B_IR_grenade");
-		mineList.add("SLAMDirectionalMine");
-		mineList.add("UnderwaterMineAB");
-		mineList.add("UnderwaterMine");
-		mineList.add("UnderwaterMinePDM");
+		mineList.add("\"APERSBoundingMine\"");
+		mineList.add("\"APERSMine\"");
+		mineList.add("\"APERSTripMine\"");
+		mineList.add("\"ATMine\"");
+		mineList.add("\"placed_chemlight_blue\"");
+		mineList.add("\"placed_chemlight_green\"");
+		mineList.add("\"placed_chemlight_red\"");
+		mineList.add("\"placed_chemlight_yellow\"");
+		mineList.add("\"Claymore_F\"");
+		mineList.add("\"DemoCharge_F\"");
+		mineList.add("\"SatchelCharge_F\"");
+		mineList.add("\"placed_O_IR_grenade\"");
+		mineList.add("\"placed_I_IR_grenade\"");
+		mineList.add("\"placed_B_IR_grenade\"");
+		mineList.add("\"SLAMDirectionalMine\"");
+		mineList.add("\"UnderwaterMineAB\"");
+		mineList.add("\"UnderwaterMine\"");
+		mineList.add("\"UnderwaterMinePDM\"");
 
 		int groupCount = 0;
 		for (TypeClass tc : typeClass.getChilds()) {
@@ -485,18 +486,20 @@ public class SQM {
 							+ item.getRectangular() + "];\n" + item.getName()
 							+ " setTriggerActivation [" + item.getActivationBy()
 							+ ", " + item.getActivationType() + ", "
-							+ item.getRepeating() + "];\n" + item.getName()
-							+ " setTriggerStatements [" + cond
+							+ item.getRepeating() + "];\n"
+							+ item.getName()+ " setTriggerType "+item.getType()+";\n"
+							+ item.getName()+ " setTriggerStatements [" + cond
 							+ ", " + item.getExpActiv() + ", "
 							+ item.getExpDesactiv() + "];\n" + item.getName()
 							+ " setTriggerTimeout [" + item.getTimeoutMin()
 							+ ", " + item.getTimeoutMid() + ", "
 							+ item.getTimeoutMax() + ", "
 							+ item.getInterruptable() + "];\n";
+
 					if (item.getText() != null) {
 						code += item.getName() + " setTriggerText "
 								+ item.getText() + ";\n";
-					}//Added by [TFM]RexJoker
+					}//Added by RJ4706
                                             code += item.getName() + " synchronizeWaypoint [";
                                             for(int index = 0; index < item.syncItemId.size(); index++)
                                             {
@@ -604,10 +607,10 @@ public class SQM {
                                             //search array for mine class list then set up different procedures
                                             //copied from BIS - 
                                             
-						code += "\n" + "\t" + item.getName()
-								+ " = createVehicle [" + item.getVehicle()
-								+ ", " + item.getPosition()
-								+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() + "];\n";
+												code += "\n" + "\t" + item.getName()
+														+ " = createVehicle [" + item.getVehicle()
+														+ ", " + item.getPosition()
+														+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() + "];\n";
                                             }
 					} else {
 						code += "\n" + "\t"
@@ -674,7 +677,7 @@ public class SQM {
 						code += "\t"+item.getName()+" setVehicleVarName " + item.getText() + ";\n";
 					}
                                         //Changed the way the arrays were created. This is way more efficient than the
-                                        //previous authors code.[TFM]RexJoker
+                                        //previous authors code. -RJ4706
 					code += "\t_createdUnits set [count _createdUnits, "
 							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";

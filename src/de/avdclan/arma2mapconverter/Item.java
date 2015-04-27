@@ -417,20 +417,20 @@ public class Item
 		this.presenceCondition = presenceCondition;
 	}
 
-        public void setGlobalSyncIdName(int index, String name) {
-            itemsSync.add(index, name);
-        }
+	public void setGlobalSyncIdName(int index, String name) {
+		itemsSync.add(index, name);
+	}
 
-        public String getGlobalSyncIdName(int index) {
-            return itemsSync.get(index);
-        }
+	public String getGlobalSyncIdName(int index) {
+		return itemsSync.get(index);
+	}
 
-        public void syncLocalItemId(int index)
-        {
-            syncItemId.add(index);
-        }
+	public void syncLocalItemId(int index)
+	{
+		syncItemId.add(index);
+	}
 
-        public Integer getLocalSyncIdName(int index) {
-            return syncItemId.get(index);
-        }
+	public Integer getLocalSyncIdName(int index) {
+		return syncItemId.get(index);
+	}
 }
