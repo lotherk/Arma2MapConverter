@@ -1,8 +1,12 @@
+
 package de.avdclan.arma2mapconverter;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-public class Item {
+public class Item 
+{
+	public static int increment = 0;
 	private Position position;
 	private String azimut;
 	private String special = "\"NONE\"";
@@ -44,6 +48,8 @@ public class Item {
 	private String combat = "\"UNCHANGED\"";
 	private String description;
 	private String showWP="\"NEVER\"";
+        public static ArrayList<String> itemsSync = new ArrayList<>(500);
+        public ArrayList<Integer> syncItemId = new ArrayList<>(500);
 
 	public Item(String typeClass) {
 		this.typeClass = typeClass;
@@ -146,12 +152,14 @@ public class Item {
 	}
 
 	public String getInterruptable() {
-		if(interruptable.equals("0"))
-			return "false";
-		else if(interruptable.equals("1"))
-			return "true";
-		else
-			return interruptable;
+		switch (interruptable) {
+			case "0":
+				return "false";
+			case "1":
+				return "true";
+			default:
+				return interruptable;
+		}
 	}
 
 	public void setInterruptable(String interruptable) {
@@ -163,14 +171,14 @@ public class Item {
 	}
 
 	public String getRectangular() {
-		if(rectangular.equals("0"))
-			return "false";
-		else if(rectangular.equals("1"))
-			return "true";
-		else
-	
-			return rectangular;
-
+		switch (rectangular) {
+			case "0":
+				return "false";
+			case "1":
+				return "true";
+			default:
+				return rectangular;
+		}
 	}
 
 	public void setRectangular(String rectangular) {
@@ -186,12 +194,14 @@ public class Item {
 	}
 
 	public String getRepeating() {
-		if(repeating.equals("0"))
-			return "false";
-		else if(repeating.equals("1"))
-			return "true";
-		else
-			return repeating;
+		switch (repeating) {
+			case "0":
+				return "false";
+			case "1":
+				return "true";
+			default:
+				return repeating;
+		}
 	}
 
 	public void setRepeating(String repeating) {
@@ -387,12 +397,10 @@ public class Item {
 	}
 
 	public String getName() {
-		if (name == null) {
-			// generate unique unit name
-			name ="autogen_"
-					+ UUID.randomUUID().toString()
-							.replaceAll("-", "");
-			name = "_obj";
+		if (name == null) 
+                {
+			name = "_obj_"+increment;
+                        increment++;
 		}
 		return name;
 	}
@@ -409,4 +417,20 @@ public class Item {
 		this.presenceCondition = presenceCondition;
 	}
 
+	public void setGlobalSyncIdName(int index, String name) {
+		itemsSync.add(index, name);
+	}
+
+	public String getGlobalSyncIdName(int index) {
+		return itemsSync.get(index);
+	}
+
+	public void syncLocalItemId(int index)
+	{
+		syncItemId.add(index);
+	}
+
+	public Integer getLocalSyncIdName(int index) {
+		return syncItemId.get(index);
+	}
 }

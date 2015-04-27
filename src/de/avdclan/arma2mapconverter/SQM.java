@@ -11,7 +11,9 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.UUID;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.Logger;
 
@@ -27,6 +29,7 @@ public class SQM {
 	private int groupCountEast = 0;
 	private int groupCountGuer = 0;
 	private int groupCountCiv = 0;
+       
 	private File source;
 
 	public void load(File mission) throws FileNotFoundException {
@@ -79,9 +82,8 @@ public class SQM {
 			// TODO Auto-generated catch block
 			logger.error(e);
 		}
-
 		logger.debug("Loaded.");
-	}
+	}             
 
 	/**
 	 * This is the parsing algorithm. If you know a better way, feel free to
@@ -90,10 +92,11 @@ public class SQM {
 	 * Please also send your changes to the author.
 	 * 
 	 * 
-	 * @param input
+	 * @param input throw PatternSyntaxException
 	 * @throws IOException
 	 */
-	private void parse(String input, TypeClass parent) throws IOException {
+	private void parse(String input, TypeClass parent) throws IOException, PatternSyntaxException {               
+            
 		String line = input.replaceAll("^\\s+", "");
 		if (line.startsWith("class")) {
 
@@ -105,11 +108,11 @@ public class SQM {
 					.startsWith("}")) {
 				parse(line, typeClass);
 			}
-
 		}
+		/*This is an empty body. It is not doing anything so I commented out. - Ramon
 		if (parent.getType().equals("Groups")) {
 
-		}
+		}*/
 		if (parent.toString().startsWith("Vehicles")) {
 			if (parent.getObject() == null) {
 				parent.setObject(new Vehicle());
@@ -119,7 +122,6 @@ public class SQM {
 
 				((Vehicle) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Waypoints")) {
@@ -132,7 +134,6 @@ public class SQM {
 
 				((Waypoints) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Markers")) {
@@ -144,7 +145,6 @@ public class SQM {
 
 				((Markers) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Sensors")) {
@@ -156,7 +156,6 @@ public class SQM {
 
 				((Triggers) parent.getObject()).setSide(((Item) p.getObject())
 						.getSide());
-
 			}
 
 		} else if (parent.toString().startsWith("Item")) {
@@ -168,7 +167,7 @@ public class SQM {
 				tmp = tmp[1].split(",", 3);
 				String x, y, z;
 				x = tmp[0].replaceAll("\\{", "");
-				z = tmp[1];
+				//--z = tmp[1]; This is never used just a place holder if need.--//
 				y = tmp[2].replaceAll("\\}\\;", "");
 				((Item) parent.getObject())
 						.setPosition(new Position(x, y, "0"));
@@ -194,7 +193,7 @@ public class SQM {
 						""));
 			} else if (line.startsWith("init=")) {
 				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setInit(tmp[1]);
+				((Item) parent.getObject()).setInit(tmp[1].substring(0, tmp[1].length()-1));
 			} else if (line.startsWith("name=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setName(tmp[1]
@@ -238,9 +237,9 @@ public class SQM {
 				((Item) parent.getObject()).setAngle(tmp[1].replaceAll("\\;",
 						""));
 			} else if (line.startsWith("text=")) {
-				String[] tmp = line.split("=", 2);
-				((Item) parent.getObject()).setText(tmp[1]
-						.replaceAll("\\;", ""));
+                                String[] tmp = line.split("=", 2);
+                                ((Item) parent.getObject()).setText(tmp[1]
+                                                .replaceAll("\\;", ""));                         
 			} else if (line.startsWith("rectangular=")) {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setRectangular(tmp[1].replaceAll(
@@ -317,18 +316,52 @@ public class SQM {
 				String[] tmp = line.split("=", 2);
 				((Item) parent.getObject()).setShowWP(tmp[1].replaceAll("\\;",
 						""));
-			}
-		} else {
-			// unsupported class
+                                //Added by [TFM]RexJoker
+			} else if(line.startsWith("offsetY=")) {
+                            String[] tmp = line.split("=", 2);
+                            ((Item) parent.getObject()).getPosition().setZ(tmp[1].replaceAll("\\;",""));
+                        } else if(line.startsWith("syncId=")) {
+                            String[] tmp = line.split("=", 2);
+                            ((Item) parent.getObject()).setGlobalSyncIdName(Integer.parseInt(tmp[1].replaceAll("\\;", "")),
+                                    ((Item) parent.getObject()).getName());
+                        } else if(line.startsWith("synchronizations[]={")) {
+                            String[] tmp = line.split("=", 2);   
+                            String replace = tmp[1];
+                            replace = replace.replace(";", "");  
+                            replace = replace.replace("{", "");
+                            replace = replace.replace("}", "");
+                            if(replace.length() > 1)
+                            {
+                                String[] num = replace.split(",");
+								for (String aNum : num) {
+									((Item) parent.getObject()).syncLocalItemId(Integer.parseInt(aNum));
+								}
+                            } 
+                            else
+                            {
+                             for(int index =0; index < replace.length();index++)
+                                {
+                                    Scanner scan = new Scanner(replace);
+                                    while(scan.hasNext())
+                                    {
+                                        ((Item) parent.getObject()).syncLocalItemId(scan.nextInt());
+                                    }                    
+                                } 
+                            }//end of code [TFM]RexJoker
+                       } else if(line.startsWith("special=")) {
+                           String[] tmp = line.split("=", 2);
+                           ((Item) parent.getObject()).setSpecial(tmp[1].replaceAll("\\;",
+						""));
+                       }
 		}
-
 	}
 
 	public SQF toSQF() {
 		SQF sqf = new SQF();
 		String code = ""
 				+ "/**\n"
-				+ " * Converted with Arma2MapConverter v"
+				//+ " * Converted with Arma2MapConverter v" needs to be ARMA 3 since it will only for it. [TFM]RexJoker
+                                + " * Converted with Arma3MapConverter v"
 				+ Arma2MapConverter.VERSION
 				+ "\n"
 				+ " *\n"
@@ -342,7 +375,7 @@ public class SQM {
 				+ "_eastHQ = createCenter east;\n"
 				+ "_guerHQ = createCenter resistance;\n"
 				+ "_civHQ  = createCenter civilian;\n"
-				+ "_emptyHQ = createCenter civilian;\n\n";
+				+ "_emptyHQ = createCenter civilian;\n";
 
 		code += "\n_createdUnits = [];\n" + "_createdMarkers = [];\n"
 				+ "_createdTriggers = [];\n";
@@ -350,24 +383,44 @@ public class SQM {
 		code += "\n/*******************\n" + " * MARKER CREATION *\n"
 				+ " *******************/\n";
 		code += generateSQF(markers);
-		code += "\n/*****************\n" + " * EMPTY VEHICLE CREATION *\n"
+		code += "/*****************\n" + " * EMPTY VEHICLE CREATION *\n"
 				+ " *****************/\n";
 		code += generateSQF(vehicles);
 		code += "\n/*****************\n" + " * UNIT CREATION *\n"
 				+ " *****************/\n";
 		code += generateSQF(rootType);
 		code += "\n/********************\n" + " * TRIGGER CREATION *\n"
-				+ " ********************/\n";
-		;
+				+ " ********************/\n";		
 		code += generateSQF(triggers);
-		code += "\n// return all created units in an array\n"
+                code += "\n\n// return all created units in an array\n"
 				+ "[_createdUnits, _createdMarkers, _createdTriggers]\n";
+                
 		sqf.setCode(code);
 		return sqf;
 	}
 
 	private String generateSQF(TypeClass typeClass) {
 		String code = "";
+		//---Have to add Quotations to mines so they can be compared correctly-RJ4706-20150427-//
+		ArrayList<String> mineList = new ArrayList<>();
+		mineList.add("\"APERSBoundingMine\"");
+		mineList.add("\"APERSMine\"");
+		mineList.add("\"APERSTripMine\"");
+		mineList.add("\"ATMine\"");
+		mineList.add("\"placed_chemlight_blue\"");
+		mineList.add("\"placed_chemlight_green\"");
+		mineList.add("\"placed_chemlight_red\"");
+		mineList.add("\"placed_chemlight_yellow\"");
+		mineList.add("\"Claymore_F\"");
+		mineList.add("\"DemoCharge_F\"");
+		mineList.add("\"SatchelCharge_F\"");
+		mineList.add("\"placed_O_IR_grenade\"");
+		mineList.add("\"placed_I_IR_grenade\"");
+		mineList.add("\"placed_B_IR_grenade\"");
+		mineList.add("\"SLAMDirectionalMine\"");
+		mineList.add("\"UnderwaterMineAB\"");
+		mineList.add("\"UnderwaterMine\"");
+		mineList.add("\"UnderwaterMinePDM\"");
 
 		int groupCount = 0;
 		for (TypeClass tc : typeClass.getChilds()) {
@@ -383,12 +436,13 @@ public class SQM {
 								+ UUID.randomUUID().toString()
 										.replaceAll("-", ""));
 					}
-					code += "_marker = createMarker[" + item.getName() + ", ["
+                                        //Switched around MarkerShape and Type. Original author had them backwards.[TFM]RexJoker
+					code += "_marker = createMarker [" + item.getName() + ", ["
 							+ item.getPosition().getX() + ", "
 							+ item.getPosition().getY() + "]];\n"
-							+ "_marker setMarkerShape " + item.getType()
+							+ "_marker setMarkerShape " + item.getMarkerType()
 							+ ";\n" + "_marker setMarkerType "
-							+ item.getMarkerType() + ";\n"
+							+ item.getType() + ";\n"
 							+ "_marker setMarkerSize [" + item.getA() + ", "
 							+ item.getB() + "];\n";
 
@@ -404,9 +458,10 @@ public class SQM {
 						code += "_marker setMarkerBrush " + item.getFillName()
 								+ ";\n";
 					}
-					code += "_createdMarkers = _createdMarkers + [_marker];\n";
+                                        //Changed the way the arrays were created. This is way more efficent than the
+                                        //previous authors code.[TFM]RexJoker
+					code += "_createdMarkers set[count _createdMarkers, _marker];\n";
 					code += "\n";
-
 				}
 			}
 			if (tc.equals("Sensors")) {
@@ -419,34 +474,48 @@ public class SQM {
 					item.setName(item.getName().replaceAll("\"", ""));
 					String cond;
 					if(item.getExpCond().equals("true")) {
-						cond = "this";
+						cond = "\"this\"";
 					} else {
 						cond = item.getExpCond();
-					}
-						
+					}						
 					code += item.getName()
-							+ " = createTrigger[\"EmptyDetector\", "
+							+ " = createTrigger [\"EmptyDetector\", "
 							+ item.getPosition() + "];\n" + item.getName()
-							+ " setTriggerArea[" + item.getA() + ", "
+							+ " setTriggerArea [" + item.getA() + ", "
 							+ item.getB() + ", " + item.getAngle() + ", "
 							+ item.getRectangular() + "];\n" + item.getName()
-							+ " setTriggerActivation[" + item.getActivationBy()
+							+ " setTriggerActivation [" + item.getActivationBy()
 							+ ", " + item.getActivationType() + ", "
-							+ item.getRepeating() + "];\n" + item.getName()
-							+ " setTriggerStatements[\"" + cond
-							+ "\", " + item.getExpActiv() + ", "
+							+ item.getRepeating() + "];\n"
+							+ item.getName()+ " setTriggerType "+item.getType()+";\n"
+							+ item.getName()+ " setTriggerStatements [" + cond
+							+ ", " + item.getExpActiv() + ", "
 							+ item.getExpDesactiv() + "];\n" + item.getName()
-							+ " setTriggerTimeout[" + item.getTimeoutMin()
+							+ " setTriggerTimeout [" + item.getTimeoutMin()
 							+ ", " + item.getTimeoutMid() + ", "
 							+ item.getTimeoutMax() + ", "
 							+ item.getInterruptable() + "];\n";
+
 					if (item.getText() != null) {
 						code += item.getName() + " setTriggerText "
 								+ item.getText() + ";\n";
-					}
-					code += "_createdTriggers = _createdTriggers + ["
-							+ item.getName() + "];\n";
-
+					}//Added by RJ4706
+                                            code += item.getName() + " synchronizeWaypoint [";
+                                            for(int index = 0; index < item.syncItemId.size(); index++)
+                                            {
+                                                code += item.getGlobalSyncIdName(item.syncItemId.get(index))+",";
+                                            }
+                                            //code += code.substring(code.length()-1);
+                                            if(code.endsWith(","))
+                                            {
+                                               code = code.substring(0, code.length()-1);
+                                            }
+                                            code +="];\n";
+                                        //}//Changed the way the arrays were created. This is way more efficient than the
+                                        //previous authors code.[RJ4706]
+					code += "_createdTriggers set[count _createdTriggers, " 
+							+ item.getName() + "];\n\n";
+                                        ////Finished
 				}
 			}
 			if (tc.equals("Waypoints")) {
@@ -465,46 +534,43 @@ public class SQM {
 					++index;
 					Item item = (Item) items.getObject();
 					code += "// waypoint #" + index + "\n";
-					code += "_wp = " + groupName + " addWaypoint[["
+					code += item.getName()+" = " + groupName + " addWaypoint[["
 							+ item.getPosition().getX() + ", "
 							+ item.getPosition().getY() + ", 0], "
 							+ item.getPlacement() + ", " + index + "];\n";
 					String wp = "[" + groupName + ", " + index + "]";
 					if (item.getCombat() != null) {
-						code += wp + " setWaypointBehaviour "
+						code += item.getName()+ " setWaypointBehaviour "
 								+ item.getCombat() + ";\n";
 					}
 					if (item.getCombatMode() != null) {
-						code += wp + " setWaypointCombatMode "
+						code += item.getName()+ " setWaypointCombatMode "
 								+ item.getCombatMode() + ";\n";
 					}
 					if (item.getCompletionRadius() != null) {
-						code += wp + " setWaypointCompletionRadius "
+						code += item.getName()+ " setWaypointCompletionRadius "
 								+ item.getCompletionRadius() + ";\n";
 					}
 					if (item.getFormation() != null) {
-						code += wp + " setWaypointFormation "
+						code += item.getName()+ " setWaypointFormation "
 								+ item.getFormation() + ";\n";
 					}
 					if (item.getSpeed() != null) {
-						code += wp + " setWaypointSpeed " + item.getSpeed()
+						code += item.getName()+ " setWaypointSpeed " + item.getSpeed()
 								+ ";\n";
 					}
 					if (item.getExpCond() != null) {
-						code += wp + " setWaypointStatements[\""
+						code += item.getName()+ " setWaypointStatements[\""
 								+ item.getExpCond() + "\", " + item.getExpActiv()
 								+ "];\n";
 					}	
 					if (item.getType() != null) {
-						code += wp + " setWaypointType " + item.getType()
+						code += item.getName()+ " setWaypointType " + item.getType()
 								+ ";\n";
 					}
-
 				}
-
 			}
 			if (tc.equals("Vehicles")) {
-
 				String side = ((Vehicle) tc.getObject()).getSide()
 						.toLowerCase();
 				String group = "_group_" + side + "_" + getGroupCound(side);
@@ -515,15 +581,37 @@ public class SQM {
 				for (TypeClass items : tc.getChilds()) {
 
 					Item item = (Item) items.getObject();
+                                        if(item.getText() != null)
+                                        {
+                                            String temp = item.getText();
+                                            temp = temp.replaceAll("\"","");
+                                            item.setName(temp);
+                                        }
 					
 					code += "// begin " + item.getName() + ", part of group "
 							+ group + "\n";
 					code += "if (" + item.getPresenceCondition() + ") then\n{";
 					if (item.getSide().equals("EMPTY")) {
-						code += "\n" + "\t" + item.getName()
-								+ " = createVehicle [" + item.getVehicle()
-								+ ", " + item.getPosition()
-								+ ", [], 0, " + item.getSpecial() + "];\n";
+                                            //Mines can't be added using createVehicle have to use createMine
+                                            //Below is an example from ARMA 3D editor when a mine was used.
+                                            //_mine_0 = createMine ["APERSTripMine", [10741.387, 11156.012, 0], [], 0];
+                                            if(mineList.contains(item.getVehicle()))
+                                            {
+                                                code += "\n" + "\t" + item.getName()
+                                                            + " = createMine ["+item.getVehicle()
+                                                            + ", " + item.getPosition()
+                                                            + ", [], " + item.getPlacement()+ "];\n";
+                                            }
+                                            else
+                                            {
+                                            //search array for mine class list then set up different procedures
+                                            //copied from BIS - 
+                                            
+												code += "\n" + "\t" + item.getName()
+														+ " = createVehicle [" + item.getVehicle()
+														+ ", " + item.getPosition()
+														+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() + "];\n";
+                                            }
 					} else {
 						code += "\n" + "\t"
 								+ item.getName()
@@ -533,7 +621,7 @@ public class SQM {
 								+ item.getVehicle()
 								+ ", "
 								+ item.getPosition()
-								+ ", [], 0, \"CAN_COLLIDE\"];\n"
+								+ ", [], "+item.getPlacement()+" ,"+ item.getSpecial() +"];\n"
 								+
 								// this is VERY dirty....
 								"\n\t// this is VERY dirty and only used because I don't want to create\n"
@@ -546,18 +634,22 @@ public class SQM {
 								+ " = createVehicle [" + item.getVehicle()
 								+ ", "
 								+ item.getPosition()
-								+ ", [], 0, \"CAN_COLLIDE\"];\n"
+								+ ", [], "+item.getPlacement()+" ,"+item.getSpecial()+"];\n"
 								// + "\t\t_group = createGroup _"
 								// + item.getSide().toLowerCase() + "HQ;\n"
 								+ "\t\t[" + item.getName()
 								// + ", _group] call BIS_fnc_spawnCrew;\n"
 								+ ", " + group + "] call BIS_fnc_spawnCrew;\n"
 								+ "\t};\n\n";
-
 					}
 					if (item.getInit() != null) {
-						code += "\t" + item.getName() + " setVehicleInit "
-								+ item.getInit() + ";\n";
+						/*code += "\t_vehicleInit set [count _vehicleInit, [" + item.getName() + ","
+								+ item.getInit() + "]];\n";*/
+                                                                //BIS use the code above in their 3D editor scripts but for some
+                                                                //reason it doesn't work for this. I left it here in case I figured it out
+                                                                //I could easily make it work here. [RJ4706]
+                                                code += "\tthis = "+item.getName()+";\n";
+                                                code +="\t[] call compile "+item.getInit()+";\n";
 					}
 
 					if (item.getAzimut() != null) {
@@ -578,26 +670,25 @@ public class SQM {
 					if (item.getLeader() != null
 							&& !item.getSide().equals("EMPTY")) {
 						code += "\tif(true) then { " + group + " selectLeader "
-								+ item.getName() + "; };\n";
+								+ item.getName() + "};\n";
 					}
 					if (item.getText() != null
 							&& !item.getSide().equals("EMPTY")) {
-						code += "\tsetVehicleVarName \"" + item.getText() + "\";\n";
+						code += "\t"+item.getName()+" setVehicleVarName " + item.getText() + ";\n";
 					}
-					code += "\t_createdUnits = _createdUnits + ["
+                                        //Changed the way the arrays were created. This is way more efficient than the
+                                        //previous authors code. -RJ4706
+					code += "\t_createdUnits set [count _createdUnits, "
 							+ item.getName() + "];\n";
 					code += "};\n// end of " + item.getName() + "\n";
-
 				}
 
 			} else {
 				code += generateSQF(tc);
 			}
 		}
-
-		return code;
+                return code;
 	}
-
 	private String getGroupCound(String side) {
 		if (side.equals("west")) {
 			++groupCountWest;
@@ -611,10 +702,7 @@ public class SQM {
 			++groupCountGuer;
 			return String.valueOf(groupCountGuer);
 		}
-
 		++groupCountCiv;
 		return String.valueOf(groupCountCiv);
-
 	}
-
 }

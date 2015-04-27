@@ -12,11 +12,11 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 
 public class Arma2MapConverter {
-	final static String VERSION = "0.5.2-beta";
+	final static String VERSION = "0.6.0-beta";
 	
 	private static Logger logger = Logger.getLogger(Arma2MapConverter.class);
 	public Arma2MapConverter() {
-		logger.debug("Initializing Arma2MapConverter v" + VERSION + " by [AvD] Rush");
+	logger.debug("Initializing Arma3MapConverter v" + VERSION + " by [AvD] Rush");
 	}
 	
 	public SQM openSQM(File mission) {
@@ -80,8 +80,7 @@ public class Arma2MapConverter {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			logger.error("Could not write to output file: " + e.getLocalizedMessage(), e);
-		}
-		
+		}		
 	}
 	
 	private static File openDialog() {
@@ -114,7 +113,7 @@ public class Arma2MapConverter {
 	}
 	private static File saveDialog() {
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Arma2MapConverter v" + VERSION + ": save to sqf script");
+		fc.setDialogTitle("Arma3MapConverter v" + VERSION + ": save to sqf script");
 	    fc.setFileFilter( new FileFilter()
 	    {
 	      @Override public boolean accept( File f )
@@ -138,7 +137,5 @@ public class Arma2MapConverter {
 	    	System.exit( 0 );
 		}
 	    return null;
-
 	}
-
 }
