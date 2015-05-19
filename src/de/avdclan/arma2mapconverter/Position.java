@@ -12,6 +12,7 @@ public class Position {
 		this.z = z;
 	}
 
+	@Override
 	public String toString() {
 		return "[" + this.x + ", " + this.y + ", " + this.z + "]";
 	}
@@ -38,6 +39,5 @@ public class Position {
 
 	public void setZ(String z) {
 		this.z = z;
-	}
-	
+	}	
 }

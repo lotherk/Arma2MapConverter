@@ -21,5 +21,4 @@ public class Waypoints {
 	public void setSide(String side) {
 		this.side = side;
 	}
-	
 }

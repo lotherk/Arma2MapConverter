@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\kl\workspace\Arma2MapConverter\Arma2MapConverter_fat.jar</jar>
-  <outfile>C:\Users\kl\workspace\Arma2MapConverter\a2mc.exe</outfile>
+  <jar>D:\IdeaProjects\Arma2MapConverter\classes\artifacts\Arma2MapConverter_jar\Arma2MapConverter.jar</jar>
+  <outfile>D:\IdeaProjects\Arma2MapConverter\Arma3mc.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
